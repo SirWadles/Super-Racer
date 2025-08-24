@@ -1,0 +1,9 @@
+[gd_resource type="CylinderMesh" load_steps=2 format=3 uid="uid://b84ui51j36hfq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uoj53"]
+albedo_color = Color(0.2, 0.2, 0.2, 1)
+metallic = 0.7
+roughness = 0.2
+
+[resource]
+material = SubResource("StandardMaterial3D_uoj53")
