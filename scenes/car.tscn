@@ -1,0 +1,101 @@
+[gd_scene load_steps=11 format=3 uid="uid://bcwpy7kjmtuos"]
+
+[ext_resource type="Script" uid="uid://b2uwpthyl5ogr" path="res://scripts/car.gd" id="1_a202f"]
+[ext_resource type="Material" uid="uid://bf65bdepu4ddq" path="res://colors/car.tres" id="2_50v30"]
+[ext_resource type="CylinderMesh" uid="uid://b84ui51j36hfq" path="res://colors/wheel_color.tres" id="2_uoj53"]
+[ext_resource type="Material" uid="uid://dilh4j82oi4df" path="res://colors/tail.tres" id="3_jtldb"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_a202f"]
+material = ExtResource("2_50v30")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_noarx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qt2eu"]
+albedo_color = Color(0.933333, 0.866667, 0.509804, 1)
+metallic = 0.1
+roughness = 0.25
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_50v30"]
+material = SubResource("StandardMaterial3D_qt2eu")
+
+[sub_resource type="BoxMesh" id="BoxMesh_qt2eu"]
+material = ExtResource("3_jtldb")
+
+[sub_resource type="BoxMesh" id="BoxMesh_jtldb"]
+material = ExtResource("3_jtldb")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Car" type="CharacterBody3D" parent="."]
+script = ExtResource("1_a202f")
+steering_angle = 45.0
+steering_speed = 50.0
+drift_steering_multiplier = 2.5
+
+[node name="RayCast3D" type="RayCast3D" parent="Car"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+target_position = Vector3(0, -2, 0)
+
+[node name="CarBody" type="MeshInstance3D" parent="Car"]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0)
+mesh = SubResource("BoxMesh_a202f")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Car"]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0)
+shape = SubResource("BoxShape3D_noarx")
+
+[node name="Details" type="Node3D" parent="Car"]
+
+[node name="RightHeadlight" type="MeshInstance3D" parent="Car/Details"]
+transform = Transform3D(0.4, 0, 0, 0, -2.36041e-09, 0.4, 0, -0.054, -1.74846e-08, 0.5, 0.05, -2.05)
+mesh = SubResource("CylinderMesh_50v30")
+
+[node name="LeftHeadlight" type="MeshInstance3D" parent="Car/Details"]
+transform = Transform3D(0.4, 0, 0, 0, -2.36041e-09, 0.4, 0, -0.054, -1.74846e-08, -0.5, 0.05, -2.05)
+mesh = SubResource("CylinderMesh_50v30")
+
+[node name="Tail (Top)" type="MeshInstance3D" parent="Car/Details"]
+transform = Transform3D(2, 0, 0, 0, 0.102423, 0, 0, 0, 0.45619, 0, 0.965253, 1.92846)
+mesh = SubResource("BoxMesh_qt2eu")
+
+[node name="Tail (Right)" type="MeshInstance3D" parent="Car/Details"]
+transform = Transform3D(0.2, 0, 0, 0, 0.579556, -0.0776457, 0, 0.155291, 0.289778, 0.76402, 0.67674, 1.85537)
+mesh = SubResource("BoxMesh_jtldb")
+
+[node name="Tail (Left)" type="MeshInstance3D" parent="Car/Details"]
+transform = Transform3D(0.2, 0, 0, 0, 0.579556, -0.0776457, 0, 0.155291, 0.289778, -0.764, 0.677, 1.855)
+mesh = SubResource("BoxMesh_jtldb")
+
+[node name="Wheels" type="Node3D" parent="Car"]
+
+[node name="FrontLeft" type="MeshInstance3D" parent="Car/Wheels"]
+transform = Transform3D(-4.85634e-08, -0.1, 0, 1.111, -4.37114e-09, 0, 0, 0, 1.111, -1.2, 0, -1)
+mesh = ExtResource("2_uoj53")
+
+[node name="FrontRight" type="MeshInstance3D" parent="Car/Wheels"]
+transform = Transform3D(-4.85634e-08, 0.1, 0, -1.111, -4.37114e-09, 0, 0, 0, 1.111, 1.2, 0, -1)
+mesh = ExtResource("2_uoj53")
+
+[node name="RearLeft" type="MeshInstance3D" parent="Car/Wheels"]
+transform = Transform3D(-4.85634e-08, -0.1, 0, 1.111, -4.37114e-09, 0, 0, 0, 1.111, -1.2, 0, 1)
+mesh = ExtResource("2_uoj53")
+
+[node name="RearRight" type="MeshInstance3D" parent="Car/Wheels"]
+transform = Transform3D(-4.85634e-08, -0.1, 0, 1.111, -4.37114e-09, 0, 0, 0, 1.111, 1.2, 0, 1)
+mesh = ExtResource("2_uoj53")
+
+[node name="CameraPivot" type="Node3D" parent="Car"]
+transform = Transform3D(0.999992, -0.00159085, 0.00369625, 0.000587399, 0.966405, 0.257023, -0.00398096, -0.257019, 0.966398, 0, 1.19574, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Car/CameraPivot"]
+spring_length = 8.0
+margin = 0.5
+
+[node name="Camera3D" type="Camera3D" parent="Car/CameraPivot/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1.30474, 4.34152)
+near = 0.1
+far = 100.0
+
+[node name="DriftParticles" type="GPUParticles3D" parent="Car"]
+
+[node name="BoostParticles" type="GPUParticles3D" parent="Car"]

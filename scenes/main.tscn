@@ -1,0 +1,68 @@
+[gd_scene load_steps=9 format=3 uid="uid://m85mftqt04gj"]
+
+[ext_resource type="PackedScene" uid="uid://bcwpy7kjmtuos" path="res://scenes/car.tscn" id="1_o5qli"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
+sky_top_color = Color(0.533333, 0.8, 1, 1)
+sky_horizon_color = Color(0.866667, 0.866667, 0.866667, 1)
+sky_curve = 0.3
+ground_bottom_color = Color(0.733333, 0.733333, 0.733333, 1)
+ground_horizon_color = Color(0.866667, 0.733333, 0.533333, 1)
+
+[sub_resource type="Sky" id="Sky_ig7tw"]
+sky_material = SubResource("ProceduralSkyMaterial_ig7tw")
+
+[sub_resource type="Environment" id="Environment_0xm2m"]
+background_mode = 2
+sky = SubResource("Sky_ig7tw")
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ig7tw"]
+albedo_color = Color(0.502984, 0.577196, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_7dm0k"]
+material = SubResource("StandardMaterial3D_ig7tw")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ig7tw"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ig7tw"]
+
+[node name="main" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 7.61001, 33.998)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_0xm2m")
+
+[node name="Car" parent="." instance=ExtResource("1_o5qli")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.12011, 0)
+
+[node name="Floor" type="StaticBody3D" parent="."]
+transform = Transform3D(16.141, 0, 0, 0, 16.141, 0, 0, 0, 16.141, 0, 0, 0)
+
+[node name="FloorMesh" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
+mesh = SubResource("PlaneMesh_7dm0k")
+
+[node name="FloorCollision" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(40, 0, 0, 0, 0.1, 0, 0, 0, 40, 0, 0, 0)
+shape = SubResource("BoxShape3D_ig7tw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.01232, -57.7796)
+mesh = SubResource("CylinderMesh_ig7tw")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.01232, 181.326)
+mesh = SubResource("CylinderMesh_ig7tw")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -160.123, 4.01232, -0.845596)
+mesh = SubResource("CylinderMesh_ig7tw")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.2653, 4.01232, -1.79002)
+mesh = SubResource("CylinderMesh_ig7tw")

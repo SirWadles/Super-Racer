@@ -1,0 +1,95 @@
+[gd_scene load_steps=6 format=3 uid="uid://6dl0hdr7ldv6"]
+
+[ext_resource type="Script" uid="uid://dfi1enuvp4pji" path="res://scripts/main_menu.gd" id="1_l6cm7"]
+[ext_resource type="Texture2D" uid="uid://c0j58leydtm2a" path="res://misc/temp_background.PNG" id="2_8ln24"]
+[ext_resource type="AudioStream" uid="uid://dmy3d1uuggsew" path="res://sound/diamond_touch_01.wav" id="2_bqqt6"]
+[ext_resource type="AudioStream" uid="uid://c6rc70nskjep5" path="res://sound/machine love arr. orchestra, op. 17 no. 3 - estreller.mp3" id="2_wu84c"]
+[ext_resource type="AudioStream" uid="uid://vic2a1y24ax2" path="res://sound/diamond_return_01.wav" id="3_wu84c"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 448.0
+offset_top = 171.0
+offset_right = 488.0
+offset_bottom = 211.0
+script = ExtResource("1_l6cm7")
+
+[node name="Baclground" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -448.0
+offset_top = -170.0
+offset_right = 664.0
+offset_bottom = 438.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.872979, 0.512865, 0.983236, 1)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -448.0
+offset_top = -171.0
+offset_right = 704.0
+offset_bottom = 477.0
+texture = ExtResource("2_8ln24")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -448.0
+offset_top = -171.0
+offset_right = 704.0
+offset_bottom = 477.0
+color = Color(0, 0, 0, 0.756863)
+
+[node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_wu84c")
+volume_db = -1.0
+autoplay = true
+parameters/looping = true
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -448.0
+offset_top = -170.0
+offset_right = 664.0
+offset_bottom = 438.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="Title" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Super Racer"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StartButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Start"
+
+[node name="OptionsButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Options (It's got nothing)"
+
+[node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit (Don't know what happens on web)"
+
+[node name="ButtonSound_1" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_bqqt6")
+volume_db = -8.0
+
+[node name="ButtonSound_2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_wu84c")
+volume_db = -6.0
