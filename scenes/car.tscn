@@ -1,8 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://bcwpy7kjmtuos"]
+[gd_scene load_steps=13 format=3 uid="uid://bcwpy7kjmtuos"]
 
 [ext_resource type="Script" uid="uid://b2uwpthyl5ogr" path="res://scripts/car.gd" id="1_a202f"]
 [ext_resource type="Material" uid="uid://bf65bdepu4ddq" path="res://colors/car.tres" id="2_50v30"]
+[ext_resource type="AudioStream" uid="uid://by34q1omcuc3y" path="res://sound/engine-47745.mp3" id="2_cp117"]
 [ext_resource type="CylinderMesh" uid="uid://b84ui51j36hfq" path="res://colors/wheel_color.tres" id="2_uoj53"]
+[ext_resource type="AudioStream" uid="uid://dc06qjtumhjxt" path="res://sound/boost (temp).wav" id="3_4clw4"]
 [ext_resource type="Material" uid="uid://dilh4j82oi4df" path="res://colors/tail.tres" id="3_jtldb"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_a202f"]
@@ -28,9 +30,15 @@ material = ExtResource("3_jtldb")
 
 [node name="Car" type="CharacterBody3D" parent="."]
 script = ExtResource("1_a202f")
+max_speed = 30.0
+acceleration = 10.0
+braking_force = 30.0
 steering_angle = 45.0
 steering_speed = 50.0
 drift_steering_multiplier = 2.5
+engine_sound_stream = ExtResource("2_cp117")
+boost_sound_stream = ExtResource("3_4clw4")
+engine_volume_range = Vector2(-16, 0)
 
 [node name="RayCast3D" type="RayCast3D" parent="Car"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)

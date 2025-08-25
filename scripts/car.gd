@@ -26,6 +26,18 @@ extends CharacterBody3D
 @export var reverse_camera_rotation = 180.0
 @export var camera_rotate_speed = 5.0
 
+@export_category("Sound Properties")
+@export var engine_sound_stream: AudioStream
+@export var drift_sound_stream: AudioStream
+@export var boost_sound_stream: AudioStream
+@export var collision_sound_stream: AudioStream
+@export var engine_pitch_range = Vector2(0.8, 2.0)
+@export var engine_volume_range = Vector2(-10.0, 0.0)
+var engine_sound_player: AudioStreamPlayer3D
+var drift_sound_player: AudioStreamPlayer3D
+var boost_sound_player: AudioStreamPlayer3D
+var collision_sound_player: AudioStreamPlayer3D
+
 var is_reverse_view = false
 var target_camera_rotation = 0.0
 @onready var camera_pivot = $CameraPivot
@@ -42,6 +54,8 @@ var is_boosting = false
 @onready var rear_right_wheel: MeshInstance3D = $Wheels/RearRight
 @onready var drift_particles: GPUParticles3D = $DriftParticles
 @onready var boost_particles: GPUParticles3D = $BoostParticles
+@onready var rear_left_particles: GPUParticles3D = $Wheels/RearLeft/RearLeftParticles
+@onready var rear_right_particles: GPUParticles3D = $Wheels/RearRight/RearRightParticles
 
 @onready var ground_ray = $RayCast3D
 
@@ -49,6 +63,7 @@ func _ready():
 	current_boost = max_boost
 	
 	setup_particles()
+	setup_sounds()
 	
 	if drift_particles:
 		drift_particles.emitting = false
@@ -101,6 +116,9 @@ func _physics_process(delta):
 	apply_visual_effects()
 	handle_boost(delta)
 	handle_camera(delta)
+	update_engine_sound()
+	handle_drift_sound()
+	handle_boost_sound()
 	
 	if ground_ray.is_colliding():
 		var collision_point = ground_ray.get_collision_point()
@@ -109,6 +127,22 @@ func _physics_process(delta):
 		global_position.y = lerp(global_position.y, target_height, 10.0 * delta)
 	
 	move_and_slide()
+	
+	handle_wall_collision()
+
+func handle_wall_collision():
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		if collider is StaticBody3D or collider or RigidBody3D:
+			print("Hit a wall.")
+			bump_off_wall(collision)
+
+func bump_off_wall(collision: KinematicCollision3D):
+	var bounce_factor = 0.3
+	velocity = -collision.get_normal() * velocity.length() * bounce_factor
+	var impact_strength = clamp(velocity.length() / max_speed, 0.0, 1.0)
+	play_collision_sound(impact_strength)
 
 func handle_input(delta):
 	var throttle_input = Input.get_action_strength("accelerate") - Input.get_action_strength("brake")
@@ -144,7 +178,10 @@ func handle_throttle(throttle_input: float, delta: float):
 		current_speed = clamp(current_speed, -reverse_speed, 0)
 
 func handle_steering(steer_input: float, is_drifting_input: bool, delta: float):
-	var target_steering = steer_input * steering_angle
+	var effective_steer_input = steer_input
+	if current_speed < 0:
+		effective_steer_input = -steer_input
+	var target_steering = effective_steer_input * steering_angle
 	var steering_speed_multiplier = drift_steering_multiplier if is_drifting else 1.0
 	
 	if is_drifting:
@@ -192,6 +229,8 @@ func handle_boost(delta):
 func apply_visual_effects():
 	if front_left_wheel and front_right_wheel:
 		var wheel_steer_angle = deg_to_rad(current_steering)
+		if current_speed < 0:
+			wheel_steer_angle = -wheel_steer_angle
 		front_left_wheel.rotation.y = wheel_steer_angle
 		front_right_wheel.rotation.y = wheel_steer_angle
 
@@ -226,3 +265,71 @@ func handle_camera(delta):
 		var current_rotation = camera_pivot.rotation_degrees.y
 		var new_rotation = lerp(current_rotation, target_camera_rotation, camera_rotate_speed * delta)
 		camera_pivot.rotation_degrees.y = new_rotation
+
+func setup_sounds():
+	engine_sound_player = AudioStreamPlayer3D.new()
+	engine_sound_player.name = "EngineSound"
+	add_child(engine_sound_player)
+	
+	drift_sound_player = AudioStreamPlayer3D.new()
+	drift_sound_player.name = "DriftSound"
+	add_child(drift_sound_player)
+	drift_sound_player.volume_db = -15.0
+	drift_sound_player.max_distance = 20.0
+	
+	boost_sound_player = AudioStreamPlayer3D.new()
+	boost_sound_player.name = "BoostSound"
+	add_child(boost_sound_player)
+	boost_sound_player.volume_db = -5.0
+	
+	collision_sound_player = AudioStreamPlayer3D.new()
+	collision_sound_player.name = "CollisionSound"
+	add_child(collision_sound_player)
+	collision_sound_player.max_distance = 15.0
+	
+	# Assign the streams if they're set in the inspector
+	if engine_sound_stream:
+		engine_sound_player.stream = engine_sound_stream
+	if drift_sound_stream:
+		drift_sound_player.stream = drift_sound_stream
+	if boost_sound_stream:
+		boost_sound_player.stream = boost_sound_stream
+	if collision_sound_stream:
+		collision_sound_player.stream = collision_sound_stream
+
+func update_engine_sound():
+	if engine_sound_player and engine_sound_player.stream:
+		var speed_ratio = abs(current_speed) / max_speed
+		
+		# Adjust pitch based on speed
+		var target_pitch = lerp(engine_pitch_range.x, engine_pitch_range.y, speed_ratio)
+		engine_sound_player.pitch_scale = target_pitch
+		
+		# Adjust volume based on speed
+		var target_volume = lerp(engine_volume_range.x, engine_volume_range.y, speed_ratio)
+		engine_sound_player.volume_db = target_volume
+		
+		# Play sound if not already playing
+		if not engine_sound_player.playing and abs(current_speed) > 1.0:
+			engine_sound_player.play()
+		elif abs(current_speed) <= 0.5 and engine_sound_player.playing:
+			engine_sound_player.stop()
+
+func handle_drift_sound():
+	if drift_sound_player and drift_sound_player.stream:
+		if is_drifting and not drift_sound_player.playing:
+			drift_sound_player.play()
+		elif not is_drifting and drift_sound_player.playing:
+			drift_sound_player.stop()
+
+func handle_boost_sound():
+	if boost_sound_player and boost_sound_player.stream:
+		if is_boosting and not boost_sound_player.playing:
+			boost_sound_player.play()
+		elif not is_boosting and boost_sound_player.playing:
+			boost_sound_player.stop()
+
+func play_collision_sound(impact_strength: float):
+	if collision_sound_player and collision_sound_player.stream:
+		collision_sound_player.volume_db = lerp(-20.0, 0.0, clamp(impact_strength, 0.0, 1.0))
+		collision_sound_player.play()

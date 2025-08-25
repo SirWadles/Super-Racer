@@ -38,6 +38,7 @@ offset_bottom = 477.0
 texture = ExtResource("2_8ln24")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
 offset_left = -448.0
 offset_top = -171.0
 offset_right = 704.0

@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://vldl7fi06a5b"
+path="res://.godot/imported/Wheel02.obj-6d53e2e000c2c070128f2e811426c83e.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Wheel02.obj-6d53e2e000c2c070128f2e811426c83e.mesh"]
+
+source_file="res://assets/RaceTracksKit/OBJ/Wheel02.obj"
+dest_files=["res://.godot/imported/Wheel02.obj-6d53e2e000c2c070128f2e811426c83e.mesh", "res://.godot/imported/Wheel02.obj-6d53e2e000c2c070128f2e811426c83e.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

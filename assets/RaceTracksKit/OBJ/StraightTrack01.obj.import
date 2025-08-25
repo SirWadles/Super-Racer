@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bbykpqygoaqge"
+path="res://.godot/imported/StraightTrack01.obj-58ecc21f2702657f28ec88f221d01cae.mesh"
+
+[deps]
+
+files=["res://.godot/imported/StraightTrack01.obj-58ecc21f2702657f28ec88f221d01cae.mesh"]
+
+source_file="res://assets/RaceTracksKit/OBJ/StraightTrack01.obj"
+dest_files=["res://.godot/imported/StraightTrack01.obj-58ecc21f2702657f28ec88f221d01cae.mesh", "res://.godot/imported/StraightTrack01.obj-58ecc21f2702657f28ec88f221d01cae.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b4od7gvb6dcam"
+path="res://.godot/imported/CurvedTrack02.obj-16cde766b10801be5b269afb4b9bc827.mesh"
+
+[deps]
+
+files=["res://.godot/imported/CurvedTrack02.obj-16cde766b10801be5b269afb4b9bc827.mesh"]
+
+source_file="res://assets/RaceTracksKit/OBJ/CurvedTrack02.obj"
+dest_files=["res://.godot/imported/CurvedTrack02.obj-16cde766b10801be5b269afb4b9bc827.mesh", "res://.godot/imported/CurvedTrack02.obj-16cde766b10801be5b269afb4b9bc827.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false
