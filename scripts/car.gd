@@ -34,9 +34,13 @@ extends CharacterBody3D
 @export var engine_pitch_range = Vector2(0.8, 2.0)
 @export var engine_volume_range = Vector2(-10.0, 0.0)
 var engine_sound_player: AudioStreamPlayer3D
+var engine_sound_player_secondary: AudioStreamPlayer3D
 var drift_sound_player: AudioStreamPlayer3D
 var boost_sound_player: AudioStreamPlayer3D
 var collision_sound_player: AudioStreamPlayer3D
+var current_engine_player = 0
+var switch_timer = 0.0
+var switch_delay = 0.5
 
 var is_reverse_view = false
 var target_camera_rotation = 0.0
@@ -270,6 +274,21 @@ func setup_sounds():
 	engine_sound_player = AudioStreamPlayer3D.new()
 	engine_sound_player.name = "EngineSound"
 	add_child(engine_sound_player)
+	engine_sound_player.volume_db = engine_volume_range.x
+	engine_sound_player.pitch_scale = engine_pitch_range.x
+	
+	#engine_sound_player_secondary = AudioStreamPlayer3D.new()
+	#engine_sound_player_secondary.name = "EngineSoundSecondary"
+	#add_child(engine_sound_player_secondary)
+	#engine_sound_player_secondary.volume_db = engine_volume_range.x
+	#engine_sound_player_secondary.pitch_scale = engine_pitch_range.x
+	
+	if engine_sound_stream:
+		engine_sound_player.stream = engine_sound_stream
+		#engine_sound_player_secondary.stream = engine_sound_stream
+		engine_sound_player.play()
+		#engine_sound_player_secondary.play()
+		#engine_sound_player_secondary.volume_db = engine_volume_range.x - 80.0
 	
 	drift_sound_player = AudioStreamPlayer3D.new()
 	drift_sound_player.name = "DriftSound"
@@ -288,8 +307,6 @@ func setup_sounds():
 	collision_sound_player.max_distance = 15.0
 	
 	# Assign the streams if they're set in the inspector
-	if engine_sound_stream:
-		engine_sound_player.stream = engine_sound_stream
 	if drift_sound_stream:
 		drift_sound_player.stream = drift_sound_stream
 	if boost_sound_stream:
@@ -303,17 +320,44 @@ func update_engine_sound():
 		
 		# Adjust pitch based on speed
 		var target_pitch = lerp(engine_pitch_range.x, engine_pitch_range.y, speed_ratio)
-		engine_sound_player.pitch_scale = target_pitch
-		
+		engine_sound_player.pitch_scale = lerp(engine_sound_player.pitch_scale, target_pitch, 0.1)
+		#engine_sound_player_secondary.pitch_scale = lerp(engine_sound_player_secondary.pitch_scale, target_pitch, 0.1)
+
 		# Adjust volume based on speed
 		var target_volume = lerp(engine_volume_range.x, engine_volume_range.y, speed_ratio)
 		engine_sound_player.volume_db = target_volume
-		
-		# Play sound if not already playing
-		if not engine_sound_player.playing and abs(current_speed) > 1.0:
+		if not engine_sound_player.playing:
 			engine_sound_player.play()
-		elif abs(current_speed) <= 0.5 and engine_sound_player.playing:
-			engine_sound_player.stop()
+		
+		var stream_length = engine_sound_stream.get_length()
+		var primary_pos = engine_sound_player.get_playback_position()
+		var secondary_pos = engine_sound_player_secondary.get_playback_position()
+		
+		var fade_time = 0.3
+		engine_sound_player.volume_db = target_volume
+		engine_sound_player_secondary.volume_db = target_volume - 80.0
+		
+		if primary_pos > stream_length - fade_time and current_engine_player == 0:
+			var fade_progress = (stream_length - primary_pos) / fade_time
+			engine_sound_player.volume_db = lerp(target_volume, target_volume - 80.0, 1.0 - fade_progress)
+			engine_sound_player_secondary.volume_db = lerp(target_volume - 80.0, target_volume, 1.0 - fade_progress)
+			if primary_pos >= stream_length - 0.1:
+				engine_sound_player.play(0.0)
+				current_engine_player = 1
+		elif secondary_pos > stream_length - fade_time and current_engine_player == 1:
+			var fade_progress = (stream_length - secondary_pos) / fade_time
+			engine_sound_player_secondary.volume_db = lerp(target_volume, target_volume - 80.0, 1.0 - fade_progress)
+			engine_sound_player.volume_db = lerp(target_volume - 80.0, target_volume, fade_progress)
+			if secondary_pos >= stream_length - 0.1:
+				engine_sound_player_secondary.play(0.0)
+				current_engine_player = 0
+		#else:
+			#if current_engine_player == 0:
+				#engine_sound_player.volume_db = target_volume
+				#engine_sound_player_secondary.volume_db = target_volume - 80.0
+			#else:
+				#engine_sound_player.volume_db = target_volume - 80.0
+				#engine_sound_player_secondary.volume_db = target_volume
 
 func handle_drift_sound():
 	if drift_sound_player and drift_sound_player.stream:
