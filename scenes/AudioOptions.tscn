@@ -1,0 +1,59 @@
+[gd_scene load_steps=2 format=3 uid="uid://b60xax8j2rp1s"]
+
+[ext_resource type="Script" uid="uid://bdt28e2x2c5dq" path="res://scenes/audio_options.gd" id="1_eaa3b"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource("1_eaa3b")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Title" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "AUDIO SETTINGS"
+
+[node name="AudioContainer" type="VBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MasterVolume" type="HBoxContainer" parent="AudioContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="AudioContainer/MasterVolume"]
+layout_mode = 2
+text = "Master Volume"
+
+[node name="MasterSlider" type="HSlider" parent="AudioContainer/MasterVolume"]
+layout_mode = 2
+
+[node name="MusicVolume" type="HBoxContainer" parent="AudioContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="AudioContainer/MusicVolume"]
+layout_mode = 2
+text = "Music Volume"
+
+[node name="MusicSlider" type="HSlider" parent="AudioContainer/MusicVolume"]
+layout_mode = 2
+
+[node name="SFXVolume" type="HBoxContainer" parent="AudioContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="AudioContainer/SFXVolume"]
+layout_mode = 2
+text = "SFX Volume"
+
+[node name="SFXSlider" type="HSlider" parent="AudioContainer/SFXVolume"]
+layout_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ApplyButton" type="Button" parent="Buttons"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="Buttons"]
+layout_mode = 2
