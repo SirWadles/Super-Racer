@@ -8,6 +8,7 @@ extends Control
 @onready var button_sound_2 = $ButtonSound_2
 @onready var music_player = $MusicPlayer
 
+@onready var audio_options = $AudioOptions
 
 func _ready():
 	start_button.pressed.connect(_on_start_button_pressed)
@@ -16,6 +17,7 @@ func _ready():
 	start_button.grab_focus()
 	if not music_player.playing:
 		music_player.play()
+	audio_options.visible = false
 
 func _on_start_button_pressed():
 	print("Starting game...")
@@ -27,6 +29,7 @@ func _on_options_button_pressed():
 	print("Options Button Pressed")
 	button_sound_1.play()
 	await button_sound_1.finished
+	audio_options.show_options()
 
 func _on_quit_button_pressed():
 	print("Quiting game...")
