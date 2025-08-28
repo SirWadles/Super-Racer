@@ -10,6 +10,12 @@ extends Control
 
 @onready var audio_options = $AudioOptions
 
+@onready var shiba_sounds = [
+	$ShibaSound1,
+	$ShibaSound2,
+	$ShibaSound3
+]
+
 func _ready():
 	start_button.pressed.connect(_on_start_button_pressed)
 	options_button.pressed.connect(_on_options_button_pressed)
@@ -21,13 +27,13 @@ func _ready():
 
 func _on_start_button_pressed():
 	print("Starting game...")
-	button_sound_1.play()
+	play_random_button_sound()
 	await button_sound_1.finished
 	get_tree().change_scene_to_file("res://scenes/main.tscn")
 
 func _on_options_button_pressed():
 	print("Options Button Pressed")
-	button_sound_1.play()
+	play_random_button_sound()
 	await button_sound_1.finished
 	audio_options.show_options()
 
@@ -36,6 +42,14 @@ func _on_quit_button_pressed():
 	button_sound_2.play()
 	await button_sound_2.finished
 	get_tree().quit()
+
+func play_random_button_sound():
+	if randi() % 5 == 0:
+		var random_shiba = shiba_sounds[randi() % shiba_sounds.size()]
+		random_shiba.play()
+		print("Random shiba sound! 🐕")
+	else:
+		button_sound_1.play()
 
 func _input(event):
 	if event.is_action_pressed("ui_accept"):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://6dl0hdr7ldv6"]
+[gd_scene load_steps=10 format=3 uid="uid://6dl0hdr7ldv6"]
 
 [ext_resource type="Script" uid="uid://dfi1enuvp4pji" path="res://scripts/main_menu.gd" id="1_l6cm7"]
 [ext_resource type="Texture2D" uid="uid://c0j58leydtm2a" path="res://misc/temp_background.PNG" id="2_8ln24"]
@@ -6,6 +6,9 @@
 [ext_resource type="AudioStream" uid="uid://c6rc70nskjep5" path="res://sound/machine love arr. orchestra, op. 17 no. 3 - estreller.mp3" id="2_wu84c"]
 [ext_resource type="AudioStream" uid="uid://vic2a1y24ax2" path="res://sound/diamond_return_01.wav" id="3_wu84c"]
 [ext_resource type="PackedScene" uid="uid://b60xax8j2rp1s" path="res://scenes/AudioOptions.tscn" id="4_rtw2f"]
+[ext_resource type="AudioStream" uid="uid://ca4fwi266pub1" path="res://sound/shiba sound (1).mp3" id="7_jk1qb"]
+[ext_resource type="AudioStream" uid="uid://bovqh28q8bieg" path="res://sound/shiba sound (2).mp3" id="8_5dd4i"]
+[ext_resource type="AudioStream" uid="uid://c5rnxc7owbaqc" path="res://sound/shiba sound (3).mp3" id="9_lgwnu"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -16,7 +19,7 @@ offset_right = 488.0
 offset_bottom = 211.0
 script = ExtResource("1_l6cm7")
 
-[node name="Baclground" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="."]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -97,3 +100,15 @@ volume_db = -8.0
 [node name="ButtonSound_2" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_wu84c")
 volume_db = -6.0
+
+[node name="ShibaSound1" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_jk1qb")
+volume_db = 15.0
+
+[node name="ShibaSound2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_5dd4i")
+volume_db = 15.0
+
+[node name="ShibaSound3" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_lgwnu")
+volume_db = 15.0

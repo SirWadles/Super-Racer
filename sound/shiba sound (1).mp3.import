@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://ca4fwi266pub1"
+path="res://.godot/imported/shiba sound (1).mp3-da8b054b369185d191bcbd4e4418ee07.mp3str"
+
+[deps]
+
+source_file="res://sound/shiba sound (1).mp3"
+dest_files=["res://.godot/imported/shiba sound (1).mp3-da8b054b369185d191bcbd4e4418ee07.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
