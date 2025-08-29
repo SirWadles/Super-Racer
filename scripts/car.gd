@@ -178,22 +178,25 @@ func handle_throttle(throttle_input: float, delta: float):
 		current_speed = clamp(current_speed, -reverse_speed, 0)
 
 func handle_steering(steer_input: float, is_drifting_input: bool, delta: float):
-	var effective_steer_input = steer_input
-	if current_speed < 0:
-		effective_steer_input = -steer_input
-	var target_steering = effective_steer_input * steering_angle
+	var target_steering = steer_input * steering_angle
 	var steering_speed_multiplier = drift_steering_multiplier if is_drifting else 1.0
-	
+	var direction_boost = 1.0
+	if sign(steer_input) != sign(current_steering) and steer_input != 0:
+		direction_boost = 3
 	if is_drifting:
-		#var max_drift_angle = steering_angle * 0.7
-		#target_steering = clamp(target_steering, -max_drift_angle, max_drift_angle)
-		target_steering = clamp(target_steering, -max_drift_steering_angle, max_drift_steering_angle)
-	
+		direction_boost = 0.7
+	current_steering = move_toward(
+		current_steering,
+		target_steering * steering_speed_multiplier,
+		steering_speed * delta * steering_speed_multiplier * direction_boost
+	)
 	current_steering = move_toward(
 		current_steering,
 		target_steering * steering_speed_multiplier,
 		steering_speed * delta * steering_speed_multiplier
 	)
+	#It works if I have the new and old together
+	#Without one it handles horrible
 
 func handle_drift(drift_input: bool):
 	var was_drifting = is_drifting
@@ -270,6 +273,7 @@ func setup_sounds():
 	engine_sound_player = AudioStreamPlayer3D.new()
 	engine_sound_player.name = "EngineSound"
 	add_child(engine_sound_player)
+	engine_sound_player.volume_db = -15.0
 	
 	drift_sound_player = AudioStreamPlayer3D.new()
 	drift_sound_player.name = "DriftSound"
@@ -280,7 +284,7 @@ func setup_sounds():
 	boost_sound_player = AudioStreamPlayer3D.new()
 	boost_sound_player.name = "BoostSound"
 	add_child(boost_sound_player)
-	boost_sound_player.volume_db = -5.0
+	boost_sound_player.volume_db = -15.0
 	
 	collision_sound_player = AudioStreamPlayer3D.new()
 	collision_sound_player.name = "CollisionSound"

@@ -6,6 +6,7 @@ extends CanvasLayer
 
 @onready var apply_button = $Buttons/ApplyButton
 @onready var back_button = $Buttons/BackButton
+@onready var button_sound = $Buttons/ButtonSound
 
 var audio_settings = {
 	"master_volume": 1.0,
@@ -47,6 +48,7 @@ func _on_sfx_volume_changed(value: float):
 func _on_apply_pressed():
 	save_audio_settings()
 	hide()
+	button_sound.play()
 	get_tree().paused = false
 
 func _on_back_pressed():

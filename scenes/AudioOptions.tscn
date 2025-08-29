@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b60xax8j2rp1s"]
+[gd_scene load_steps=3 format=3 uid="uid://b60xax8j2rp1s"]
 
 [ext_resource type="Script" uid="uid://bdt28e2x2c5dq" path="res://scenes/audio_options.gd" id="1_eaa3b"]
+[ext_resource type="AudioStream" uid="uid://vic2a1y24ax2" path="res://sound/diamond_return_01.wav" id="2_qw56a"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource("1_eaa3b")
@@ -61,12 +62,14 @@ offset_right = 400.0
 offset_bottom = 357.0
 
 [node name="Label" type="Label" parent="MusicVolume"]
+layout_mode = 0
 offset_left = 4.0
 offset_right = 113.0
 offset_bottom = 23.0
 text = "Music Volume"
 
 [node name="MusicSlider" type="HSlider" parent="MusicVolume"]
+layout_mode = 0
 offset_left = 125.0
 offset_right = 133.0
 offset_bottom = 16.0
@@ -80,6 +83,7 @@ offset_right = 458.0
 offset_bottom = 357.0
 
 [node name="Label" type="Label" parent="SFXVolume"]
+layout_mode = 0
 offset_left = -52.0
 offset_top = 43.0
 offset_right = 39.0
@@ -87,6 +91,7 @@ offset_bottom = 66.0
 text = "SFX Volume"
 
 [node name="SFXSlider" type="HSlider" parent="SFXVolume"]
+layout_mode = 0
 offset_left = 68.0
 offset_top = 43.0
 offset_right = 76.0
@@ -114,3 +119,6 @@ offset_top = 425.0
 offset_right = 651.0
 offset_bottom = 456.0
 text = "Back"
+
+[node name="ButtonSound" type="AudioStreamPlayer2D" parent="Buttons"]
+stream = ExtResource("2_qw56a")

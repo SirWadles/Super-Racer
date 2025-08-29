@@ -4,9 +4,9 @@
 [ext_resource type="AudioStream" uid="uid://4ar6py31mov3" path="res://sound/car_00_eng_mb_ee_00.wav" id="2_4clw4"]
 [ext_resource type="Material" uid="uid://bf65bdepu4ddq" path="res://colors/car.tres" id="2_50v30"]
 [ext_resource type="CylinderMesh" uid="uid://b84ui51j36hfq" path="res://colors/wheel_color.tres" id="2_uoj53"]
-[ext_resource type="AudioStream" uid="uid://dc06qjtumhjxt" path="res://sound/boost (temp).wav" id="3_4clw4"]
 [ext_resource type="AudioStream" uid="uid://dsi7qn6r25icj" path="res://sound/drift.wav" id="3_ctevm"]
 [ext_resource type="Material" uid="uid://dilh4j82oi4df" path="res://colors/tail.tres" id="3_jtldb"]
+[ext_resource type="AudioStream" uid="uid://dupm75be0xosd" path="res://sound/turbo_sc_cobra_01.wav" id="4_4clw4"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_a202f"]
 material = ExtResource("2_50v30")
@@ -34,13 +34,12 @@ script = ExtResource("1_a202f")
 max_speed = 30.0
 acceleration = 10.0
 braking_force = 30.0
-steering_angle = 45.0
-steering_speed = 80.0
-drift_steering_multiplier = 2.5
+steering_angle = 40.0
+steering_speed = 35.0
 drift_acceleration_multiplier = 1.1
 engine_sound_stream = ExtResource("2_4clw4")
 drift_sound_stream = ExtResource("3_ctevm")
-boost_sound_stream = ExtResource("3_4clw4")
+boost_sound_stream = ExtResource("4_4clw4")
 engine_volume_range = Vector2(-16, 0)
 
 [node name="RayCast3D" type="RayCast3D" parent="Car"]
