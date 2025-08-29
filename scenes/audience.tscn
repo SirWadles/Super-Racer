@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://cn1j6v2hvxn5x"]
+
+[ext_resource type="PackedScene" uid="uid://c6t14rujwrk3j" path="res://assets/[RIGGED] Low-Poly Mannequin/[RIGGED] Low-Poly Mannequin.fbx" id="1_qr0s0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qr0s0"]
+albedo_color = Color(0.880663, 0.779279, 0.0587208, 1)
+
+[node name="[RIGGED] Low-Poly Mannequin" instance=ExtResource("1_qr0s0")]
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/4/rotation = Quaternion(0.707, 90, -0.707, 0.005)
+bones/8/rotation = Quaternion(-0.694, 90, 0.72, 0.009)
+bones/10/rotation = Quaternion(-0.043, 0.706, 0.043, 0.009)
+bones/12/rotation = Quaternion(0.707, -0.565, -0.707, 0.65)
+bones/13/rotation = Quaternion(0.705, 1, 0.011, 0)
+bones/16/rotation = Quaternion(0.707, -0.65, -0.707, 0.55)
+bones/17/rotation = Quaternion(0.705, 1, -0.011, 0)
+
+[node name="Cube" parent="Armature/Skeleton3D" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_qr0s0")
+
+[node name="Lamp" parent="." index="1"]
+visible = false
+
+[node name="Camera" parent="." index="2"]
+visible = false

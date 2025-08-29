@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://djmfbil0wjy65"
+path="res://.godot/imported/car_00_eng_mb_ee_00 (mp3cut.net).wav-0bee6590ae5accc1865b12fa329a90ef.sample"
+
+[deps]
+
+source_file="res://sound/car_00_eng_mb_ee_00 (mp3cut.net).wav"
+dest_files=["res://.godot/imported/car_00_eng_mb_ee_00 (mp3cut.net).wav-0bee6590ae5accc1865b12fa329a90ef.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=3
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

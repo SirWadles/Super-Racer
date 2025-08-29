@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://bcwpy7kjmtuos"]
 
 [ext_resource type="Script" uid="uid://b2uwpthyl5ogr" path="res://scripts/car.gd" id="1_a202f"]
-[ext_resource type="AudioStream" uid="uid://4ar6py31mov3" path="res://sound/car_00_eng_mb_ee_00.wav" id="2_4clw4"]
+[ext_resource type="AudioStream" uid="uid://dxdd6vaco6guq" path="res://sound/car_00_eng_mb_ee_00 (mp3cut.net)(1).wav" id="2_4clw4"]
 [ext_resource type="Material" uid="uid://bf65bdepu4ddq" path="res://colors/car.tres" id="2_50v30"]
 [ext_resource type="CylinderMesh" uid="uid://b84ui51j36hfq" path="res://colors/wheel_color.tres" id="2_uoj53"]
 [ext_resource type="AudioStream" uid="uid://dsi7qn6r25icj" path="res://sound/drift.wav" id="3_ctevm"]
@@ -109,3 +109,7 @@ far = 100.0
 [node name="DriftParticles" type="GPUParticles3D" parent="Car"]
 
 [node name="BoostParticles" type="GPUParticles3D" parent="Car"]
+
+[node name="AudioListener3D" type="AudioListener3D" parent="Car"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.10103, 0)
+current = true

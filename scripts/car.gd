@@ -32,7 +32,7 @@ extends CharacterBody3D
 @export var boost_sound_stream: AudioStream
 @export var collision_sound_stream: AudioStream
 @export var engine_pitch_range = Vector2(0.8, 2.0)
-@export var engine_volume_range = Vector2(-10.0, 0.0)
+@export var engine_volume_range = Vector2(-20.0, -10.0)
 var engine_sound_player: AudioStreamPlayer3D
 var drift_sound_player: AudioStreamPlayer3D
 var boost_sound_player: AudioStreamPlayer3D
@@ -278,13 +278,13 @@ func setup_sounds():
 	drift_sound_player = AudioStreamPlayer3D.new()
 	drift_sound_player.name = "DriftSound"
 	add_child(drift_sound_player)
-	drift_sound_player.volume_db = -15.0
+	drift_sound_player.volume_db = -50.0
 	drift_sound_player.max_distance = 20.0
 	
 	boost_sound_player = AudioStreamPlayer3D.new()
 	boost_sound_player.name = "BoostSound"
 	add_child(boost_sound_player)
-	boost_sound_player.volume_db = -15.0
+	boost_sound_player.volume_db = -50.0
 	
 	collision_sound_player = AudioStreamPlayer3D.new()
 	collision_sound_player.name = "CollisionSound"
