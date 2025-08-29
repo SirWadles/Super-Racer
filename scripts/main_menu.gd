@@ -27,14 +27,14 @@ func _ready():
 
 func _on_start_button_pressed():
 	print("Starting game...")
-	play_random_button_sound()
-	await button_sound_1.finished
+	var sound_played = play_random_button_sound()
+	await sound_played.finished
 	get_tree().change_scene_to_file("res://scenes/main.tscn")
 
 func _on_options_button_pressed():
 	print("Options Button Pressed")
-	play_random_button_sound()
-	await button_sound_1.finished
+	var sound_played = play_random_button_sound()
+	await sound_played.finished
 	audio_options.show_options()
 
 func _on_quit_button_pressed():
@@ -48,8 +48,10 @@ func play_random_button_sound():
 		var random_shiba = shiba_sounds[randi() % shiba_sounds.size()]
 		random_shiba.play()
 		print("Random shiba sound! 🐕")
+		return random_shiba
 	else:
 		button_sound_1.play()
+		return button_sound_1
 
 func _input(event):
 	if event.is_action_pressed("ui_accept"):
