@@ -284,7 +284,7 @@ func setup_sounds():
 	boost_sound_player = AudioStreamPlayer3D.new()
 	boost_sound_player.name = "BoostSound"
 	add_child(boost_sound_player)
-	boost_sound_player.volume_db = -50.0
+	boost_sound_player.volume_db = -55.0
 	
 	collision_sound_player = AudioStreamPlayer3D.new()
 	collision_sound_player.name = "CollisionSound"

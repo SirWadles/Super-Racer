@@ -358,7 +358,7 @@ transform = Transform3D(-2.02725e-07, 0, 2.16178, 0, 2.16178, 0, -4.63781, 0, -9
 mesh = ExtResource("7_85g3d")
 
 [node name="Wrong Turn" type="MeshInstance3D" parent="."]
-transform = Transform3D(-4.67633, -4.67633, 2.55442e-07, -2.89078e-07, -5.10883e-07, -6.61333, 4.67633, -4.67633, 0, -221.739, 8.47619, -273.466)
+transform = Transform3D(-3.58308, -3.58308, 1.95724e-07, -2.21496e-07, -3.91447e-07, -5.06724, 3.58308, -3.58308, 0, -221.739, 5.73307, -273.466)
 material_override = SubResource("StandardMaterial3D_muem4")
 mesh = SubResource("PlaneMesh_dp3eg")
 skeleton = NodePath("")
