@@ -59,9 +59,10 @@ var is_boosting = false
 
 @onready var ground_ray = $RayCast3D
 
+var boost_meter_scene = preload("res://scenes/boost_meter.tscn")
+var boost_meter = null
+
 func _ready():
-	current_boost = max_boost
-	
 	setup_particles()
 	setup_sounds()
 	
@@ -72,6 +73,14 @@ func _ready():
 	if boost_particles:
 		boost_particles.emitting = false
 		boost_particles.one_shot = false
+	current_boost = max_boost
+	
+	boost_meter = boost_meter_scene.instantiate()
+	add_child(boost_meter)
+
+func _process(delta):
+	if boost_meter:
+		boost_meter.update_boost(current_boost, max_boost)
 
 func setup_particles():
 	if drift_particles:

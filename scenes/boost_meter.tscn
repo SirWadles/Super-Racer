@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://cr6d2d8irg80u"]
+
+[ext_resource type="Script" uid="uid://bw5y5nsjv7rpt" path="res://scenes/boost_meter.gd" id="1_omocu"]
+
+[node name="BoostMeter" type="CanvasLayer"]
+script = ExtResource("1_omocu")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="BoostLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "BOOST"
+
+[node name="BoostBar" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
