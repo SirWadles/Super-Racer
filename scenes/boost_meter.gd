@@ -9,7 +9,7 @@ func _ready():
 	boost_bar.value = 0.0
 	
 	boost_label.add_theme_font_size_override("font_size", 20)
-	boost_label.add_theme_color_override("font_color", Color.YELLOW)
+	boost_label.add_theme_color_override("font_color", Color.BLACK)
 
 func update_boost_display(boost_amount: float, max_boost: float):
 	var boost_percentage = (boost_amount / max_boost) * 100
@@ -17,9 +17,9 @@ func update_boost_display(boost_amount: float, max_boost: float):
 	if boost_percentage > 70:
 		boost_bar.add_theme_stylebox_override("fill", create_stylebox(Color.GREEN))
 	elif boost_percentage > 30:
-		boost_bar.add_theme_stylebox_override("fill", create_stylebox(Color.GREEN))
+		boost_bar.add_theme_stylebox_override("fill", create_stylebox(Color.GOLD))
 	else:
-		boost_bar.add_theme_stylebox_override("fill", create_stylebox(Color.GREEN))
+		boost_bar.add_theme_stylebox_override("fill", create_stylebox(Color.RED))
 	boost_label.text = "BOOST: %d%%" % boost_percentage
 
 func create_stylebox(color: Color) -> StyleBoxFlat:

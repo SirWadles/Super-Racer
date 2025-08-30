@@ -80,7 +80,7 @@ func _ready():
 
 func _process(delta):
 	if boost_meter:
-		boost_meter.update_boost(current_boost, max_boost)
+		boost_meter.update_boost_display(current_boost, max_boost)
 
 func setup_particles():
 	if drift_particles:
@@ -144,7 +144,7 @@ func handle_wall_collision():
 		var collision = get_slide_collision(i)
 		var collider = collision.get_collider()
 		if collider is StaticBody3D or collider or RigidBody3D:
-			print("Hit a wall.")
+			#print("Hit a wall.")
 			bump_off_wall(collision)
 
 func bump_off_wall(collision: KinematicCollision3D):
