@@ -8,6 +8,9 @@ extends CanvasLayer
 @onready var back_button = $Buttons/BackButton
 @onready var button_sound = $Buttons/ButtonSound
 
+var race_time = 0.0
+var is_racing: bool = false
+
 var audio_settings = {
 	"master_volume": 1.0,
 	"music_volume": 1.0,

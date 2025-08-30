@@ -59,7 +59,7 @@ var is_boosting = false
 
 @onready var ground_ray = $RayCast3D
 
-var boost_meter_scene = preload("res://scenes/boost_meter.tscn")
+var boost_meter_scene = preload("res://scenes/game_ui.tscn")
 var boost_meter = null
 
 func _ready():
@@ -234,6 +234,7 @@ func handle_boost(delta):
 			current_boost = 0
 			is_boosting = false
 	else:
+		await get_tree().create_timer(0.5).timeout
 		current_boost = min(current_boost + boost_regen_rate * delta, max_boost)
 	if boost_particles:
 		boost_particles.emitting = is_boosting

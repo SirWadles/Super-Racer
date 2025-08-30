@@ -20,6 +20,7 @@ func _ready():
 	start_button.pressed.connect(_on_start_button_pressed)
 	options_button.pressed.connect(_on_options_button_pressed)
 	quit_button.pressed.connect(_on_quit_button_pressed)
+	options_button.mouse_entered.connect(options_button.release_focus)
 	start_button.grab_focus()
 	if not music_player.playing:
 		music_player.play()
@@ -52,9 +53,3 @@ func play_random_button_sound():
 	else:
 		button_sound_1.play()
 		return button_sound_1
-
-func _input(event):
-	if event.is_action_pressed("ui_accept"):
-		_on_start_button_pressed()
-	if event.is_action_pressed("ui_cancel"):
-		_on_quit_button_pressed()

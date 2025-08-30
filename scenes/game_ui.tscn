@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://cr6d2d8irg80u"]
 
-[ext_resource type="Script" uid="uid://bw5y5nsjv7rpt" path="res://scenes/boost_meter.gd" id="1_omocu"]
+[ext_resource type="Script" uid="uid://bw5y5nsjv7rpt" path="res://scripts/game_ui.gd" id="1_yubou"]
 
 [node name="BoostMeter" type="CanvasLayer"]
-script = ExtResource("1_omocu")
+script = ExtResource("1_yubou")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 offset_right = 40.0
@@ -18,3 +18,11 @@ text = "BOOST"
 
 [node name="BoostBar" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="TimerLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "TIMER"
+
+[node name="SpeedLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "SPEED"

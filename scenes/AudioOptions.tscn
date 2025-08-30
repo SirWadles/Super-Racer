@@ -1,21 +1,15 @@
 [gd_scene load_steps=3 format=3 uid="uid://b60xax8j2rp1s"]
 
-[ext_resource type="Script" uid="uid://bdt28e2x2c5dq" path="res://scenes/audio_options.gd" id="1_eaa3b"]
+[ext_resource type="Script" uid="uid://bdt28e2x2c5dq" path="res://scripts/audio_options.gd" id="1_eaa3b"]
 [ext_resource type="AudioStream" uid="uid://vic2a1y24ax2" path="res://sound/diamond_return_01.wav" id="2_qw56a"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource("1_eaa3b")
 
 [node name="Background" type="ColorRect" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -250.0
-offset_top = -150.0
-offset_right = 250.0
-offset_bottom = 150.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.278431, 0.470588, 0.776471, 1)
