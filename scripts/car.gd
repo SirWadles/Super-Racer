@@ -59,8 +59,11 @@ var is_boosting = false
 
 @onready var ground_ray = $RayCast3D
 
-var boost_meter_scene = preload("res://scenes/game_ui.tscn")
-var boost_meter = null
+var game_ui_scene = preload("res://scenes/game_ui.tscn")
+var game_ui = null
+
+var checkpoints_passed = 0
+var total_checkpoints = 2
 
 func _ready():
 	setup_particles()
@@ -75,12 +78,14 @@ func _ready():
 		boost_particles.one_shot = false
 	current_boost = max_boost
 	
-	boost_meter = boost_meter_scene.instantiate()
-	add_child(boost_meter)
+	game_ui = game_ui_scene.instantiate()
+	add_child(game_ui)
+	game_ui.start_timer()
 
 func _process(delta):
-	if boost_meter:
-		boost_meter.update_boost_display(current_boost, max_boost)
+	if game_ui:
+		game_ui.update_boost_display(current_boost, max_boost)
+		game_ui.update_speed_display(current_speed, max_speed)
 
 func setup_particles():
 	if drift_particles:
@@ -144,7 +149,7 @@ func handle_wall_collision():
 		var collision = get_slide_collision(i)
 		var collider = collision.get_collider()
 		if collider is StaticBody3D or collider or RigidBody3D:
-			#print("Hit a wall.")
+			print("Hit a wall.")
 			bump_off_wall(collision)
 
 func bump_off_wall(collision: KinematicCollision3D):
@@ -347,3 +352,9 @@ func play_collision_sound(impact_strength: float):
 	if collision_sound_player and collision_sound_player.stream:
 		collision_sound_player.volume_db = lerp(-20.0, 0.0, clamp(impact_strength, 0.0, 1.0))
 		collision_sound_player.play()
+
+func _on_checkpoints_entered():
+	checkpoints_passed += 1
+	if checkpoints_passed >= total_checkpoints:
+		game_ui.complete_lap
+		checkpoints_passed = 0
