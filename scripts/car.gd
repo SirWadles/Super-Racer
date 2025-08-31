@@ -63,6 +63,12 @@ var is_boosting = false
 
 @onready var ground_ray = $RayCast3D
 
+<<<<<<< Updated upstream
+=======
+var game_ui_scene = preload("res://scenes/game_ui.tscn")
+var game_ui = null
+
+>>>>>>> Stashed changes
 func _ready():
 	current_boost = max_boost
 	
@@ -76,6 +82,19 @@ func _ready():
 	if boost_particles:
 		boost_particles.emitting = false
 		boost_particles.one_shot = false
+<<<<<<< Updated upstream
+=======
+	current_boost = max_boost
+	
+	game_ui = game_ui_scene.instantiate()
+	get_tree().current_scene.add_child(game_ui)
+	game_ui.start_race_timer()
+
+func _process(delta):
+	if game_ui:
+		game_ui.update_boost_display(current_boost, max_boost)
+		game_ui.update_speed_display(current_speed, max_speed)
+>>>>>>> Stashed changes
 
 func setup_particles():
 	if drift_particles:
