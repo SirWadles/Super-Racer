@@ -115,7 +115,7 @@ func create_stylebox(color: Color) -> StyleBoxFlat:
 func save_best_lap():
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if file:
-		file.storage_float(best_lap_time)
+		file.store_float(best_lap_time)
 		file.close()
 
 func load_best_lap():

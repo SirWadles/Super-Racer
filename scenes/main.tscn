@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://m85mftqt04gj"]
+[gd_scene load_steps=32 format=3 uid="uid://m85mftqt04gj"]
 
 [ext_resource type="PackedScene" uid="uid://bcwpy7kjmtuos" path="res://scenes/car.tscn" id="1_o5qli"]
 [ext_resource type="ArrayMesh" uid="uid://drl8ccdemvpb6" path="res://assets/RaceTracksKit/OBJ/BeginFlag.obj" id="2_sugp2"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://b26wqusw5utsi" path="res://assets/shiba nuh uh.jpg" id="10_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://cn1j6v2hvxn5x" path="res://scenes/audience.tscn" id="11_eb6dy"]
 [ext_resource type="AudioStream" uid="uid://cpifp3fqp0jdw" path="res://sound/woohoo.mp3" id="12_eb6dy"]
+[ext_resource type="PackedScene" uid="uid://dan1bv3uh6da6" path="res://scenes/checkpoint.tscn" id="13_trceg"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_top_color = Color(0.533333, 0.8, 1, 1)
@@ -372,3 +373,6 @@ stream = ExtResource("12_eb6dy")
 unit_size = 5.0
 max_db = 6.0
 autoplay = true
+
+[node name="Checkpoint" parent="." instance=ExtResource("13_trceg")]
+transform = Transform3D(4.28705, 0, 0, 0, 1, 0, 0, 0, 1, -0.071796, 1.01913, -5.45472)

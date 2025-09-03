@@ -62,6 +62,7 @@ var is_boosting = false
 var game_ui_scene = preload("res://scenes/game_ui.tscn")
 var game_ui = null
 
+var current_checkpoint = 0
 var checkpoints_passed = 0
 var total_checkpoints = 2
 
@@ -81,11 +82,22 @@ func _ready():
 	game_ui = game_ui_scene.instantiate()
 	add_child(game_ui)
 	game_ui.start_timer()
+	
+	add_to_group("player_car")
+	total_checkpoints = get_tree().get_nodes_in_group("checkpoints").size()
 
 func _process(delta):
 	if game_ui:
 		game_ui.update_boost_display(current_boost, max_boost)
 		game_ui.update_speed_display(current_speed, max_speed)
+
+func _input(event):
+	if event.is_action_pressed("ui_1"):
+		game_ui.complete_lap()
+	if event.is_action_pressed("ui_2"):
+		game_ui.stop_timer()
+	if event.is_action_pressed("ui_3"):
+		game_ui.start_timer()
 
 func setup_particles():
 	if drift_particles:
@@ -358,3 +370,18 @@ func _on_checkpoints_entered():
 	if checkpoints_passed >= total_checkpoints:
 		game_ui.complete_lap
 		checkpoints_passed = 0
+
+func checkpoint_passed(checkpoint_number: int, is_finished_line: bool = false):
+	if checkpoint_number == current_checkpoint + 1:
+		current_checkpoint = checkpoint_number
+		checkpoints_passed += 1
+		print("Checkpoint ", checkpoint_number, " passed! Total: ", checkpoints_passed)
+		if is_finished_line or checkpoints_passed >= total_checkpoints:
+			complete_lap()
+
+func complete_lap():
+	if game_ui:
+		game_ui.complete_lap()
+		print("Lap complete!")
+		checkpoints_passed = 0
+		current_checkpoint = 0
