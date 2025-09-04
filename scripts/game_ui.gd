@@ -47,8 +47,8 @@ func update_speed_display(current_speed: float, max_speed: float):
 	var speed_mph = abs(current_speed) * 2.5
 	speed_label.text = "SPEED: %d MPH" % speed_mph
 	var speed_ratio = abs(current_speed) / max_speed
-	print(speed_ratio)
-	if not speed_ratio <= 1:
+	#print(speed_ratio)
+	if not speed_ratio <= 1.01:
 		speed_label.add_theme_color_override("font_color", Color.RED)
 	else:
 		speed_label.add_theme_color_override("font_color", Color.GOLDENROD)
@@ -124,3 +124,9 @@ func load_best_lap():
 		if file:
 			best_lap_time = file.get_float()
 			file.close()
+
+func reset_best_lap():
+	best_lap_time = 0.0
+	save_best_lap()
+	print("Best lap time reset.")
+	update_timer_display()

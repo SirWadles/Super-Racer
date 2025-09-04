@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=3 uid="uid://ch3pcdd7kwtom"]
+
+[ext_resource type="Texture2D" uid="uid://bpb8r4hiy5iei" path="res://assets/car_1.PNG" id="1_2y548"]
+[ext_resource type="Script" uid="uid://bwxuil1wpapmh" path="res://scripts/car_selection.gd" id="1_ji71v"]
+[ext_resource type="Texture2D" uid="uid://d223plynb4jc2" path="res://assets/car_teaser.PNG" id="2_ji71v"]
+
+[node name="CarSelection" type="CanvasLayer"]
+script = ExtResource("1_ji71v")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="CarOption1" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CarPreview" type="TextureRect" parent="MarginContainer/VBoxContainer/CarOption1"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_2y548")
+
+[node name="CarOption2" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CarPreview" type="TextureRect" parent="MarginContainer/VBoxContainer/CarOption2"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_ji71v")
+
+[node name="CarOption3" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CarPreview" type="TextureRect" parent="MarginContainer/VBoxContainer/CarOption3"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_ji71v")
+
+[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Back"

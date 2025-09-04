@@ -1,6 +1,6 @@
-[gd_scene load_steps=32 format=3 uid="uid://m85mftqt04gj"]
+[gd_scene load_steps=35 format=3 uid="uid://m85mftqt04gj"]
 
-[ext_resource type="PackedScene" uid="uid://bcwpy7kjmtuos" path="res://scenes/car.tscn" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://4ca6esi5u5nr" path="res://scripts/main.gd" id="1_muem4"]
 [ext_resource type="ArrayMesh" uid="uid://drl8ccdemvpb6" path="res://assets/RaceTracksKit/OBJ/BeginFlag.obj" id="2_sugp2"]
 [ext_resource type="ArrayMesh" uid="uid://db8lrtip8oog3" path="res://assets/RaceTracksKit/OBJ/BeginTrack01.obj" id="3_jyhfs"]
 [ext_resource type="ArrayMesh" uid="uid://dhhvlltowjbnw" path="res://assets/RaceTracksKit/OBJ/CurvedTrack01.obj" id="4_jyhfs"]
@@ -10,9 +10,12 @@
 [ext_resource type="ArrayMesh" uid="uid://emwjo1vin1ex" path="res://assets/RaceTracksKit/OBJ/StadiumSits3.obj" id="7_85g3d"]
 [ext_resource type="ArrayMesh" uid="uid://bk3yken6o3crs" path="res://assets/RaceTracksKit/OBJ/TwoSidesTrack02.obj" id="8_tipki"]
 [ext_resource type="Texture2D" uid="uid://b26wqusw5utsi" path="res://assets/shiba nuh uh.jpg" id="10_ya4ey"]
-[ext_resource type="PackedScene" uid="uid://cn1j6v2hvxn5x" path="res://scenes/audience.tscn" id="11_eb6dy"]
+[ext_resource type="PackedScene" uid="uid://dawggovd4udxh" path="res://scenes/armature.tscn" id="11_jbj1t"]
 [ext_resource type="AudioStream" uid="uid://cpifp3fqp0jdw" path="res://sound/woohoo.mp3" id="12_eb6dy"]
-[ext_resource type="PackedScene" uid="uid://dan1bv3uh6da6" path="res://scenes/checkpoint.tscn" id="13_trceg"]
+[ext_resource type="PackedScene" uid="uid://dan1bv3uh6da6" path="res://scenes/checkpoint_1.tscn" id="13_trceg"]
+[ext_resource type="PackedScene" uid="uid://qnmnr548hq0u" path="res://scenes/checkpoint_2.tscn" id="14_jkv2x"]
+[ext_resource type="PackedScene" uid="uid://d0j8nqmrm4yc2" path="res://scenes/checkpoint_3.tscn" id="15_jbj1t"]
+[ext_resource type="PackedScene" uid="uid://c5yf1j6wvqmnx" path="res://scenes/checkpoint_4.tscn" id="16_jbj1t"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_top_color = Color(0.533333, 0.8, 1, 1)
@@ -74,6 +77,7 @@ albedo_texture = ExtResource("10_ya4ey")
 [sub_resource type="PlaneMesh" id="PlaneMesh_dp3eg"]
 
 [node name="main" type="Node3D"]
+script = ExtResource("1_muem4")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 7.61001, 33.998)
@@ -81,9 +85,6 @@ shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_0xm2m")
-
-[node name="Car" parent="." instance=ExtResource("1_o5qli")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.52785, 0)
 
 [node name="Floor" type="StaticBody3D" parent="."]
 transform = Transform3D(28.905, 0, 0, 0, 28.905, 0, 0, 0, 28.905, 0, 0, 0)
@@ -99,7 +100,7 @@ shape = SubResource("BoxShape3D_ig7tw")
 [node name="Map" type="Node3D" parent="."]
 
 [node name="BeginFlag" type="MeshInstance3D" parent="Map"]
-transform = Transform3D(-1.19533e-08, 0, -0.570768, 0, 0.273459, 0, 0.273459, 0, -2.4949e-08, 0, 5.26814, -5.36793)
+transform = Transform3D(-1.19533e-08, 0, -0.570768, 0, 0.273459, 0, 0.273459, 0, -2.4949e-08, 7.57831e-07, 5.26814, -22.705)
 mesh = ExtResource("2_sugp2")
 skeleton = NodePath("../..")
 
@@ -364,8 +365,8 @@ material_override = SubResource("StandardMaterial3D_muem4")
 mesh = SubResource("PlaneMesh_dp3eg")
 skeleton = NodePath("")
 
-[node name="[RIGGED] Low-Poly Mannequin" parent="." instance=ExtResource("11_eb6dy")]
-transform = Transform3D(0.15713, 0, -1.79601, 0, 1.80287, 0, 1.79601, 0, 0.15713, 105.652, 4.33608, -263.006)
+[node name="Armature" parent="." instance=ExtResource("11_jbj1t")]
+transform = Transform3D(-7.02486e-06, 160.71, 0, 1.91581e-05, 0, 160.71, 160.71, 7.02486e-06, -1.91581e-05, 105.318, 4.95601, -261.201)
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(0.0871557, 0, -0.996195, 0, 1, 0, 0.996195, 0, 0.0871558, 101.418, 12.9696, -262.636)
@@ -375,4 +376,13 @@ max_db = 6.0
 autoplay = true
 
 [node name="Checkpoint" parent="." instance=ExtResource("13_trceg")]
-transform = Transform3D(4.28705, 0, 0, 0, 1, 0, 0, 0, 1, -0.071796, 1.01913, -5.45472)
+transform = Transform3D(5.38315, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05838, -52.7351)
+
+[node name="Checkpoint2" parent="." instance=ExtResource("14_jkv2x")]
+transform = Transform3D(5.38315, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05838, -427.02)
+
+[node name="Checkpoint3" parent="." instance=ExtResource("15_jbj1t")]
+transform = Transform3D(5.38315, 0, 0, 0, 1, 0, 0, 0, 1, -169.425, 1.05838, -207.06)
+
+[node name="Checkpoint4" parent="." instance=ExtResource("16_jbj1t")]
+transform = Transform3D(5.48808, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.986298, -24.098)

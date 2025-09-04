@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dan1bv3uh6da6"]
 
-[ext_resource type="Script" uid="uid://bsxmikybel8no" path="res://scripts/checkpoint.gd" id="1_yyywg"]
+[ext_resource type="Script" uid="uid://bsxmikybel8no" path="res://scripts/checkpoint_1.gd" id="1_yyywg"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yyywg"]
 

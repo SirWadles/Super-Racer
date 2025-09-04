@@ -47,6 +47,7 @@ var current_steering = 0.0
 var is_drifting = false
 var current_boost = 100.0
 var is_boosting = false
+var boost_regen_cooldown = 0.0
 
 @onready var front_left_wheel: MeshInstance3D = $Wheels/FrontLeft
 @onready var front_right_wheel: MeshInstance3D = $Wheels/FrontRight
@@ -62,9 +63,9 @@ var is_boosting = false
 var game_ui_scene = preload("res://scenes/game_ui.tscn")
 var game_ui = null
 
-var current_checkpoint = 0
-var checkpoints_passed = 0
-var total_checkpoints = 2
+var checkpoints_hit = []
+var required_checkpoints = 4
+var current_lap_checkpoints = 0
 
 func _ready():
 	setup_particles()
@@ -84,7 +85,6 @@ func _ready():
 	game_ui.start_timer()
 	
 	add_to_group("player_car")
-	total_checkpoints = get_tree().get_nodes_in_group("checkpoints").size()
 
 func _process(delta):
 	if game_ui:
@@ -98,6 +98,8 @@ func _input(event):
 		game_ui.stop_timer()
 	if event.is_action_pressed("ui_3"):
 		game_ui.start_timer()
+	if event.is_action_pressed("ui_4"):
+		game_ui.reset_best_lap()
 
 func setup_particles():
 	if drift_particles:
@@ -161,7 +163,7 @@ func handle_wall_collision():
 		var collision = get_slide_collision(i)
 		var collider = collision.get_collider()
 		if collider is StaticBody3D or collider or RigidBody3D:
-			print("Hit a wall.")
+			#print("Hit a wall.")
 			bump_off_wall(collision)
 
 func bump_off_wall(collision: KinematicCollision3D):
@@ -175,7 +177,10 @@ func handle_input(delta):
 	var steering_input = Input.get_axis("steer_right", "steer_left")
 	var drift_input = Input.is_action_pressed("drift") if can_drift else false
 	
-	is_boosting = Input.is_action_pressed("boost") and current_boost > 0 and abs(current_speed) > 5.0
+	if current_boost > 0.1 and Input.is_action_pressed("boost") and abs(current_speed) > 5.0:
+		is_boosting = true
+	else:
+		is_boosting = false
 	
 	handle_throttle(throttle_input, delta)
 	handle_steering(steering_input, drift_input, delta)
@@ -199,7 +204,11 @@ func handle_throttle(throttle_input: float, delta: float):
 	var effective_max_speed = max_speed * speed_multiplier
 	
 	if current_speed > 0:
-		current_speed = clamp(current_speed, 0, effective_max_speed)
+		var normal_max = max_speed
+		if current_speed > normal_max and not is_boosting:
+			current_speed = move_toward(current_speed, normal_max, braking_force * 0.5 * delta)
+		else:
+			current_speed = clamp(current_speed, 0, effective_max_speed)
 	else:
 		current_speed = clamp(current_speed, -reverse_speed, 0)
 
@@ -250,9 +259,12 @@ func handle_boost(delta):
 		if current_boost <= 0:
 			current_boost = 0
 			is_boosting = false
+		boost_regen_cooldown = 1.0
 	else:
-		await get_tree().create_timer(0.5).timeout
-		current_boost = min(current_boost + boost_regen_rate * delta, max_boost)
+		if boost_regen_cooldown > 0:
+			boost_regen_cooldown -= delta
+		else:
+			current_boost = min(current_boost + boost_regen_rate * delta, max_boost)
 	if boost_particles:
 		boost_particles.emitting = is_boosting
 
@@ -311,7 +323,7 @@ func setup_sounds():
 	boost_sound_player = AudioStreamPlayer3D.new()
 	boost_sound_player.name = "BoostSound"
 	add_child(boost_sound_player)
-	boost_sound_player.volume_db = -55.0
+	boost_sound_player.volume_db = -58.0
 	
 	collision_sound_player = AudioStreamPlayer3D.new()
 	collision_sound_player.name = "CollisionSound"
@@ -365,23 +377,20 @@ func play_collision_sound(impact_strength: float):
 		collision_sound_player.volume_db = lerp(-20.0, 0.0, clamp(impact_strength, 0.0, 1.0))
 		collision_sound_player.play()
 
-func _on_checkpoints_entered():
-	checkpoints_passed += 1
-	if checkpoints_passed >= total_checkpoints:
-		game_ui.complete_lap
-		checkpoints_passed = 0
-
-func checkpoint_passed(checkpoint_number: int, is_finished_line: bool = false):
-	if checkpoint_number == current_checkpoint + 1:
-		current_checkpoint = checkpoint_number
-		checkpoints_passed += 1
-		print("Checkpoint ", checkpoint_number, " passed! Total: ", checkpoints_passed)
-		if is_finished_line or checkpoints_passed >= total_checkpoints:
+func checkpoint_passed(checkpoint_number: int, is_finish_line: bool = false):
+	print("Test ")
+	if not checkpoints_hit.has(checkpoint_number):
+		checkpoints_hit.append(checkpoint_number)
+		current_lap_checkpoints += 1
+		print("Checkpoint ", checkpoint_number, " passed! Total: ", current_lap_checkpoints, "/", required_checkpoints)
+		if is_finish_line or current_lap_checkpoints >= required_checkpoints:
 			complete_lap()
+		elif is_finish_line:
+			print("Finish reached but ", current_lap_checkpoints, "/", required_checkpoints, " checkpoints.")
 
 func complete_lap():
 	if game_ui:
 		game_ui.complete_lap()
 		print("Lap complete!")
-		checkpoints_passed = 0
-		current_checkpoint = 0
+	checkpoints_hit.clear()
+	current_lap_checkpoints = 0

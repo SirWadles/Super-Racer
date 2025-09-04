@@ -30,7 +30,7 @@ func _on_start_button_pressed():
 	print("Starting game...")
 	var sound_played = play_random_button_sound()
 	await sound_played.finished
-	get_tree().change_scene_to_file("res://scenes/main.tscn")
+	get_tree().change_scene_to_file("res://scenes/car_selection.tscn")
 
 func _on_options_button_pressed():
 	print("Options Button Pressed")
