@@ -312,7 +312,6 @@ func setup_sounds():
 	engine_sound_player = AudioStreamPlayer3D.new()
 	engine_sound_player.name = "EngineSound"
 	add_child(engine_sound_player)
-	engine_sound_player.volume_db = -15.0
 	
 	drift_sound_player = AudioStreamPlayer3D.new()
 	drift_sound_player.name = "DriftSound"
@@ -323,7 +322,7 @@ func setup_sounds():
 	boost_sound_player = AudioStreamPlayer3D.new()
 	boost_sound_player.name = "BoostSound"
 	add_child(boost_sound_player)
-	boost_sound_player.volume_db = -58.0
+	boost_sound_player.volume_db = -60.0
 	
 	collision_sound_player = AudioStreamPlayer3D.new()
 	collision_sound_player.name = "CollisionSound"
@@ -333,6 +332,9 @@ func setup_sounds():
 	# Assign the streams if they're set in the inspector
 	if engine_sound_stream:
 		engine_sound_player.stream = engine_sound_stream
+		engine_sound_player.stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+		engine_sound_player.autoplay = true
+		engine_sound_player.volume_db = engine_volume_range.x
 	if drift_sound_stream:
 		drift_sound_player.stream = drift_sound_stream
 	if boost_sound_stream:
@@ -355,8 +357,6 @@ func update_engine_sound():
 		# Play sound if not already playing
 		if not engine_sound_player.playing and abs(current_speed) > 1.0:
 			engine_sound_player.play()
-		elif abs(current_speed) <= 0.5 and engine_sound_player.playing:
-			engine_sound_player.stop()
 
 func handle_drift_sound():
 	if drift_sound_player and drift_sound_player.stream:

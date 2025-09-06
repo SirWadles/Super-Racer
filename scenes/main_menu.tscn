@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://6dl0hdr7ldv6"]
 
 [ext_resource type="Script" uid="uid://dfi1enuvp4pji" path="res://scripts/main_menu.gd" id="1_l6cm7"]
-[ext_resource type="Texture2D" uid="uid://c0j58leydtm2a" path="res://misc/temp_background.PNG" id="2_8ln24"]
+[ext_resource type="Texture2D" uid="uid://j0kdbgiu0cqf" path="res://misc/temp_background.png" id="2_8ln24"]
 [ext_resource type="AudioStream" uid="uid://dmy3d1uuggsew" path="res://sound/diamond_touch_01.wav" id="2_bqqt6"]
 [ext_resource type="AudioStream" uid="uid://c6rc70nskjep5" path="res://sound/machine love arr. orchestra, op. 17 no. 3 - estreller.mp3" id="2_wu84c"]
 [ext_resource type="AudioStream" uid="uid://vic2a1y24ax2" path="res://sound/diamond_return_01.wav" id="3_wu84c"]

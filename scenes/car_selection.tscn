@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://ch3pcdd7kwtom"]
 
-[ext_resource type="Texture2D" uid="uid://bpb8r4hiy5iei" path="res://assets/car_1.PNG" id="1_2y548"]
+[ext_resource type="Texture2D" uid="uid://kwlns2acgtk8" path="res://assets/car_1.png" id="1_2y548"]
 [ext_resource type="Script" uid="uid://bwxuil1wpapmh" path="res://scripts/car_selection.gd" id="1_ji71v"]
-[ext_resource type="Texture2D" uid="uid://d223plynb4jc2" path="res://assets/car_teaser.PNG" id="2_ji71v"]
+[ext_resource type="Texture2D" uid="uid://bho3fp5n7n26v" path="res://assets/car_teaser.png" id="2_ji71v"]
 
 [node name="CarSelection" type="CanvasLayer"]
 script = ExtResource("1_ji71v")
