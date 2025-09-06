@@ -379,7 +379,7 @@ autoplay = true
 transform = Transform3D(5.38315, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05838, -52.7351)
 
 [node name="Checkpoint2" parent="." instance=ExtResource("14_jkv2x")]
-transform = Transform3D(5.38315, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05838, -427.02)
+transform = Transform3D(5.38315, 0, 0, 0, 1, 0, 0, 0, 1, -2.51897, 1.05838, -427.02)
 
 [node name="Checkpoint3" parent="." instance=ExtResource("15_jbj1t")]
 transform = Transform3D(5.38315, 0, 0, 0, 1, 0, 0, 0, 1, -169.425, 1.05838, -207.06)
