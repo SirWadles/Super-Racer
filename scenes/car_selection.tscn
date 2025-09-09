@@ -19,28 +19,36 @@ layout_mode = 2
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="CarOption1" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "SELECT YOUR CAR"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="CarPreview" type="TextureRect" parent="MarginContainer/VBoxContainer/CarOption1"]
+[node name="CarOption1" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="CarPreview" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/CarOption1"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("1_2y548")
 
-[node name="CarOption2" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="CarOption2" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="CarPreview" type="TextureRect" parent="MarginContainer/VBoxContainer/CarOption2"]
+[node name="CarPreview" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/CarOption2"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("2_ji71v")
 
-[node name="CarOption3" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="CarOption3" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="CarPreview" type="TextureRect" parent="MarginContainer/VBoxContainer/CarOption3"]
+[node name="CarPreview" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/CarOption3"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
