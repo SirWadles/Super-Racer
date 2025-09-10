@@ -17,6 +17,8 @@ extends Control
 ]
 
 func _ready():
+	if AudioManager:
+		AudioManager.create_audio_buses()
 	button_sound_1.bus = "SFX"
 	button_sound_2.bus = "SFX"
 	for shiba_sounds in shiba_sounds:

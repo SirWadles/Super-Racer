@@ -391,3 +391,4 @@ transform = Transform3D(5.48808, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.986298, -24.098)
 
 [node name="LoadSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("17_muem4")
+volume_db = 4.685

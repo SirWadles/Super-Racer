@@ -38,6 +38,11 @@ var drift_sound_player: AudioStreamPlayer3D
 var boost_sound_player: AudioStreamPlayer3D
 var collision_sound_player: AudioStreamPlayer3D
 
+@export_category("Music Properties")
+@export var car_music_stream: AudioStream
+@export var music_volume_db: float = -10.0
+var car_music_player: AudioStreamPlayer
+
 var is_reverse_view = false
 var target_camera_rotation = 0.0
 @onready var camera_pivot = $CameraPivot
@@ -67,9 +72,14 @@ var checkpoints_hit = []
 var required_checkpoints = 4
 var current_lap_checkpoints = 0
 
+func setup_music():
+	if car_music_stream:
+		car_music_player = AudioManager.play_music(car_music_stream, music_volume_db)
+
 func _ready():
 	setup_particles()
 	setup_sounds()
+	setup_music()
 	
 	if drift_particles:
 		drift_particles.emitting = false

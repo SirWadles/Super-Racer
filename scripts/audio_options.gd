@@ -26,6 +26,8 @@ func _ready():
 	music_slider.value_changed.connect(_on_music_volume_changed)
 	sfx_slider.value_changed.connect(_on_sfx_volume_changed)
 	
+	button_sound.bus = "SFX"
+	
 	setup_slider_size()
 	apply_audio_settings()
 
@@ -41,25 +43,15 @@ func load_audio_settings():
 
 func _on_master_volume_changed(value: float):
 	audio_settings.master_volume = value
-	var bus_index = AudioServer.get_bus_index("Master")
-	if bus_index != -1:
-		AudioServer.set_bus_volume_db(bus_index, linear_to_db(value))
+	AudioManager.set_master_volume(value)
 
 func _on_music_volume_changed(value: float):
 	audio_settings.music_volume = value
-	var bus_index = AudioServer.get_bus_index("Music")
-	if bus_index != -1:
-		AudioServer.set_bus_volume_db(bus_index, linear_to_db(value))
-	else:
-		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear_to_db(value * 0.8))
+	AudioManager.set_music_volume(value)
 
 func _on_sfx_volume_changed(value: float):
 	audio_settings.sfx_volume = value
-	var bus_index = AudioServer.get_bus_index("SFX")
-	if bus_index != -1:
-		AudioServer.set_bus_volume_db(bus_index, linear_to_db(value))
-	else:
-		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear_to_db(value * 0.8))
+	AudioManager.set_sfx_volume(value)
 
 func _on_apply_pressed():
 	save_audio_settings()
@@ -72,19 +64,9 @@ func _on_back_pressed():
 	get_tree().paused = false
 
 func apply_audio_settings():
-	var master_bus = AudioServer.get_bus_index("Master")
-	if master_bus != -1:
-		AudioServer.set_bus_volume_db(master_bus, linear_to_db(audio_settings.master_volume))
-	var music_bus = AudioServer.get_bus_index("Music")
-	if music_bus != -1:
-		AudioServer.set_bus_volume_db(music_bus, linear_to_db(audio_settings.music_volume))
-	else:
-		AudioServer.set_bus_volume_db(master_bus, linear_to_db(audio_settings.music_volume))
-	var sfx_bus = AudioServer.get_bus_index("SFX")
-	if sfx_bus != -1:
-		AudioServer.set_bus_volume_db(sfx_bus, linear_to_db(audio_settings.sfx_volume))
-	else:
-		AudioServer.set_bus_volume_db(master_bus, linear_to_db(audio_settings.sfx_volume))
+	AudioManager.set_master_volume(audio_settings.master_volume)
+	AudioManager.set_music_volume(audio_settings.music_volume)
+	AudioManager.set_sfx_volume(audio_settings.sfx_volume)
 
 func save_audio_settings():
 	Settings.set_setting("audio", "master_volume", audio_settings.master_volume)
