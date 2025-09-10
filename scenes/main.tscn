@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://m85mftqt04gj"]
+[gd_scene load_steps=36 format=3 uid="uid://m85mftqt04gj"]
 
 [ext_resource type="Script" uid="uid://4ca6esi5u5nr" path="res://scripts/main.gd" id="1_muem4"]
 [ext_resource type="ArrayMesh" uid="uid://drl8ccdemvpb6" path="res://assets/RaceTracksKit/OBJ/BeginFlag.obj" id="2_sugp2"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://qnmnr548hq0u" path="res://scenes/checkpoint_2.tscn" id="14_jkv2x"]
 [ext_resource type="PackedScene" uid="uid://d0j8nqmrm4yc2" path="res://scenes/checkpoint_3.tscn" id="15_jbj1t"]
 [ext_resource type="PackedScene" uid="uid://c5yf1j6wvqmnx" path="res://scenes/checkpoint_4.tscn" id="16_jbj1t"]
+[ext_resource type="AudioStream" uid="uid://bimifgo63na8e" path="res://sound/4. Night Walker (Linne Theme) (UNI2 Mix).mp3" id="17_muem4"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_top_color = Color(0.533333, 0.8, 1, 1)
@@ -387,3 +388,6 @@ transform = Transform3D(5.38315, 0, 0, 0, 1, 0, 0, 0, 1, -169.425, 1.05838, -207
 
 [node name="Checkpoint4" parent="." instance=ExtResource("16_jbj1t")]
 transform = Transform3D(5.48808, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.986298, -24.098)
+
+[node name="LoadSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("17_muem4")

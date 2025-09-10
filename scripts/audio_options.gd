@@ -35,18 +35,31 @@ func load_audio_settings():
 	"music_volume": Settings.get_setting("audio", "music_volume", 1.0),
 	"sfx_volume": Settings.get_setting("audio", "sfx_volume", 1.0)
 	}
+	master_slider.value = audio_settings.master_volume
+	music_slider.value = audio_settings.music_volume
+	sfx_slider.value = audio_settings.sfx_volume
 
 func _on_master_volume_changed(value: float):
 	audio_settings.master_volume = value
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear_to_db(value))
+	var bus_index = AudioServer.get_bus_index("Master")
+	if bus_index != -1:
+		AudioServer.set_bus_volume_db(bus_index, linear_to_db(value))
 
 func _on_music_volume_changed(value: float):
 	audio_settings.music_volume = value
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(value))
+	var bus_index = AudioServer.get_bus_index("Music")
+	if bus_index != -1:
+		AudioServer.set_bus_volume_db(bus_index, linear_to_db(value))
+	else:
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear_to_db(value * 0.8))
 
 func _on_sfx_volume_changed(value: float):
 	audio_settings.sfx_volume = value
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), linear_to_db(value))
+	var bus_index = AudioServer.get_bus_index("SFX")
+	if bus_index != -1:
+		AudioServer.set_bus_volume_db(bus_index, linear_to_db(value))
+	else:
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear_to_db(value * 0.8))
 
 func _on_apply_pressed():
 	save_audio_settings()
@@ -59,9 +72,19 @@ func _on_back_pressed():
 	get_tree().paused = false
 
 func apply_audio_settings():
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear_to_db(audio_settings.master_volume))
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(audio_settings.music_volume))
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), linear_to_db(audio_settings.sfx_volume))
+	var master_bus = AudioServer.get_bus_index("Master")
+	if master_bus != -1:
+		AudioServer.set_bus_volume_db(master_bus, linear_to_db(audio_settings.master_volume))
+	var music_bus = AudioServer.get_bus_index("Music")
+	if music_bus != -1:
+		AudioServer.set_bus_volume_db(music_bus, linear_to_db(audio_settings.music_volume))
+	else:
+		AudioServer.set_bus_volume_db(master_bus, linear_to_db(audio_settings.music_volume))
+	var sfx_bus = AudioServer.get_bus_index("SFX")
+	if sfx_bus != -1:
+		AudioServer.set_bus_volume_db(sfx_bus, linear_to_db(audio_settings.sfx_volume))
+	else:
+		AudioServer.set_bus_volume_db(master_bus, linear_to_db(audio_settings.sfx_volume))
 
 func save_audio_settings():
 	Settings.set_setting("audio", "master_volume", audio_settings.master_volume)

@@ -311,21 +311,25 @@ func handle_camera(delta):
 func setup_sounds():
 	engine_sound_player = AudioStreamPlayer3D.new()
 	engine_sound_player.name = "EngineSound"
+	engine_sound_player.bus = "SFX"
 	add_child(engine_sound_player)
 	
 	drift_sound_player = AudioStreamPlayer3D.new()
 	drift_sound_player.name = "DriftSound"
+	drift_sound_player.bus = "SFX"
 	add_child(drift_sound_player)
 	drift_sound_player.volume_db = -50.0
 	drift_sound_player.max_distance = 20.0
 	
 	boost_sound_player = AudioStreamPlayer3D.new()
 	boost_sound_player.name = "BoostSound"
+	boost_sound_player.bus = "SFX"
 	add_child(boost_sound_player)
 	boost_sound_player.volume_db = -60.0
 	
 	collision_sound_player = AudioStreamPlayer3D.new()
 	collision_sound_player.name = "CollisionSound"
+	collision_sound_player.bus = "SFX"
 	add_child(collision_sound_player)
 	collision_sound_player.max_distance = 15.0
 	

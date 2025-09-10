@@ -17,6 +17,11 @@ extends Control
 ]
 
 func _ready():
+	button_sound_1.bus = "SFX"
+	button_sound_2.bus = "SFX"
+	for shiba_sounds in shiba_sounds:
+		shiba_sounds.bus = "SFX"
+	music_player.bus = "Music"
 	start_button.pressed.connect(_on_start_button_pressed)
 	options_button.pressed.connect(_on_options_button_pressed)
 	quit_button.pressed.connect(_on_quit_button_pressed)
