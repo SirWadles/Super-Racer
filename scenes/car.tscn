@@ -43,7 +43,7 @@ drift_sound_stream = ExtResource("3_ctevm")
 boost_sound_stream = ExtResource("4_ctevm")
 engine_volume_range = Vector2(-16, 0)
 car_music_stream = ExtResource("5_ctevm")
-music_volume_db = -22.0
+music_volume_db = -30.0
 
 [node name="RayCast3D" type="RayCast3D" parent="Car"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)

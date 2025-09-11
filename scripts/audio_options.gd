@@ -30,6 +30,8 @@ func _ready():
 	
 	setup_slider_size()
 	apply_audio_settings()
+	
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func load_audio_settings():
 	audio_settings = {
@@ -57,11 +59,10 @@ func _on_apply_pressed():
 	save_audio_settings()
 	hide()
 	button_sound.play()
-	get_tree().paused = false
 
 func _on_back_pressed():
 	hide()
-	get_tree().paused = false
+	button_sound.play()
 
 func apply_audio_settings():
 	AudioManager.set_master_volume(audio_settings.master_volume)
@@ -81,13 +82,6 @@ func show_options():
 func hide_options():
 	visible = false
 	get_tree().paused = false
-
-func _input(event):
-	if event.is_action_pressed("ui_cancel"):
-		if visible:
-			_on_back_pressed()
-		else:
-			show_options()
 
 func setup_slider_size():
 	master_slider.custom_minimum_size = Vector2(250, 30)

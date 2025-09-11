@@ -21,12 +21,12 @@ var car_options = [
 		"texture": "res://assets/car_1.png"
 	},
 	{
-		"name": "Sports Car",
+		"name": "Sports Car (WIP)",
 		"scene": "res://scenes/car.tscn",
-		"texture": "res://assets/car_1.png"
+		"texture": "res://assets/car_teaser.png"
 	},
 	{
-		"name": "DeLorean Car",
+		"name": "DeLorean Car (WIP)",
 		"scene": "res://scenes/car.tscn",
 		"texture": "res://assets/car_teaser.png"
 	}

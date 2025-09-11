@@ -65,6 +65,8 @@ var boost_regen_cooldown = 0.0
 
 @onready var ground_ray = $RayCast3D
 
+var audio_options = null
+
 var game_ui_scene = preload("res://scenes/game_ui.tscn")
 var game_ui = null
 
@@ -95,6 +97,12 @@ func _ready():
 	game_ui.start_timer()
 	
 	add_to_group("player_car")
+	
+	var audio_options_scene = preload("res://scenes/AudioOptions.tscn")
+	audio_options = audio_options_scene.instantiate()
+	add_child(audio_options)
+	audio_options.visible = false
+	audio_options.process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _process(delta):
 	if game_ui:
@@ -110,6 +118,11 @@ func _input(event):
 		game_ui.start_timer()
 	if event.is_action_pressed("ui_4"):
 		game_ui.reset_best_lap()
+	if event.is_action_pressed("ui_cancel"):
+		if audio_options.visible:
+			audio_options.hide()
+		else:
+			audio_options.show_options()
 
 func setup_particles():
 	if drift_particles:
@@ -164,23 +177,56 @@ func _physics_process(delta):
 		var target_height = collision_point.y + 0.3
 		global_position.y = lerp(global_position.y, target_height, 10.0 * delta)
 	
+	handle_pre_collision()
+	
 	move_and_slide()
 	
 	handle_wall_collision()
 
+func handle_pre_collision():
+	var space_state = get_world_3d().direct_space_state
+	var forward_check = transform.basis.z * -2.0
+	var query = PhysicsRayQueryParameters3D.create(
+		global_position + Vector3(0, 0.5, 0),
+		global_position + forward_check,
+		1 
+	)
+	var result = space_state.intersect_ray(query)
+	if result:
+		var collision_point = result.position
+		var wall_threshold = 1.2
+		if collision_point.y >= wall_threshold and velocity.length() > 5.0:
+			current_speed *= -0.01
+			play_collision_sound(velocity.length() / max_speed)
+
 func handle_wall_collision():
+	var wall_threshold = 1.2
+	var min_wall_bounce_speed = 3.0
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
 		var collider = collision.get_collider()
-		if collider is StaticBody3D or collider or RigidBody3D:
+		var collision_point = collision.get_position()
+		var collision_normal = collision.get_normal()
+		if (collision_point.y >= wall_threshold and
+			(collider is StaticBody3D or collider is RigidBody3D) and
+			abs(collision_normal.y) < 0.5 and
+			velocity.length() > min_wall_bounce_speed):
 			#print("Hit a wall.")
 			bump_off_wall(collision)
 
 func bump_off_wall(collision: KinematicCollision3D):
-	var bounce_factor = 0.3
-	velocity = -collision.get_normal() * velocity.length() * bounce_factor
-	var impact_strength = clamp(velocity.length() / max_speed, 0.0, 1.0)
-	play_collision_sound(impact_strength)
+	var normal = collision.get_normal()
+	var forward_dir = -transform.basis.z
+	var dot_product = forward_dir.dot(normal)
+	if dot_product < -0.3:
+		current_speed *= -0.7
+		var steering_adjustment = 15.0 * sign(randf() -0.5)
+		current_steering += steering_adjustment 
+		velocity.y = -8.0
+		var impact_strength = clamp(abs(current_speed) / max_speed, 0.0, 1.0)
+		play_collision_sound(impact_strength)
+	else:
+		current_speed *= 0.8
 
 func handle_input(delta):
 	var throttle_input = Input.get_action_strength("accelerate") - Input.get_action_strength("brake")
@@ -408,3 +454,7 @@ func complete_lap():
 		print("Lap complete!")
 	checkpoints_hit.clear()
 	current_lap_checkpoints = 0
+
+func _on_audio_options_closed():
+	audio_options.hide()
+	get_tree().paused = false
