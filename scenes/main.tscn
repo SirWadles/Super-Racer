@@ -35,7 +35,7 @@ ambient_light_source = 3
 ambient_light_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ig7tw"]
-albedo_color = Color(0.664083, 0.990403, 0.601956, 1)
+albedo_color = Color(0.517974, 0.660078, 0.883826, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_7dm0k"]
 material = SubResource("StandardMaterial3D_ig7tw")

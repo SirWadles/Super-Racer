@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bcwpy7kjmtuos"]
+[gd_scene load_steps=16 format=3 uid="uid://bcwpy7kjmtuos"]
 
 [ext_resource type="Script" uid="uid://b2uwpthyl5ogr" path="res://scripts/car.gd" id="1_a202f"]
 [ext_resource type="AudioStream" uid="uid://b1gaq0a5jj6n" path="res://sound/car_engine(loud).wav" id="2_4clw4"]
@@ -8,6 +8,7 @@
 [ext_resource type="Material" uid="uid://dilh4j82oi4df" path="res://colors/tail.tres" id="3_jtldb"]
 [ext_resource type="AudioStream" uid="uid://chqmiasqgosfp" path="res://sound/turbo_sc_cobra_01 (mp3cut.net).wav" id="4_ctevm"]
 [ext_resource type="AudioStream" uid="uid://bimifgo63na8e" path="res://sound/4. Night Walker (Linne Theme) (UNI2 Mix).mp3" id="5_ctevm"]
+[ext_resource type="AudioStream" uid="uid://c8u025tvgbo3k" path="res://sound/cloud_blue_boost (mp3cut.net)(1).wav" id="5_uraa1"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_a202f"]
 material = ExtResource("2_50v30")
@@ -41,6 +42,7 @@ drift_acceleration_multiplier = 1.1
 engine_sound_stream = ExtResource("2_4clw4")
 drift_sound_stream = ExtResource("3_ctevm")
 boost_sound_stream = ExtResource("4_ctevm")
+collision_sound_stream = ExtResource("5_uraa1")
 engine_volume_range = Vector2(-16, 0)
 car_music_stream = ExtResource("5_ctevm")
 music_volume_db = -30.0
