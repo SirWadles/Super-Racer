@@ -452,6 +452,11 @@ func complete_lap():
 	if game_ui:
 		game_ui.complete_lap()
 		print("Lap complete!")
+		var current_lap_time = game_ui.get_current_lap_time()
+		var best_lap_time = game_ui.get_best_lap_time()
+		if best_lap_time == 0.0 or current_lap_time < best_lap_time:
+			game_ui.show_new_best_time()
+		game_ui.show_completion_menu()
 	checkpoints_hit.clear()
 	current_lap_checkpoints = 0
 

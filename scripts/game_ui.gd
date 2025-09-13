@@ -5,6 +5,12 @@ extends CanvasLayer
 @onready var speed_label = $MarginContainer/VBoxContainer/SpeedLabel
 @onready var timer_label = $MarginContainer/VBoxContainer/TimerLabel
 
+@onready var completion_message = $CompletionLabel
+@onready var completion_menu = $CompletionLabel
+@onready var new_best_label = $NewBestLabel
+@onready var play_again_button = $CompletionMenu/VBoxContainer/PlayAgainButton
+@onready var quit_button = $CompletionMenu/VBoxContainer/QuitButton
+
 var current_time = 0.0
 var is_timer_running = false
 var best_lap_time = 0.0
@@ -14,6 +20,12 @@ var lap_count = 0
 const SAVE_PATH = "user://best_lap.txt"
 
 func _ready():
+	completion_message.visible = false
+	completion_menu.visible = false
+	new_best_label.visible = false
+	play_again_button.pressed.connect(_on_play_again_pressed)
+	quit_button.pressed.connect(_on_quit_pressed)
+	
 	boost_bar.min_value = 0.0
 	boost_bar.max_value = 100.0
 	boost_bar.value = 0.0
@@ -130,3 +142,29 @@ func reset_best_lap():
 	save_best_lap()
 	print("Best lap time reset.")
 	update_timer_display()
+	new_best_label.visible = false
+
+func show_completion_menu():
+	completion_message.text = "Lap Completed!"
+	completion_message.visible = true
+	var timer = Timer.new()
+	timer.wait_time = 2.0
+	timer.one_shot = true
+	timer.timeout.connect(_show_menu_after_delay)
+	add_child(timer)
+	timer.start()
+
+func _show_menu_after_delay():
+	completion_menu.visible = true
+	get_tree().paused = true
+
+func show_new_best_time(time: float):
+	new_best_label.text = "New Best Time!" + format_time(time)
+	new_best_label.visible = true
+
+func _on_play_again_pressed():
+	get_tree().paused = true
+	get_tree().reload_current_scene()
+
+func _on_quit_pressed():
+	get_tree().quit()
