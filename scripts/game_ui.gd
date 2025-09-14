@@ -5,8 +5,8 @@ extends CanvasLayer
 @onready var speed_label = $MarginContainer/VBoxContainer/SpeedLabel
 @onready var timer_label = $MarginContainer/VBoxContainer/TimerLabel
 
-@onready var completion_message = $CompletionLabel
-@onready var completion_menu = $CompletionLabel
+@onready var completion_message = $CompletionMessage
+@onready var completion_menu = $CompletionMenu
 @onready var new_best_label = $NewBestLabel
 @onready var play_again_button = $CompletionMenu/VBoxContainer/PlayAgainButton
 @onready var quit_button = $CompletionMenu/VBoxContainer/QuitButton
@@ -16,15 +16,21 @@ var is_timer_running = false
 var best_lap_time = 0.0
 var current_lap_time = 0.0
 var lap_count = 0
+var is_new_best_time = false
 
 const SAVE_PATH = "user://best_lap.txt"
 
 func _ready():
-	completion_message.visible = false
-	completion_menu.visible = false
-	new_best_label.visible = false
-	play_again_button.pressed.connect(_on_play_again_pressed)
-	quit_button.pressed.connect(_on_quit_pressed)
+	if completion_message:
+		completion_message.visible = false
+	if completion_menu:
+		completion_menu.visible = false
+	if new_best_label:
+		new_best_label.visible = false
+	if play_again_button:
+		play_again_button.pressed.connect(_on_play_again_pressed)
+	if quit_button:
+		quit_button.pressed.connect(_on_quit_pressed)
 	
 	boost_bar.min_value = 0.0
 	boost_bar.max_value = 100.0
@@ -90,11 +96,12 @@ func complete_lap():
 	if is_timer_running:
 		lap_count += 1
 		print("Lap %d completed: %.2fs" % [lap_count, current_lap_time])
-		if best_lap_time == 0.0 or current_lap_time < best_lap_time:
+		is_new_best_time = (best_lap_time == 0.0 or current_lap_time < best_lap_time)
+		if is_new_best_time:
 			best_lap_time = current_lap_time
 			save_best_lap()
 			print("Best Lap! ", best_lap_time)
-	current_lap_time = 0.0
+		current_lap_time = 0.0
 
 func pause_timer():
 	is_timer_running = false
@@ -145,8 +152,12 @@ func reset_best_lap():
 	new_best_label.visible = false
 
 func show_completion_menu():
-	completion_message.text = "Lap Completed!"
-	completion_message.visible = true
+	if completion_message:
+		completion_message.text = "Lap Completed!"
+		completion_message.visible = true
+	if is_new_best_time and new_best_label:
+		new_best_label.text = "New Best Time!" + format_time(best_lap_time)
+		new_best_label.visible = true
 	var timer = Timer.new()
 	timer.wait_time = 2.0
 	timer.one_shot = true
@@ -155,16 +166,19 @@ func show_completion_menu():
 	timer.start()
 
 func _show_menu_after_delay():
-	completion_menu.visible = true
+	if completion_menu:
+		completion_menu.visible = true
+		completion_menu.process_mode = Node.PROCESS_MODE_ALWAYS
+	if play_again_button:
+		play_again_button.process_mode = Node.PROCESS_MODE_ALWAYS
+	if quit_button:
+		quit_button.process_mode = Node.PROCESS_MODE_ALWAYS
 	get_tree().paused = true
-
-func show_new_best_time(time: float):
-	new_best_label.text = "New Best Time!" + format_time(time)
-	new_best_label.visible = true
 
 func _on_play_again_pressed():
-	get_tree().paused = true
-	get_tree().reload_current_scene()
+	get_tree().paused = false
+	await get_tree().create_timer(0.1).timeout
+	get_tree().change_scene_to_file("res://scenes/car_selection.tscn")
 
 func _on_quit_pressed():
 	get_tree().quit()

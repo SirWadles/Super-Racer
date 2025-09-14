@@ -73,6 +73,7 @@ var game_ui = null
 var checkpoints_hit = []
 var required_checkpoints = 4
 var current_lap_checkpoints = 0
+var lap_completed = false
 
 func setup_music():
 	if car_music_stream:
@@ -454,8 +455,6 @@ func complete_lap():
 		print("Lap complete!")
 		var current_lap_time = game_ui.get_current_lap_time()
 		var best_lap_time = game_ui.get_best_lap_time()
-		if best_lap_time == 0.0 or current_lap_time < best_lap_time:
-			game_ui.show_new_best_time()
 		game_ui.show_completion_menu()
 	checkpoints_hit.clear()
 	current_lap_checkpoints = 0
