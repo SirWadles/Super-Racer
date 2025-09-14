@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://cr6d2d8irg80u"]
+[gd_scene load_steps=6 format=3 uid="uid://cr6d2d8irg80u"]
 
 [ext_resource type="Script" uid="uid://bw5y5nsjv7rpt" path="res://scripts/game_ui.gd" id="1_yubou"]
+[ext_resource type="AudioStream" uid="uid://c4hijayvf80og" path="res://sound/ui/strawberry_red_get_5000.wav" id="2_bt76a"]
+[ext_resource type="AudioStream" uid="uid://p2ju3h4mrhtn" path="res://sound/ui/strawberry_gold_get_5000.wav" id="3_djwj0"]
+[ext_resource type="AudioStream" uid="uid://cp8wob2vuktxp" path="res://sound/ui/ui_main_button_select.wav" id="4_e0pfi"]
+[ext_resource type="AudioStream" uid="uid://bhy4ndjfwwhaa" path="res://sound/ui/ui_main_button_climb.wav" id="5_o3bws"]
 
 [node name="GameUI" type="CanvasLayer"]
 script = ExtResource("1_yubou")
@@ -77,3 +81,18 @@ text = "Play Again?"
 [node name="QuitButton" type="Button" parent="CompletionMenu/VBoxContainer"]
 layout_mode = 2
 text = "Quit"
+
+[node name="FinishPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_bt76a")
+volume_db = -10.0
+
+[node name="BestTimePlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_djwj0")
+volume_db = -10.0
+
+[node name="HoverSoundPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_e0pfi")
+
+[node name="ClickSoundPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_o3bws")
+volume_db = -10.0

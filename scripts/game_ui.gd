@@ -11,6 +11,11 @@ extends CanvasLayer
 @onready var play_again_button = $CompletionMenu/VBoxContainer/PlayAgainButton
 @onready var quit_button = $CompletionMenu/VBoxContainer/QuitButton
 
+@onready var hover_sound_player = $HoverSoundPlayer
+@onready var click_sound_player = $ClickSoundPlayer
+@onready var finish_player = $FinishPlayer
+@onready var best_time_player = $BestTimePlayer
+
 var current_time = 0.0
 var is_timer_running = false
 var best_lap_time = 0.0
@@ -43,6 +48,11 @@ func _ready():
 	$MarginContainer.add_theme_constant_override("margin_top", 0)
 	
 	load_best_lap()
+	
+	finish_player.bus = "SFX"
+	best_time_player.bus = "SFX"
+	hover_sound_player.bus = "SFX"
+	click_sound_player.bus = "SFX"
 
 func _process(delta):
 	if is_timer_running:
@@ -158,6 +168,12 @@ func show_completion_menu():
 	if is_new_best_time and new_best_label:
 		new_best_label.text = "New Best Time!" + format_time(best_lap_time)
 		new_best_label.visible = true
+	if is_new_best_time:
+		best_time_player.play()
+		await get_tree().create_timer(best_time_player.stream.get_length() * 0.05).timeout
+	else:
+		finish_player.play()
+		await get_tree().create_timer(finish_player.stream.get_length() * 0.05).timeout
 	var timer = Timer.new()
 	timer.wait_time = 2.0
 	timer.one_shot = true
@@ -176,9 +192,24 @@ func _show_menu_after_delay():
 	get_tree().paused = true
 
 func _on_play_again_pressed():
+	click_sound_player.play()
 	get_tree().paused = false
-	await get_tree().create_timer(0.1).timeout
+	stop_all_sounds()
+	await get_tree().create_timer(0.5)
 	get_tree().change_scene_to_file("res://scenes/car_selection.tscn")
 
 func _on_quit_pressed():
+	click_sound_player.play()
+	stop_all_sounds()
+	await get_tree().create_timer(1)
 	get_tree().quit()
+
+func stop_all_sounds():
+	if best_time_player and best_time_player.playing:
+		best_time_player.stop()
+	if finish_player and finish_player.playing:
+		finish_player.stop()
+	var car_nodes = get_tree().get_nodes_in_group("player_car")
+	for car in car_nodes:
+		if car.has_method("stop_all_sounds"):
+			car.stop_all_sounds()

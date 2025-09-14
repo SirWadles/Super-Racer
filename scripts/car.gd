@@ -462,3 +462,15 @@ func complete_lap():
 func _on_audio_options_closed():
 	audio_options.hide()
 	get_tree().paused = false
+
+func stop_all_sounds():
+	if engine_sound_player and engine_sound_player.playing:
+		engine_sound_player.stop()
+	if boost_sound_player and boost_sound_player.playing:
+		boost_sound_player.stop()
+	if collision_sound_player and collision_sound_player.playing:
+		collision_sound_player.stop()
+	if drift_sound_player and drift_sound_player.playing:
+		drift_sound_player.stop()
+	if car_music_player and car_music_player.playing:
+		car_music_player.stop()
