@@ -10,11 +10,13 @@ extends CanvasLayer
 @onready var new_best_label = $NewBestLabel
 @onready var play_again_button = $CompletionMenu/VBoxContainer/PlayAgainButton
 @onready var quit_button = $CompletionMenu/VBoxContainer/QuitButton
+@onready var message_panel = $MessagePanel
 
 @onready var hover_sound_player = $HoverSoundPlayer
 @onready var click_sound_player = $ClickSoundPlayer
 @onready var finish_player = $FinishPlayer
 @onready var best_time_player = $BestTimePlayer
+@onready var back_sound_player = $BackSoundPlayer
 
 var current_time = 0.0
 var is_timer_running = false
@@ -26,6 +28,8 @@ var is_new_best_time = false
 const SAVE_PATH = "user://best_lap.txt"
 
 func _ready():
+	if message_panel:
+		message_panel.visible = false
 	if completion_message:
 		completion_message.visible = false
 	if completion_menu:
@@ -53,6 +57,10 @@ func _ready():
 	best_time_player.bus = "SFX"
 	hover_sound_player.bus = "SFX"
 	click_sound_player.bus = "SFX"
+	back_sound_player.bus = "SFX"
+	
+	click_sound_player.process_mode = Node.PROCESS_MODE_ALWAYS
+	back_sound_player.process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _process(delta):
 	if is_timer_running:
@@ -163,10 +171,11 @@ func reset_best_lap():
 
 func show_completion_menu():
 	if completion_message:
+		message_panel.visible = true
 		completion_message.text = "Lap Completed!"
 		completion_message.visible = true
 	if is_new_best_time and new_best_label:
-		new_best_label.text = "New Best Time!" + format_time(best_lap_time)
+		new_best_label.text = "New Best Time! " + format_time(best_lap_time)
 		new_best_label.visible = true
 	if is_new_best_time:
 		best_time_player.play()
@@ -193,15 +202,15 @@ func _show_menu_after_delay():
 
 func _on_play_again_pressed():
 	click_sound_player.play()
+	await get_tree().create_timer(click_sound_player.stream.get_length() * 0.5).timeout
 	get_tree().paused = false
 	stop_all_sounds()
-	await get_tree().create_timer(0.5)
 	get_tree().change_scene_to_file("res://scenes/car_selection.tscn")
 
 func _on_quit_pressed():
-	click_sound_player.play()
+	back_sound_player.play()
 	stop_all_sounds()
-	await get_tree().create_timer(1)
+	await get_tree().create_timer(back_sound_player.stream.get_length() * 0.7).timeout
 	get_tree().quit()
 
 func stop_all_sounds():

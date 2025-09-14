@@ -472,5 +472,5 @@ func stop_all_sounds():
 		collision_sound_player.stop()
 	if drift_sound_player and drift_sound_player.playing:
 		drift_sound_player.stop()
-	if car_music_player and car_music_player.playing:
+	if car_music_player:
 		car_music_player.stop()
