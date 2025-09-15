@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://ch3pcdd7kwtom"]
 
-[ext_resource type="Texture2D" uid="uid://kwlns2acgtk8" path="res://assets/car_1.PNG" id="1_2y548"]
+[ext_resource type="Texture2D" uid="uid://kwlns2acgtk8" path="res://assets/car_1.png" id="1_2y548"]
 [ext_resource type="Script" uid="uid://bwxuil1wpapmh" path="res://scripts/car_selection.gd" id="1_ji71v"]
-[ext_resource type="Texture2D" uid="uid://bho3fp5n7n26v" path="res://assets/car_teaser.PNG" id="2_ji71v"]
+[ext_resource type="Texture2D" uid="uid://bho3fp5n7n26v" path="res://assets/car_teaser.png" id="2_ji71v"]
 [ext_resource type="AudioStream" uid="uid://cp8wob2vuktxp" path="res://sound/ui/ui_main_button_select.wav" id="4_ly0vm"]
 [ext_resource type="AudioStream" uid="uid://bhy4ndjfwwhaa" path="res://sound/ui/ui_main_button_climb.wav" id="5_gowbp"]
 [ext_resource type="AudioStream" uid="uid://cyl3bdd0kfhs8" path="res://sound/ui/ui_main_button_invalid.wav" id="6_0pw6n"]

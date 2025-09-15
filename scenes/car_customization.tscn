@@ -1,0 +1,97 @@
+[gd_scene load_steps=4 format=3 uid="uid://gx23qrbt3o6y"]
+
+[ext_resource type="Script" uid="uid://xgxhamobylh8" path="res://scripts/car_customization.gd" id="1_fwqsq"]
+[ext_resource type="AudioStream" uid="uid://cp8wob2vuktxp" path="res://sound/ui/ui_main_button_select.wav" id="2_5id6k"]
+[ext_resource type="AudioStream" uid="uid://bhy4ndjfwwhaa" path="res://sound/ui/ui_main_button_climb.wav" id="3_ygs3q"]
+
+[node name="CarCustomization" type="CanvasLayer"]
+script = ExtResource("1_fwqsq")
+
+[node name="CarPreview" type="SubViewportContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="CarPreview"]
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="CarPreview/SubViewport"]
+transform = Transform3D(-0.707107, -0.183013, 0.683013, 1.49012e-08, 0.965926, 0.258819, -0.707107, 0.183013, -0.683012, 2.80447, 2.34255, -3.37049)
+
+[node name="HoverSoundPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_5id6k")
+
+[node name="ClickSoundPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ygs3q")
+volume_db = -10.0
+
+[node name="TitleLabel" type="Label" parent="."]
+offset_left = 375.5
+offset_top = 25.0
+offset_right = 776.5
+offset_bottom = 75.0
+theme_override_font_sizes/font_size = 36
+text = "CUSTOMIZE YOUR CAR!"
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+offset_left = 375.5
+offset_top = 104.0
+offset_right = 776.5
+offset_bottom = 252.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="ColorGrid" type="GridContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PrimaryColorLabel" type="Label" parent="PanelContainer/VBoxContainer/ColorGrid"]
+layout_mode = 2
+text = "Primary:"
+
+[node name="PrimaryColorPicker" type="ColorPickerButton" parent="PanelContainer/VBoxContainer/ColorGrid"]
+layout_mode = 2
+
+[node name="SecondaryColorLabel" type="Label" parent="PanelContainer/VBoxContainer/ColorGrid"]
+layout_mode = 2
+text = "Secondary:"
+
+[node name="SecondaryColorPicker" type="ColorPickerButton" parent="PanelContainer/VBoxContainer/ColorGrid"]
+layout_mode = 2
+
+[node name="AccentColorLabel" type="Label" parent="PanelContainer/VBoxContainer/ColorGrid"]
+layout_mode = 2
+text = "Accent:"
+
+[node name="AccentColorPicker" type="ColorPickerButton" parent="PanelContainer/VBoxContainer/ColorGrid"]
+layout_mode = 2
+
+[node name="RandomizeButton" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Randomize Colors"
+
+[node name="ActionButtons" type="HBoxContainer" parent="."]
+offset_left = 375.5
+offset_top = 256.0
+offset_right = 776.5
+offset_bottom = 287.0
+theme_override_constants/separation = 20
+
+[node name="BackButton" type="Button" parent="ActionButtons"]
+layout_mode = 2
+text = "Back to Selection"
+
+[node name="ConfirmButton" type="Button" parent="ActionButtons"]
+layout_mode = 2
+text = "Start Racing"
+
+[node name="ColorOptions" type="HBoxContainer" parent="."]
+offset_left = 375.5
+offset_top = 291.0
+offset_right = 776.5
+offset_bottom = 291.0
