@@ -7,8 +7,8 @@ extends CanvasLayer
 @onready var secondary_color_picker = $MarginContainer/VBoxContainer/CustomizationPanel/VBoxContainer/ColorGrid/SecondaryColorPicker
 @onready var accent_color_picker = $MarginContainer/VBoxContainer/CustomizationPanel/VBoxContainer/ColorGrid/AccentColorPicker
 @onready var randomize_button = $MarginContainer/VBoxContainer/CustomizationPanel/VBoxContainer/RandomizeButton
-@onready var confirm_button = $MarginContainer/ActionButtons/ConfirmButton
-@onready var back_button = $MarginContainer/ActionButtons/BackButton
+@onready var confirm_button = $MarginContainer/VBoxContainer/ActionButtons/ConfirmButton
+@onready var back_button = $MarginContainer/VBoxContainer/ActionButtons/BackButton
 @onready var hover_sound_player = $HoverSoundPlayer
 @onready var click_sound_player = $ClickSoundPlayer
 
@@ -26,9 +26,10 @@ func _ready():
 	if car_scene:
 		car_instance = car_scene.instantiate()
 		sub_viewport.add_child(car_instance)
-		if car_instance and CharacterBody3D:
-			car_instance.set_physics_process(false)
-			car_instance.set_process_input(false)
+		car_instance.set_physics_process(false)
+		car_instance.set_process(false)
+		car_instance.set_process_input(false)
+		disable_physics_recursive(car_instance)
 		car_instance.position = Vector3(0, 0, 0)
 		extract_car_materials(car_instance)
 		categorize_materials()
@@ -84,7 +85,7 @@ func categorize_materials():
 	for material in car_materials:
 		var material_name = ""
 		if material.resource_path:
-			material_name = material.get_file().to_lower()
+			material_name = material.resource_path.get_file().to_lower()
 		else:
 			material_name = str(material).to_lower()
 		if "body" in material_name or "primary" in material_name or "main" in material_name:
@@ -147,7 +148,7 @@ func _on_randomize_button_pressed():
 func _on_confirm_button_pressed():
 	play_click_sound()
 	save_customization()
-	get_tree().change_scene_to_file("res://scenes/car.tscn")
+	get_tree().change_scene_to_file("res://scenes/main.tscn")
 	
 func _on_back_button_pressed():
 	play_click_sound()
@@ -156,6 +157,8 @@ func _on_back_button_pressed():
 
 func _on_button_mouse_hover():
 	if hover_sound_player and hover_sound_player.stream:
+		pass
+	elif 1 == 0:
 		hover_sound_player.play()
 
 func play_click_sound():
@@ -223,8 +226,14 @@ func setup_container_sizes():
 	customization_panel.custom_minimum_size = Vector2(200, 200)
 	var color_grid = $MarginContainer/VBoxContainer/CustomizationPanel/VBoxContainer/ColorGrid
 	color_grid.columns = 2
-	var action_buttons = $MarginContainer/ActionButtons
+	var action_buttons = $MarginContainer/VBoxContainer/ActionButtons
 	action_buttons.add_theme_constant_override("separation", 20)
+	var vbox_container = $MarginContainer/VBoxContainer
+	vbox_container.add_theme_constant_override("separation", 30)
+	var spacer = Control.new()
+	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	vbox_container.add_child(spacer)
+	vbox_container.move_child(spacer, vbox_container.get_child_count() - 2)
 	randomize_button.custom_minimum_size = Vector2(200, 40)
 	back_button.custom_minimum_size = Vector2(150, 50)
 	confirm_button.custom_minimum_size = Vector2(150, 50)
@@ -232,3 +241,15 @@ func setup_container_sizes():
 	primary_color_picker.custom_minimum_size = Vector2(40, 40)
 	secondary_color_picker.custom_minimum_size = Vector2(40, 40)
 	accent_color_picker.custom_minimum_size = Vector2(40, 40)
+
+func disable_physics_recursive(node: Node):
+	if node is CharacterBody3D:
+		node.set_physics_process(false)
+		node.set_process(false)
+		node.set_process_input(false)
+	if node.has_method("set_physics_process"):
+		node.set_physics_process(false)
+	if node.has_method("set_process"):
+		node.set_process(false)
+	for child in node.get_children():
+		disable_physics_recursive(child)

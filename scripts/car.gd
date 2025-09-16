@@ -81,8 +81,9 @@ func setup_music():
 
 func _ready():
 	setup_particles()
-	setup_sounds()
-	setup_music()
+	if not is_in_customization_scene():
+		setup_sounds()
+		setup_music()
 	
 	if drift_particles:
 		drift_particles.emitting = false
@@ -93,17 +94,19 @@ func _ready():
 		boost_particles.one_shot = false
 	current_boost = max_boost
 	
-	game_ui = game_ui_scene.instantiate()
-	add_child(game_ui)
-	game_ui.start_timer()
+	if not is_in_customization_scene():
+		game_ui = game_ui_scene.instantiate()
+		add_child(game_ui)
+		game_ui.start_timer()
 	
 	add_to_group("player_car")
 	
-	var audio_options_scene = preload("res://scenes/AudioOptions.tscn")
-	audio_options = audio_options_scene.instantiate()
-	add_child(audio_options)
-	audio_options.visible = false
-	audio_options.process_mode = Node.PROCESS_MODE_ALWAYS
+	if not is_in_customization_scene():
+		var audio_options_scene = preload("res://scenes/AudioOptions.tscn")
+		audio_options = audio_options_scene.instantiate()
+		add_child(audio_options)
+		audio_options.visible = false
+		audio_options.process_mode = Node.PROCESS_MODE_ALWAYS
 	
 	apply_customization()
 
@@ -490,4 +493,16 @@ func apply_customization():
 		apply_color_to_materials("accent", accent_color)
 
 func apply_color_to_materials(material_type: String, color: Color):
-	pass
+	var materials_to_color = []
+	if material_type == "primary":
+		pass
+	elif material_type == "secondary":
+		pass
+	elif material_type == "accent":
+		pass
+	for material in materials_to_color:
+		if material is StandardMaterial3D:
+			material.albedo_color = color
+
+func is_in_customization_scene() -> bool:
+	return get_tree().current_scene.name == "CarCustomization" or get_tree().current_scene.has_method("randomize_all_colors")

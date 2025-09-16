@@ -1,8 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://gx23qrbt3o6y"]
+[gd_scene load_steps=6 format=3 uid="uid://gx23qrbt3o6y"]
 
 [ext_resource type="Script" uid="uid://xgxhamobylh8" path="res://scripts/car_customization.gd" id="1_fwqsq"]
 [ext_resource type="AudioStream" uid="uid://cp8wob2vuktxp" path="res://sound/ui/ui_main_button_select.wav" id="2_5id6k"]
 [ext_resource type="AudioStream" uid="uid://bhy4ndjfwwhaa" path="res://sound/ui/ui_main_button_climb.wav" id="3_ygs3q"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_fwqsq"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5id6k"]
 
 [node name="CarCustomization" type="CanvasLayer"]
 script = ExtResource("1_fwqsq")
@@ -72,15 +76,15 @@ layout_mode = 2
 layout_mode = 2
 text = "Randomize Colors"
 
-[node name="ActionButtons" type="HBoxContainer" parent="MarginContainer"]
+[node name="ActionButtons" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="BackButton" type="Button" parent="MarginContainer/ActionButtons"]
+[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer/ActionButtons"]
 layout_mode = 2
 text = "Back to Selection"
 
-[node name="ConfirmButton" type="Button" parent="MarginContainer/ActionButtons"]
+[node name="ConfirmButton" type="Button" parent="MarginContainer/VBoxContainer/ActionButtons"]
 layout_mode = 2
 text = "Start Racing"
 
@@ -90,3 +94,19 @@ stream = ExtResource("2_5id6k")
 [node name="ClickSoundPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_ygs3q")
 volume_db = -10.0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.17547, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(5.99629, 0, 0, 0, 5.99629, 0, 0, 0, 5.99629, 0, -1.95602, 0)
+mesh = SubResource("PlaneMesh_fwqsq")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(11.9436, 0, 0, 0, -0.161172, 0, 0, 0, 11.9436, 0, -1.95602, 0)
+shape = SubResource("BoxShape3D_5id6k")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 6.32942, 0)
+sky_mode = 1
