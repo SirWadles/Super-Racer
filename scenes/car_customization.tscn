@@ -23,13 +23,6 @@ render_target_update_mode = 4
 [node name="Camera3D" type="Camera3D" parent="CarPreview/SubViewport"]
 transform = Transform3D(-0.707107, -0.183013, 0.683013, 1.49012e-08, 0.965926, 0.258819, -0.707107, 0.183013, -0.683012, 2.80447, 2.34255, -3.37049)
 
-[node name="HoverSoundPlayer" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("2_5id6k")
-
-[node name="ClickSoundPlayer" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_ygs3q")
-volume_db = -10.0
-
 [node name="TitleLabel" type="Label" parent="."]
 offset_left = 375.5
 offset_top = 25.0
@@ -38,60 +31,62 @@ offset_bottom = 75.0
 theme_override_font_sizes/font_size = 36
 text = "CUSTOMIZE YOUR CAR!"
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
-offset_left = 375.5
-offset_top = 104.0
-offset_right = 776.5
-offset_bottom = 252.0
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="ColorGrid" type="GridContainer" parent="PanelContainer/VBoxContainer"]
+[node name="CustomizationPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="PrimaryColorLabel" type="Label" parent="PanelContainer/VBoxContainer/ColorGrid"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/CustomizationPanel"]
+layout_mode = 2
+
+[node name="ColorGrid" type="GridContainer" parent="MarginContainer/VBoxContainer/CustomizationPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="PrimaryColorLabel" type="Label" parent="MarginContainer/VBoxContainer/CustomizationPanel/VBoxContainer/ColorGrid"]
 layout_mode = 2
 text = "Primary:"
 
-[node name="PrimaryColorPicker" type="ColorPickerButton" parent="PanelContainer/VBoxContainer/ColorGrid"]
+[node name="PrimaryColorPicker" type="ColorPickerButton" parent="MarginContainer/VBoxContainer/CustomizationPanel/VBoxContainer/ColorGrid"]
 layout_mode = 2
 
-[node name="SecondaryColorLabel" type="Label" parent="PanelContainer/VBoxContainer/ColorGrid"]
+[node name="SecondaryColorLabel" type="Label" parent="MarginContainer/VBoxContainer/CustomizationPanel/VBoxContainer/ColorGrid"]
 layout_mode = 2
 text = "Secondary:"
 
-[node name="SecondaryColorPicker" type="ColorPickerButton" parent="PanelContainer/VBoxContainer/ColorGrid"]
+[node name="SecondaryColorPicker" type="ColorPickerButton" parent="MarginContainer/VBoxContainer/CustomizationPanel/VBoxContainer/ColorGrid"]
 layout_mode = 2
 
-[node name="AccentColorLabel" type="Label" parent="PanelContainer/VBoxContainer/ColorGrid"]
+[node name="AccentColorLabel" type="Label" parent="MarginContainer/VBoxContainer/CustomizationPanel/VBoxContainer/ColorGrid"]
 layout_mode = 2
 text = "Accent:"
 
-[node name="AccentColorPicker" type="ColorPickerButton" parent="PanelContainer/VBoxContainer/ColorGrid"]
+[node name="AccentColorPicker" type="ColorPickerButton" parent="MarginContainer/VBoxContainer/CustomizationPanel/VBoxContainer/ColorGrid"]
 layout_mode = 2
 
-[node name="RandomizeButton" type="Button" parent="PanelContainer/VBoxContainer"]
+[node name="RandomizeButton" type="Button" parent="MarginContainer/VBoxContainer/CustomizationPanel/VBoxContainer"]
 layout_mode = 2
 text = "Randomize Colors"
 
-[node name="ActionButtons" type="HBoxContainer" parent="."]
-offset_left = 375.5
-offset_top = 256.0
-offset_right = 776.5
-offset_bottom = 287.0
+[node name="ActionButtons" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="BackButton" type="Button" parent="ActionButtons"]
+[node name="BackButton" type="Button" parent="MarginContainer/ActionButtons"]
 layout_mode = 2
 text = "Back to Selection"
 
-[node name="ConfirmButton" type="Button" parent="ActionButtons"]
+[node name="ConfirmButton" type="Button" parent="MarginContainer/ActionButtons"]
 layout_mode = 2
 text = "Start Racing"
 
-[node name="ColorOptions" type="HBoxContainer" parent="."]
-offset_left = 375.5
-offset_top = 291.0
-offset_right = 776.5
-offset_bottom = 291.0
+[node name="HoverSoundPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_5id6k")
+
+[node name="ClickSoundPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ygs3q")
+volume_db = -10.0

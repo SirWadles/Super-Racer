@@ -104,6 +104,8 @@ func _ready():
 	add_child(audio_options)
 	audio_options.visible = false
 	audio_options.process_mode = Node.PROCESS_MODE_ALWAYS
+	
+	apply_customization()
 
 func _process(delta):
 	if game_ui:
@@ -474,3 +476,18 @@ func stop_all_sounds():
 		drift_sound_player.stop()
 	if car_music_player:
 		car_music_player.stop()
+
+func apply_customization():
+	var config = ConfigFile.new()
+	if config.has_section_key("car_customization", "primary_color"):
+			var primary_color = config.get_value("car_customization", "primary_color")
+			apply_color_to_materials("primary", primary_color)
+	if config.has_section_key("car_customization", "secondary_color"):
+		var secondary_color = config.get_value("car_customization", "secondary_color")
+		apply_color_to_materials("secondary", secondary_color)
+	if config.has_section_key("car_customization", "accent_color"):
+		var accent_color = config.get_value("car_customization", "accent_color")
+		apply_color_to_materials("accent", accent_color)
+
+func apply_color_to_materials(material_type: String, color: Color):
+	pass
