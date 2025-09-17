@@ -6,7 +6,7 @@ extends CharacterBody3D
 @export var acceleration = 15.0
 @export var braking_force = 25.0
 @export var reverse_speed = 15.0
-@export var steering_angle = 25.0s
+@export var steering_angle = 25.0
 @export var steering_speed = 3.0
 
 @export_category("Drift Properties")
@@ -44,10 +44,9 @@ var collision_sound_player: AudioStreamPlayer3D
 var car_music_player: AudioStreamPlayer
 
 @export_category("Checkpoint Sounds")
-@export var check_1: AudioStream
-@export var check_2: AudioStream
-@export var check_3: AudioStream
+@export var check_point_stream: AudioStream
 var checkpoint_player: AudioStreamPlayer
+
 
 var is_reverse_view = false
 var target_camera_rotation = 0.0
@@ -80,6 +79,8 @@ var checkpoints_hit = []
 var required_checkpoints = 4
 var current_lap_checkpoints = 0
 var lap_completed = false
+var checkpoint_sounds_played = 0
+var max_checkpoint_sounds = 3
 
 func setup_music():
 	if car_music_stream:
@@ -393,13 +394,19 @@ func setup_sounds():
 	boost_sound_player.name = "BoostSound"
 	boost_sound_player.bus = "SFX"
 	add_child(boost_sound_player)
-	boost_sound_player.volume_db = -60.0
+	boost_sound_player.volume_db = -40.0
 	
 	collision_sound_player = AudioStreamPlayer3D.new()
 	collision_sound_player.name = "CollisionSound"
 	collision_sound_player.bus = "SFX"
 	add_child(collision_sound_player)
 	collision_sound_player.max_distance = 15.0
+	
+	checkpoint_player = AudioStreamPlayer.new()
+	checkpoint_player.name = "CheckpointSound"
+	checkpoint_player.bus = "SFX"
+	checkpoint_player.volume_db = -15
+	add_child(checkpoint_player)
 	
 	# Assign the streams if they're set in the inspector
 	if engine_sound_stream:
@@ -413,6 +420,8 @@ func setup_sounds():
 		boost_sound_player.stream = boost_sound_stream
 	if collision_sound_stream:
 		collision_sound_player.stream = collision_sound_stream
+	if check_point_stream:
+		checkpoint_player.stream = check_point_stream
 
 func update_engine_sound():
 	if engine_sound_player and engine_sound_player.stream:
@@ -454,13 +463,12 @@ func checkpoint_passed(checkpoint_number: int, is_finish_line: bool = false):
 	if not checkpoints_hit.has(checkpoint_number):
 		checkpoints_hit.append(checkpoint_number)
 		current_lap_checkpoints += 1
-		if current_lap_checkpoints == 1:
-			
-		elif current_lap_checkpoints == 2:
-			
-		eilf current_lap_checkpoints == 3:
-			
-		print("Checkpoint ", checkpoint_number, " passed! Total: ", current_lap_checkpoints, "/", required_checkpoints)
+		if checkpoint_sounds_played < max_checkpoint_sounds:
+			checkpoint_player.play()
+			checkpoint_sounds_played += 1
+			print("Checkpoint ", checkpoint_number, " passed! Total: ", current_lap_checkpoints, "/", required_checkpoints)
+		else:
+			print("Checkpoint ", checkpoint_number, " passed! (No sound - limit reached) Total: ", current_lap_checkpoints, "/", required_checkpoints)
 		if is_finish_line or current_lap_checkpoints >= required_checkpoints:
 			complete_lap()
 		elif is_finish_line:
@@ -475,6 +483,7 @@ func complete_lap():
 		game_ui.show_completion_menu()
 	checkpoints_hit.clear()
 	current_lap_checkpoints = 0
+	checkpoint_sounds_played = 0
 
 func _on_audio_options_closed():
 	audio_options.hide()
