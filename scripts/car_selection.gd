@@ -133,7 +133,7 @@ func _on_car_button_pressed_with_click(car_scene_path: String, button: Button):
 		await get_tree().create_timer(0.1)
 	mouse_click_in_progress = false
 	Global.set_selected_car(car_scene_path)
-	get_tree().change_scene_to_file("res://scenes/car_customization.tscn")
+	get_tree().change_scene_to_file("res://scenes/main.tscn")
 
 func _on_back_button_pressed():
 	mouse_click_in_progress = true

@@ -1,5 +1,7 @@
 extends CanvasLayer
-
+#AAAAAHHHHHH
+#This aint working for a damn
+#Ill work on this another time
 @onready var car_preview = $CarPreview
 @onready var sub_viewport = $CarPreview/SubViewport
 @onready var preview_camera = $CarPreview/SubViewport/Camera3D
@@ -83,21 +85,32 @@ func categorize_materials():
 	secondary_materials.clear()
 	accent_materials.clear()
 	for material in car_materials:
-		var material_name = ""
-		if material.resource_path:
-			material_name = material.resource_path.get_file().to_lower()
+		var material_path = material.resource_path if material.resource_path else ""
+		var material_name = material_path.get_file().to_lower()
+		if "colors/" in material_path:
+			if "car.tres" in material_name:
+				primary_materials.append(material)
+			elif "wheel_color.tres" in material_name:
+				secondary_materials.append(material)
+			elif "tail.tres" in material_name:
+				accent_materials.append(material)
+			else:
+				primary_materials.append(material)
 		else:
-			material_name = str(material).to_lower()
-		if "body" in material_name or "primary" in material_name or "main" in material_name:
-			primary_materials.append(material)
-		elif "trim" in material_name or "secondary" in material_name or "window" in material_name:
-			secondary_materials.append(material)
-		elif "accent" in material_name or "detail" in material_name or "light" in material_name or "glass" in material_name:
-			accent_materials.append(material)
-		else:
-			primary_materials.append(material)
-	if primary_materials.is_empty() and not car_materials.is_empty():
-		primary_materials = car_materials.duplicate()
+			if "body" in material_name or "primary" in material_name or "main" in material_name:
+				primary_materials.append(material)
+			elif "trim" in material_name or "secondary" in material_name or "window" in material_name:
+				secondary_materials.append(material)
+			elif "accent" in material_name or "detail" in material_name or "light" in material_name or "glass" in material_name:
+				accent_materials.append(material)
+			else:
+				primary_materials.append(material)
+	for material in primary_materials:
+		print("Prim" + material.resource_path)
+	for material in secondary_materials:
+		print("f" + material.resource_path)
+	for material in accent_materials:
+		print("Prim" + material.resource_path)
 
 func _on_primary_color_changed(color: Color):
 	apply_color_to_materials(primary_materials, color)
@@ -116,6 +129,7 @@ func apply_color_to_materials(materials: Array, color: Color):
 		elif material is BaseMaterial3D:
 			if material.has_method("set_albedo"):
 				material.set_albedo(color)
+	update_mesh_materials(car_instance)
 
 func randomize_all_colors():
 	var primary_color = generate_random_color()
@@ -253,3 +267,14 @@ func disable_physics_recursive(node: Node):
 		node.set_process(false)
 	for child in node.get_children():
 		disable_physics_recursive(child)
+
+func update_mesh_materials(node: Node):
+	if node is MeshInstance3D:
+		var mesh_instance = node as MeshInstance3D
+		mesh_instance.material_override = mesh_instance.material_override
+		for i in range(mesh_instance.get_surface_override_material_count()):
+			var material = mesh_instance.get_surface_override_material(i)
+			if material:
+				mesh_instance.set_surface_override_material(i, material)
+	for child in node.get_children():
+		update_mesh_materials(child)

@@ -9,19 +9,15 @@
 [ext_resource type="AudioStream" uid="uid://chqmiasqgosfp" path="res://sound/turbo_sc_cobra_01 (mp3cut.net).wav" id="4_ctevm"]
 [ext_resource type="AudioStream" uid="uid://bimifgo63na8e" path="res://sound/4. Night Walker (Linne Theme) (UNI2 Mix).mp3" id="5_ctevm"]
 [ext_resource type="AudioStream" uid="uid://c8u025tvgbo3k" path="res://sound/cloud_blue_boost (mp3cut.net)(1).wav" id="5_uraa1"]
+[ext_resource type="Material" uid="uid://c1js1xyqsn15v" path="res://colors/headlight.tres" id="8_gm33m"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_a202f"]
 material = ExtResource("2_50v30")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_noarx"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uraa1"]
-albedo_color = Color(0.933333, 0.866667, 0.509804, 1)
-metallic = 0.1
-roughness = 0.25
-
 [sub_resource type="CylinderMesh" id="CylinderMesh_50v30"]
-material = SubResource("StandardMaterial3D_uraa1")
+material = ExtResource("8_gm33m")
 
 [sub_resource type="BoxMesh" id="BoxMesh_qt2eu"]
 material = ExtResource("3_jtldb")
@@ -36,13 +32,25 @@ script = ExtResource("1_a202f")
 max_speed = 30.0
 acceleration = 10.0
 braking_force = 30.0
+reverse_speed = null
 steering_angle = 40.0
 steering_speed = 35.0
+can_drift = null
+drift_steering_multiplier = null
 drift_acceleration_multiplier = 1.1
+min_drift_speed = null
+max_drift_steering_angle = null
+max_boost = null
+boost_regen_rate = null
+boost_consumption_rate = null
+boost_multiplier = null
+reverse_camera_rotation = null
+camera_rotate_speed = null
 engine_sound_stream = ExtResource("2_4clw4")
 drift_sound_stream = ExtResource("3_ctevm")
 boost_sound_stream = ExtResource("4_ctevm")
 collision_sound_stream = ExtResource("5_uraa1")
+engine_pitch_range = null
 engine_volume_range = Vector2(-16, 0)
 car_music_stream = ExtResource("5_ctevm")
 music_volume_db = -30.0

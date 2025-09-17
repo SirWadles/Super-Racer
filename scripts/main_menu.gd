@@ -17,6 +17,8 @@ extends Control
 ]
 
 func _ready():
+	size = get_viewport().get_visible_rect().size
+	position = Vector2.ZERO
 	if AudioManager:
 		AudioManager.create_audio_buses()
 	button_sound_1.bus = "SFX"

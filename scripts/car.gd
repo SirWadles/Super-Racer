@@ -6,7 +6,7 @@ extends CharacterBody3D
 @export var acceleration = 15.0
 @export var braking_force = 25.0
 @export var reverse_speed = 15.0
-@export var steering_angle = 25.0
+@export var steering_angle = 25.0s
 @export var steering_speed = 3.0
 
 @export_category("Drift Properties")
@@ -42,6 +42,12 @@ var collision_sound_player: AudioStreamPlayer3D
 @export var car_music_stream: AudioStream
 @export var music_volume_db: float = -10.0
 var car_music_player: AudioStreamPlayer
+
+@export_category("Checkpoint Sounds")
+@export var check_1: AudioStream
+@export var check_2: AudioStream
+@export var check_3: AudioStream
+var checkpoint_player: AudioStreamPlayer
 
 var is_reverse_view = false
 var target_camera_rotation = 0.0
@@ -448,6 +454,12 @@ func checkpoint_passed(checkpoint_number: int, is_finish_line: bool = false):
 	if not checkpoints_hit.has(checkpoint_number):
 		checkpoints_hit.append(checkpoint_number)
 		current_lap_checkpoints += 1
+		if current_lap_checkpoints == 1:
+			
+		elif current_lap_checkpoints == 2:
+			
+		eilf current_lap_checkpoints == 3:
+			
 		print("Checkpoint ", checkpoint_number, " passed! Total: ", current_lap_checkpoints, "/", required_checkpoints)
 		if is_finish_line or current_lap_checkpoints >= required_checkpoints:
 			complete_lap()
