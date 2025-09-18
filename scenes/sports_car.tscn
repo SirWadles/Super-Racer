@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c0tygomnbvbbl"]
+[gd_scene load_steps=13 format=3 uid="uid://c0tygomnbvbbl"]
 
 [ext_resource type="Script" uid="uid://c7k40qhuv8yqe" path="res://scripts/sports_car.gd" id="1_t3s45"]
 [ext_resource type="Material" uid="uid://bf65bdepu4ddq" path="res://colors/sports/car.tres" id="2_4lrje"]
@@ -11,13 +11,16 @@ material = ExtResource("2_4lrje")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_noarx"]
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_50v30"]
+[sub_resource type="BoxMesh" id="BoxMesh_4lrje"]
 material = ExtResource("3_0e0ue")
 
 [sub_resource type="BoxMesh" id="BoxMesh_qt2eu"]
 material = ExtResource("4_qdexj")
 
 [sub_resource type="BoxMesh" id="BoxMesh_jtldb"]
+material = ExtResource("4_qdexj")
+
+[sub_resource type="BoxMesh" id="BoxMesh_0e0ue"]
 material = ExtResource("4_qdexj")
 
 [sub_resource type="BoxMesh" id="BoxMesh_t3s45"]
@@ -48,24 +51,32 @@ shape = SubResource("BoxShape3D_noarx")
 [node name="Details" type="Node3D" parent="Sports Car"]
 
 [node name="RightHeadlight" type="MeshInstance3D" parent="Sports Car/Details"]
-transform = Transform3D(0.4, 0, 0, 0, -2.36041e-09, 0.4, 0, -0.054, -1.74846e-08, 0.5, 0.05, -2.05)
-mesh = SubResource("CylinderMesh_50v30")
+transform = Transform3D(0.348863, 0, 0, 0, -2.36041e-09, 0.124644, 0, -0.054, -5.44836e-09, 0.643695, 0.13444, -2.01223)
+mesh = SubResource("BoxMesh_4lrje")
 
 [node name="LeftHeadlight" type="MeshInstance3D" parent="Sports Car/Details"]
-transform = Transform3D(0.4, 0, 0, 0, -2.36041e-09, 0.4, 0, -0.054, -1.74846e-08, -0.5, 0.05, -2.05)
-mesh = SubResource("CylinderMesh_50v30")
+transform = Transform3D(0.348863, 0, 0, 0, -2.36041e-09, 0.124644, 0, -0.054, -5.44836e-09, -0.644, 0.134, -2.012)
+mesh = SubResource("BoxMesh_4lrje")
 
 [node name="Tail (Top)" type="MeshInstance3D" parent="Sports Car/Details"]
-transform = Transform3D(2, 0, 0, 0, 0.102423, 0, 0, 0, 0.45619, 0, 0.965253, 1.92846)
+transform = Transform3D(2, 0, 0, 0, 0.102423, 0, 0, 0, 0.339011, 0, 0.965253, 1.92846)
 mesh = SubResource("BoxMesh_qt2eu")
 
 [node name="Tail (Right)" type="MeshInstance3D" parent="Sports Car/Details"]
-transform = Transform3D(0.2, 0, 0, 0, 0.579556, -0.0776457, 0, 0.155291, 0.289778, 0.76402, 0.67674, 1.85537)
+transform = Transform3D(0.2, 0, 0, 0, 0.579556, -0.0776457, 0, 0.155291, 0.289778, 0.25, 0.677, 1.855)
 mesh = SubResource("BoxMesh_jtldb")
 
 [node name="Tail (Left)" type="MeshInstance3D" parent="Sports Car/Details"]
-transform = Transform3D(0.2, 0, 0, 0, 0.579556, -0.0776457, 0, 0.155291, 0.289778, -0.764, 0.677, 1.855)
+transform = Transform3D(0.2, 0, 0, 0, 0.579556, -0.0776457, 0, 0.155291, 0.289778, -0.25, 0.677, 1.855)
 mesh = SubResource("BoxMesh_jtldb")
+
+[node name="Tail (TopLeft)" type="MeshInstance3D" parent="Sports Car/Details"]
+transform = Transform3D(0.0494975, -0.19799, 0, 0.0494975, 0.19799, 0, 0, 0, 0.234, -0.989, 1.052, 1.932)
+mesh = SubResource("BoxMesh_0e0ue")
+
+[node name="Tail (RightLeft)" type="MeshInstance3D" parent="Sports Car/Details"]
+transform = Transform3D(0.0497686, 0.198244, 0, -0.0497686, 0.198244, 0, 0, 0, 0.233893, 0.989118, 1.05188, 1.932)
+mesh = SubResource("BoxMesh_0e0ue")
 
 [node name="Wheels" type="Node3D" parent="Sports Car"]
 
@@ -92,7 +103,7 @@ mesh = ExtResource("5_gnn11")
 [node name="Wheels Accent" type="Node3D" parent="Sports Car/Wheels"]
 
 [node name="FrontLeft" type="MeshInstance3D" parent="Sports Car/Wheels/Wheels Accent"]
-transform = Transform3D(3.33098e-09, 0.186131, -4.31483e-15, 0.0762039, -8.13607e-09, -9.87117e-08, -6.66196e-09, 7.21715e-23, -1.12913, -1.20557, 0.858622, -1.00621)
+transform = Transform3D(3.33098e-09, 0.186131, -4.31483e-15, 0.0762039, -8.13607e-09, -9.87117e-08, -6.66196e-09, 7.21715e-23, -1.12913, -1.20557, 0.0118669, -1.00621)
 mesh = SubResource("BoxMesh_t3s45")
 
 [node name="FrontRight" type="MeshInstance3D" parent="Sports Car/Wheels/Wheels Accent"]

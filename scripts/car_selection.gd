@@ -23,7 +23,7 @@ var car_options = [
 		"texture": "res://assets/car_1.png"
 	},
 	{
-		"name": "Sports Car (WIP)",
+		"name": "Sports Car",
 		"scene": "res://scenes/sports_car.tscn",
 		"texture": "res://assets/car_teaser.png"
 	},

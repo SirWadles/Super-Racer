@@ -1,6 +1,6 @@
 [gd_resource type="CylinderMesh" load_steps=2 format=3 uid="uid://cxduumkjk0lsf"]
 
-[ext_resource type="Material" uid="uid://q4st0q5sv73p" path="res://colors/sports/wheel.tres" id="1_co4sr"]
+[ext_resource type="Material" uid="uid://b0ch33u72ql2f" path="res://colors/default/wheel.tres" id="1_co4sr"]
 
 [resource]
 material = ExtResource("1_co4sr")

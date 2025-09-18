@@ -68,7 +68,6 @@ var boost_regen_cooldown = 0.0
 @onready var front_right_accent: MeshInstance3D = $"Wheels/Wheels Accent/FrontRight"
 @onready var rear_left_accent: MeshInstance3D = $"Wheels/Wheels Accent/RearLeft"
 @onready var rear_right_accent: MeshInstance3D = $"Wheels/Wheels Accent/RearRight"
-
 @onready var drift_particles: GPUParticles3D = $DriftParticles
 @onready var boost_particles: GPUParticles3D = $BoostParticles
 @onready var rear_left_particles: GPUParticles3D = $Wheels/RearLeft/RearLeftParticles
@@ -384,15 +383,22 @@ func handle_boost(delta):
 		boost_particles.emitting = is_boosting
 
 func apply_visual_effects():
-	if front_left_wheel and front_right_wheel:
-		var wheel_steer_angle = deg_to_rad(current_steering)
-		if current_speed < 0:
+	var distance_traveled = current_speed * get_physics_process_delta_time()
+	var wheel_circumference = 2.0
+	var rotation_angle = (distance_traveled / wheel_circumference) * TAU
+	var wheel_steer_angle = deg_to_rad(current_steering)
+	if current_speed < 0:
 			wheel_steer_angle = -wheel_steer_angle
+	if front_left_wheel:
 		front_left_wheel.rotation.y = wheel_steer_angle
+		front_left_accent.rotation.x += rotation_angle * 0.2
+	if front_right_wheel:
 		front_right_wheel.rotation.y = wheel_steer_angle
-		#front_left_accent.rotation.y = wheel_steer_angle
-		#front_right_accent.rotation.y = wheel_steer_angle
-
+		front_right_accent.rotation.x += rotation_angle * 0.2
+	if rear_left_wheel:
+		rear_left_accent.rotation.x += rotation_angle * 0.2
+	if rear_right_wheel:
+		rear_right_accent.rotation.x += rotation_angle * 0.2
 # Made the wheels spin in uninteded ways. Uncomment if you want to see something funny when turning
 	#var wheel_spin_angle = fmod(get_physics_process_delta_time() * current_speed * 10.0, TAU)
 	#set_wheel_spin(front_left_wheel, wheel_spin_angle)
