@@ -1,0 +1,128 @@
+[gd_scene load_steps=12 format=3 uid="uid://c0tygomnbvbbl"]
+
+[ext_resource type="Script" uid="uid://c7k40qhuv8yqe" path="res://scripts/sports_car.gd" id="1_t3s45"]
+[ext_resource type="Material" uid="uid://bf65bdepu4ddq" path="res://colors/sports/car.tres" id="2_4lrje"]
+[ext_resource type="Material" uid="uid://c1js1xyqsn15v" path="res://colors/sports/headlight.tres" id="3_0e0ue"]
+[ext_resource type="Material" uid="uid://dilh4j82oi4df" path="res://colors/sports/tail.tres" id="4_qdexj"]
+[ext_resource type="CylinderMesh" uid="uid://cxduumkjk0lsf" path="res://colors/wheel_color.tres" id="5_gnn11"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_a202f"]
+material = ExtResource("2_4lrje")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_noarx"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_50v30"]
+material = ExtResource("3_0e0ue")
+
+[sub_resource type="BoxMesh" id="BoxMesh_qt2eu"]
+material = ExtResource("4_qdexj")
+
+[sub_resource type="BoxMesh" id="BoxMesh_jtldb"]
+material = ExtResource("4_qdexj")
+
+[sub_resource type="BoxMesh" id="BoxMesh_t3s45"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Sports Car" type="CharacterBody3D" parent="."]
+script = ExtResource("1_t3s45")
+max_speed = 30.0
+acceleration = 10.0
+braking_force = 30.0
+steering_angle = 40.0
+steering_speed = 35.0
+drift_acceleration_multiplier = 1.1
+
+[node name="RayCast3D" type="RayCast3D" parent="Sports Car"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+target_position = Vector3(0, -2, 0)
+
+[node name="CarBody" type="MeshInstance3D" parent="Sports Car"]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0)
+mesh = SubResource("BoxMesh_a202f")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sports Car"]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0)
+shape = SubResource("BoxShape3D_noarx")
+
+[node name="Details" type="Node3D" parent="Sports Car"]
+
+[node name="RightHeadlight" type="MeshInstance3D" parent="Sports Car/Details"]
+transform = Transform3D(0.4, 0, 0, 0, -2.36041e-09, 0.4, 0, -0.054, -1.74846e-08, 0.5, 0.05, -2.05)
+mesh = SubResource("CylinderMesh_50v30")
+
+[node name="LeftHeadlight" type="MeshInstance3D" parent="Sports Car/Details"]
+transform = Transform3D(0.4, 0, 0, 0, -2.36041e-09, 0.4, 0, -0.054, -1.74846e-08, -0.5, 0.05, -2.05)
+mesh = SubResource("CylinderMesh_50v30")
+
+[node name="Tail (Top)" type="MeshInstance3D" parent="Sports Car/Details"]
+transform = Transform3D(2, 0, 0, 0, 0.102423, 0, 0, 0, 0.45619, 0, 0.965253, 1.92846)
+mesh = SubResource("BoxMesh_qt2eu")
+
+[node name="Tail (Right)" type="MeshInstance3D" parent="Sports Car/Details"]
+transform = Transform3D(0.2, 0, 0, 0, 0.579556, -0.0776457, 0, 0.155291, 0.289778, 0.76402, 0.67674, 1.85537)
+mesh = SubResource("BoxMesh_jtldb")
+
+[node name="Tail (Left)" type="MeshInstance3D" parent="Sports Car/Details"]
+transform = Transform3D(0.2, 0, 0, 0, 0.579556, -0.0776457, 0, 0.155291, 0.289778, -0.764, 0.677, 1.855)
+mesh = SubResource("BoxMesh_jtldb")
+
+[node name="Wheels" type="Node3D" parent="Sports Car"]
+
+[node name="FrontLeft" type="MeshInstance3D" parent="Sports Car/Wheels"]
+transform = Transform3D(-4.85634e-08, -0.1, 0, 1.111, -4.37114e-09, 0, 0, 0, 1.111, -1.2, 0, -1)
+mesh = ExtResource("5_gnn11")
+
+[node name="FrontRight" type="MeshInstance3D" parent="Sports Car/Wheels"]
+transform = Transform3D(-4.85634e-08, 0.1, 0, -1.111, -4.37114e-09, 0, 0, 0, 1.111, 1.2, 0, -1)
+mesh = ExtResource("5_gnn11")
+
+[node name="RearLeft" type="MeshInstance3D" parent="Sports Car/Wheels"]
+transform = Transform3D(-4.85634e-08, -0.1, 0, 1.111, -4.37114e-09, 0, 0, 0, 1.111, -1.2, 0, 1)
+mesh = ExtResource("5_gnn11")
+
+[node name="RearLeftParticles" type="GPUParticles3D" parent="Sports Car/Wheels/RearLeft"]
+
+[node name="RearRight" type="MeshInstance3D" parent="Sports Car/Wheels"]
+transform = Transform3D(-4.85634e-08, -0.1, 0, 1.111, -4.37114e-09, 0, 0, 0, 1.111, 1.2, 0, 1)
+mesh = ExtResource("5_gnn11")
+
+[node name="RearRightParticles" type="GPUParticles3D" parent="Sports Car/Wheels/RearRight"]
+
+[node name="Wheels Accent" type="Node3D" parent="Sports Car/Wheels"]
+
+[node name="FrontLeft" type="MeshInstance3D" parent="Sports Car/Wheels/Wheels Accent"]
+transform = Transform3D(3.33098e-09, 0.186131, -4.31483e-15, 0.0762039, -8.13607e-09, -9.87117e-08, -6.66196e-09, 7.21715e-23, -1.12913, -1.20557, 0.858622, -1.00621)
+mesh = SubResource("BoxMesh_t3s45")
+
+[node name="FrontRight" type="MeshInstance3D" parent="Sports Car/Wheels/Wheels Accent"]
+transform = Transform3D(3.33098e-09, 0.186131, -4.31483e-15, 0.0762039, -8.13607e-09, -9.87117e-08, -6.66196e-09, 7.21715e-23, -1.12913, 1.20086, 0.0118668, -1.00621)
+mesh = SubResource("BoxMesh_t3s45")
+
+[node name="RearRight" type="MeshInstance3D" parent="Sports Car/Wheels/Wheels Accent"]
+transform = Transform3D(3.33098e-09, 0.186131, -4.31483e-15, 0.0762039, -8.13607e-09, -9.87117e-08, -6.66196e-09, 7.21715e-23, -1.12913, 1.20086, 0.011867, 1.00765)
+mesh = SubResource("BoxMesh_t3s45")
+
+[node name="RearLeft" type="MeshInstance3D" parent="Sports Car/Wheels/Wheels Accent"]
+transform = Transform3D(3.33098e-09, 0.186131, -4.31483e-15, 0.0762039, -8.13607e-09, -9.87117e-08, -6.66196e-09, 7.21715e-23, -1.12913, -1.20557, 0.0118671, 1.00765)
+mesh = SubResource("BoxMesh_t3s45")
+
+[node name="CameraPivot" type="Node3D" parent="Sports Car"]
+transform = Transform3D(0.999992, -0.00159085, 0.00369625, 0.000587399, 0.966405, 0.257023, -0.00398096, -0.257019, 0.966398, 0, 1.19574, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Sports Car/CameraPivot"]
+spring_length = 8.0
+margin = 0.5
+
+[node name="Camera3D" type="Camera3D" parent="Sports Car/CameraPivot/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1.30474, 4.34152)
+near = 0.1
+far = 100.0
+
+[node name="DriftParticles" type="GPUParticles3D" parent="Sports Car"]
+
+[node name="BoostParticles" type="GPUParticles3D" parent="Sports Car"]
+
+[node name="AudioListener3D" type="AudioListener3D" parent="Sports Car"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.10103, 0)
+current = true

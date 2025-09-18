@@ -2,29 +2,29 @@
 
 [ext_resource type="Script" uid="uid://b2uwpthyl5ogr" path="res://scripts/car.gd" id="1_a202f"]
 [ext_resource type="AudioStream" uid="uid://b1gaq0a5jj6n" path="res://sound/car_engine(loud).wav" id="2_4clw4"]
-[ext_resource type="Material" uid="uid://bf65bdepu4ddq" path="res://colors/car.tres" id="2_50v30"]
-[ext_resource type="CylinderMesh" uid="uid://b84ui51j36hfq" path="res://colors/wheel_color.tres" id="2_uoj53"]
+[ext_resource type="CylinderMesh" uid="uid://cxduumkjk0lsf" path="res://colors/wheel_color.tres" id="2_uoj53"]
 [ext_resource type="AudioStream" uid="uid://dsi7qn6r25icj" path="res://sound/drift.wav" id="3_ctevm"]
-[ext_resource type="Material" uid="uid://dilh4j82oi4df" path="res://colors/tail.tres" id="3_jtldb"]
 [ext_resource type="AudioStream" uid="uid://chqmiasqgosfp" path="res://sound/turbo_sc_cobra_01 (mp3cut.net).wav" id="4_ctevm"]
 [ext_resource type="AudioStream" uid="uid://bimifgo63na8e" path="res://sound/4. Night Walker (Linne Theme) (UNI2 Mix).mp3" id="5_ctevm"]
 [ext_resource type="AudioStream" uid="uid://c8u025tvgbo3k" path="res://sound/cloud_blue_boost (mp3cut.net)(1).wav" id="5_uraa1"]
 [ext_resource type="AudioStream" uid="uid://b0cdkrbe22xdw" path="res://sound/ui_game_textbox_madeline_in.wav" id="7_ugdpj"]
-[ext_resource type="Material" uid="uid://c1js1xyqsn15v" path="res://colors/headlight.tres" id="8_gm33m"]
+[ext_resource type="Material" uid="uid://bf65bdepu4ddq" path="res://colors/sports/car.tres" id="8_ugdpj"]
+[ext_resource type="Material" uid="uid://c1js1xyqsn15v" path="res://colors/sports/headlight.tres" id="9_ugdpj"]
+[ext_resource type="Material" uid="uid://dilh4j82oi4df" path="res://colors/sports/tail.tres" id="10_hylxu"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_a202f"]
-material = ExtResource("2_50v30")
+material = ExtResource("8_ugdpj")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_noarx"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_50v30"]
-material = ExtResource("8_gm33m")
+material = ExtResource("9_ugdpj")
 
 [sub_resource type="BoxMesh" id="BoxMesh_qt2eu"]
-material = ExtResource("3_jtldb")
+material = ExtResource("10_hylxu")
 
 [sub_resource type="BoxMesh" id="BoxMesh_jtldb"]
-material = ExtResource("3_jtldb")
+material = ExtResource("10_hylxu")
 
 [node name="Node3D" type="Node3D"]
 

@@ -24,7 +24,7 @@ var car_options = [
 	},
 	{
 		"name": "Sports Car (WIP)",
-		"scene": "res://scenes/car.tscn",
+		"scene": "res://scenes/sports_car.tscn",
 		"texture": "res://assets/car_teaser.png"
 	},
 	{
