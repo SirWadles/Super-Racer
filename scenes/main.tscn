@@ -384,7 +384,7 @@ mesh = SubResource("PlaneMesh_dp3eg")
 skeleton = NodePath("")
 
 [node name="Checkpoint" parent="." instance=ExtResource("13_trceg")]
-transform = Transform3D(5.38315, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2033, -73.1747)
+transform = Transform3D(5.38315, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2033, -98.147)
 
 [node name="Checkpoint2" parent="." instance=ExtResource("14_jkv2x")]
 transform = Transform3D(5.38315, 0, 0, 0, 1, 0, 0, 0, 1, -2.51897, 1.2033, -407.993)

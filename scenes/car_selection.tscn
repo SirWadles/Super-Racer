@@ -57,6 +57,10 @@ offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("2_ji71v")
 
+[node name="RandomizeButton" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Randomize"
+
 [node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Back"

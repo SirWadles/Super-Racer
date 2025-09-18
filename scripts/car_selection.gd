@@ -14,6 +14,8 @@ var scene_ready = false
 var last_focused_button: Button = null
 var mouse_click_in_progress = false
 
+@onready var randomize_button = $MarginContainer/VBoxContainer/RandomizeButton
+
 var car_options = [
 	{
 		"name": "Default Car",
@@ -38,6 +40,7 @@ func _ready():
 	setup_navigation()
 	
 	back_button.pressed.connect(_on_back_button_pressed)
+	randomize_button.pressed.connect(_on_randomize_button_pressed)
 	
 	await get_tree().create_timer(0.1).timeout
 	scene_ready = true
@@ -145,6 +148,22 @@ func _on_back_button_pressed():
 	mouse_click_in_progress = false
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
+func _on_randomize_button_pressed():
+	if mouse_click_in_progress:
+		return
+	mouse_click_in_progress = true
+	var car_buttons: Array[Button] = []
+	for child in hbox_container.get_children():
+		if child is Button:
+			car_buttons.append(child)
+	if car_buttons.is_empty():
+		mouse_click_in_progress = false
+		return
+	randomize_button.disabled = true
+	await _animate_random_choice(car_buttons)
+	randomize_button.disabled = false
+	mouse_click_in_progress = false
+
 func _on_button_mouse_hover():
 	if scene_ready and not mouse_click_in_progress and hover_sound_player and hover_sound_player.stream:
 		hover_sound_player.play()
@@ -157,3 +176,18 @@ func _on_button_keyboard_focus(button: Button):
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
 		_on_back_button_pressed()
+
+func _animate_random_choice(car_buttons: Array[Button]) -> void:
+	var chosen_button: Button = car_buttons[randi() % car_buttons.size()]
+	var steps = randi_range(6, 10)
+	for i in range(steps):
+		var temp_button = car_buttons[randi() % car_buttons.size()]
+		temp_button.grab_focus()
+		if hover_sound_player and hover_sound_player.stream:
+			hover_sound_player.play()
+		await get_tree().create_timer(0.15).timeout
+	chosen_button.grab_focus()
+	if hover_sound_player and hover_sound_player.stream:
+			hover_sound_player.play()
+	await get_tree().create_timer(0.3).timeout
+	chosen_button.emit_signal("pressed")

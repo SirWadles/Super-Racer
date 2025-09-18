@@ -15,6 +15,7 @@ extends CharacterBody3D
 @export var drift_acceleration_multiplier = 1.2
 @export var min_drift_speed = 15.0
 @export var max_drift_steering_angle = 30.0
+@export var drift_boost_regen_mult = 2.0
 
 @export_category("Boost Properties")
 @export var max_boost = 100.0
@@ -68,6 +69,8 @@ var boost_regen_cooldown = 0.0
 @onready var rear_left_particles: GPUParticles3D = $Wheels/RearLeft/RearLeftParticles
 @onready var rear_right_particles: GPUParticles3D = $Wheels/RearRight/RearRightParticles
 
+var start_particles_played = false
+
 @onready var ground_ray = $RayCast3D
 
 var audio_options = null
@@ -100,6 +103,11 @@ func _ready():
 		boost_particles.emitting = false
 		boost_particles.one_shot = false
 	current_boost = max_boost
+	
+	if rear_left_particles:
+		rear_left_particles.emitting = false
+	if rear_right_particles:
+		rear_right_particles.emitting = false
 	
 	if not is_in_customization_scene():
 		game_ui = game_ui_scene.instantiate()
@@ -138,6 +146,10 @@ func _input(event):
 			audio_options.show_options()
 
 func setup_particles():
+	var white_ramp = Gradient.new()
+	white_ramp.colors = [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+	var ramp_texture = GradientTexture2D.new()
+	ramp_texture.gradient = white_ramp
 	if drift_particles:
 		var drift_material = ParticleProcessMaterial.new()
 		drift_material.direction = Vector3(0, -1, 0)
@@ -149,6 +161,7 @@ func setup_particles():
 		drift_material.linear_accel_max = -1.5
 		drift_material.damping_min = 1.5
 		drift_material.damping_max = 2.5
+		drift_material.color_ramp = ramp_texture
 		drift_particles.process_material = drift_material
 		drift_particles.amount = 100
 		drift_particles.lifetime = 1.0
@@ -166,6 +179,7 @@ func setup_particles():
 		boost_material.linear_accel_max = 7.0
 		boost_material.damping_min = 0.5
 		boost_material.damping_max = 1.5
+		boost_material.color_ramp = ramp_texture
 		boost_particles.process_material = boost_material
 		boost_particles.amount = 50
 		boost_particles.lifetime = 0.5
@@ -173,6 +187,28 @@ func setup_particles():
 		var boost_quad = QuadMesh.new()
 		boost_quad.size = Vector2(0.3, 0.3)
 		boost_particles.draw_pass_1 = boost_quad
+	
+	if rear_left_particles:
+		var smoke_material = ParticleProcessMaterial.new()
+		smoke_material.direction = Vector3(0, 0, 1)
+		smoke_material.spread = 30
+		smoke_material.initial_velocity_min = 2.0
+		smoke_material.initial_velocity_max = 4.0
+		smoke_material.gravity = Vector3(0, -0.5, 0)
+		smoke_material.scale_min = 0.5
+		smoke_material.scale_max = 1.5
+		smoke_material.color_ramp = ramp_texture
+		rear_left_particles.process_material = smoke_material
+		rear_left_particles.amount = 40
+		rear_left_particles.lifetime = 1.9
+		var smoke_quad = QuadMesh.new()
+		smoke_quad.size = Vector2(0.5, 0.5)
+		rear_left_particles.draw_pass_1 = smoke_quad
+	if rear_right_particles:
+		rear_right_particles.process_material = rear_left_particles.process_material
+		rear_right_particles.amount = rear_left_particles.amount
+		rear_right_particles.lifetime = rear_left_particles.lifetime
+		rear_right_particles.draw_pass_1 = rear_left_particles.draw_pass_1
 
 func _physics_process(delta):
 	handle_input(delta)
@@ -183,6 +219,8 @@ func _physics_process(delta):
 	update_engine_sound()
 	handle_drift_sound()
 	handle_boost_sound()
+	handle_start_particles(delta)
+	reset_start_particles()
 	
 	if ground_ray.is_colliding():
 		var collision_point = ground_ray.get_collision_point()
@@ -303,14 +341,14 @@ func handle_steering(steer_input: float, is_drifting_input: bool, delta: float):
 	#Without one it handles horrible
 
 func handle_drift(drift_input: bool):
-	var was_drifting = is_drifting
 	is_drifting = drift_input and abs(current_speed) > min_drift_speed and abs(current_steering) > 5.0
 	
-	if drift_particles:
-		if is_drifting and not was_drifting:
-			drift_particles.emitting = true
-		elif not is_drifting and was_drifting:
-			drift_particles.emitting = false
+	if rear_left_particles:
+		if not start_particles_played or rear_left_particles.one_shot == false:
+			rear_left_particles.emitting = is_drifting and abs(current_speed) > 1.0
+	if rear_right_particles:
+		if not start_particles_played or rear_right_particles.one_shot == false:
+			rear_right_particles.emitting = is_drifting and abs(current_speed) > 1.0
 
 func apply_movement(delta):
 	var turn_radians = deg_to_rad(current_steering) * delta * (1.0 + abs(current_speed) / max_speed * 0.5)
@@ -333,7 +371,10 @@ func handle_boost(delta):
 		if boost_regen_cooldown > 0:
 			boost_regen_cooldown -= delta
 		else:
-			current_boost = min(current_boost + boost_regen_rate * delta, max_boost)
+			var regen_rate = boost_regen_rate
+			if is_drifting:
+				regen_rate *= drift_boost_regen_mult
+			current_boost = min(current_boost + regen_rate * delta, max_boost)
 	if boost_particles:
 		boost_particles.emitting = is_boosting
 
@@ -527,3 +568,21 @@ func apply_color_to_materials(material_type: String, color: Color):
 
 func is_in_customization_scene() -> bool:
 	return get_tree().current_scene.name == "CarCustomization" or get_tree().current_scene.has_method("randomize_all_colors")
+
+func handle_start_particles(delta):
+	if not start_particles_played and current_speed > 1.0:
+		start_particles_played = true
+		var burst_amount = 10
+		for wheel_particles in [rear_left_particles, rear_right_particles]:
+			if wheel_particles:
+				wheel_particles.lifetime = 1
+				wheel_particles.amount = burst_amount
+				wheel_particles.one_shot = true
+				wheel_particles.emitting = true
+
+func reset_start_particles():
+	for wheel_particles in [rear_left_particles, rear_right_particles]:
+		if wheel_particles and wheel_particles.one_shot:
+			if not wheel_particles.emitting:
+				wheel_particles.one_shot = false
+				wheel_particles.amount = 40
