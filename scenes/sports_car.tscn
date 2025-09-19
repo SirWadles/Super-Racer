@@ -29,12 +29,13 @@ material = ExtResource("4_qdexj")
 
 [node name="Sports Car" type="CharacterBody3D" parent="."]
 script = ExtResource("1_t3s45")
-max_speed = 30.0
-acceleration = 10.0
-braking_force = 30.0
-steering_angle = 40.0
-steering_speed = 35.0
+acceleration = 12.0
+braking_force = 40.0
+steering_angle = 45.0
+steering_speed = 40.0
 drift_acceleration_multiplier = 1.1
+drift_boost_regen_mult = 1.4
+boost_multiplier = 1.7
 
 [node name="RayCast3D" type="RayCast3D" parent="Sports Car"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)

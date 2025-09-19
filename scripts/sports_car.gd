@@ -48,6 +48,9 @@ var car_music_player: AudioStreamPlayer
 @export var check_point_stream: AudioStream
 var checkpoint_player: AudioStreamPlayer
 
+@export_category("Gravity Properties")
+@export var gravity_force = 30.0
+@export var max_slope_angle = 45.0
 
 var is_reverse_view = false
 var target_camera_rotation = 0.0
@@ -75,7 +78,7 @@ var boost_regen_cooldown = 0.0
 
 var start_particles_played = false
 
-@onready var ground_ray = $RayCast3D
+#@onready var ground_ray = $RayCast3D
 
 var audio_options = null
 
@@ -128,6 +131,9 @@ func _ready():
 		audio_options.process_mode = Node.PROCESS_MODE_ALWAYS
 	
 	apply_customization()
+	
+	floor_max_angle = deg_to_rad(max_slope_angle)
+	floor_snap_length = 0.3
 
 func _process(delta):
 	if game_ui:
@@ -226,11 +232,15 @@ func _physics_process(delta):
 	handle_start_particles(delta)
 	reset_start_particles()
 	
-	if ground_ray.is_colliding():
-		var collision_point = ground_ray.get_collision_point()
-		var distance_to_ground = global_position.y - collision_point.y
-		var target_height = collision_point.y + 0.3
-		global_position.y = lerp(global_position.y, target_height, 10.0 * delta)
+	#if ground_ray.is_colliding():
+		#var collision_point = ground_ray.get_collision_point()
+		#var distance_to_ground = global_position.y - collision_point.y
+		#var target_height = collision_point.y + 0.3
+		#global_position.y = lerp(global_position.y, target_height, 10.0 * delta)
+	if not is_on_floor():
+		velocity.y -= gravity_force * delta
+	else:
+		velocity.y = 0
 	
 	handle_pre_collision()
 	
@@ -297,6 +307,12 @@ func handle_input(delta):
 	handle_steering(steering_input, drift_input, delta)
 	handle_drift(drift_input)
 	
+	var can_accelerate = true
+	if is_on_floor():
+		var floor_angle = acos(get_floor_normal().dot(Vector3.UP))
+		if floor_angle > deg_to_rad(30.0) and current_speed < 5.0:
+			can_accelerate = false
+	
 func handle_throttle(throttle_input: float, delta: float):
 	if throttle_input > 0:
 		var effective_acceleration = acceleration
@@ -358,11 +374,10 @@ func apply_movement(delta):
 	var turn_radians = deg_to_rad(current_steering) * delta * (1.0 + abs(current_speed) / max_speed * 0.5)
 	rotate_y(turn_radians)
 	var direction = -transform.basis.z
-	velocity = direction * current_speed
-	if not is_on_floor():
-		velocity.y -= 30.0 * delta
-	else:
-		velocity.y = 0
+	velocity.x = direction.x * current_speed
+	velocity.z = direction.z * current_speed
+	if is_on_floor():
+		velocity = velocity.slide(get_floor_normal())
 
 func handle_boost(delta):
 	if is_boosting:

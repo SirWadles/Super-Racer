@@ -5,6 +5,7 @@ extends CanvasLayer
 @onready var hbox_container = $MarginContainer/VBoxContainer/HBoxContainer
 @onready var title_label = $MarginContainer/VBoxContainer/TitleLabel
 @onready var back_button = $MarginContainer/VBoxContainer/BackButton
+@onready var randomize_button = $MarginContainer/VBoxContainer/RandomizeButton
 
 @onready var hover_sound_player = $HoverSoundPlayer
 @onready var click_sound_player = $ClickSoundPlayer
@@ -13,8 +14,6 @@ extends CanvasLayer
 var scene_ready = false
 var last_focused_button: Button = null
 var mouse_click_in_progress = false
-
-@onready var randomize_button = $MarginContainer/VBoxContainer/RandomizeButton
 
 var car_options = [
 	{

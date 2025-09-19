@@ -1,6 +1,6 @@
 extends Node
 
-var selected_car_path ="res://scenes/car.tscn"
+var selected_car_path ="res://scenes/sports_car.tscn"
 var customization_data = {}
 
 func set_selected_car(scene_path):

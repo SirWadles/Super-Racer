@@ -71,7 +71,7 @@ var boost_regen_cooldown = 0.0
 
 var start_particles_played = false
 
-@onready var ground_ray = $RayCast3D
+#@onready var ground_ray = $RayCast3D
 
 var audio_options = null
 
@@ -222,11 +222,11 @@ func _physics_process(delta):
 	handle_start_particles(delta)
 	reset_start_particles()
 	
-	if ground_ray.is_colliding():
-		var collision_point = ground_ray.get_collision_point()
-		var distance_to_ground = global_position.y - collision_point.y
-		var target_height = collision_point.y + 0.3
-		global_position.y = lerp(global_position.y, target_height, 10.0 * delta)
+	#if ground_ray.is_colliding():
+		#var collision_point = ground_ray.get_collision_point()
+		#var distance_to_ground = global_position.y - collision_point.y
+		#var target_height = collision_point.y + 0.3
+		#global_position.y = lerp(global_position.y, target_height, 10.0 * delta)
 	
 	handle_pre_collision()
 	
