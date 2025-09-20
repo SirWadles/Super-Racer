@@ -48,6 +48,9 @@ var car_music_player: AudioStreamPlayer
 @export var check_point_stream: AudioStream
 var checkpoint_player: AudioStreamPlayer
 
+@export_category("Gravity Properties")
+@export var gravity_force = 30.0
+@export var max_slope_angle = 45.0
 
 var is_reverse_view = false
 var target_camera_rotation = 0.0
@@ -64,6 +67,10 @@ var boost_regen_cooldown = 0.0
 @onready var front_right_wheel: MeshInstance3D = $Wheels/FrontRight
 @onready var rear_left_wheel: MeshInstance3D = $Wheels/RearLeft
 @onready var rear_right_wheel: MeshInstance3D = $Wheels/RearRight
+@onready var front_left_accent: MeshInstance3D = $"Wheels/Wheels Accent/FrontLeft"
+@onready var front_right_accent: MeshInstance3D = $"Wheels/Wheels Accent/FrontRight"
+@onready var rear_left_accent: MeshInstance3D = $"Wheels/Wheels Accent/RearLeft"
+@onready var rear_right_accent: MeshInstance3D = $"Wheels/Wheels Accent/RearRight"
 @onready var drift_particles: GPUParticles3D = $DriftParticles
 @onready var boost_particles: GPUParticles3D = $BoostParticles
 @onready var rear_left_particles: GPUParticles3D = $Wheels/RearLeft/RearLeftParticles
@@ -124,6 +131,9 @@ func _ready():
 		audio_options.process_mode = Node.PROCESS_MODE_ALWAYS
 	
 	apply_customization()
+	
+	floor_max_angle = deg_to_rad(max_slope_angle)
+	floor_snap_length = 0.3
 
 func _process(delta):
 	if game_ui:
@@ -221,12 +231,7 @@ func _physics_process(delta):
 	handle_boost_sound()
 	handle_start_particles(delta)
 	reset_start_particles()
-	
-	if ground_ray.is_colliding():
-		var collision_point = ground_ray.get_collision_point()
-		var distance_to_ground = global_position.y - collision_point.y
-		var target_height = collision_point.y + 0.3
-		global_position.y = lerp(global_position.y, target_height, 10.0 * delta)
+	handle_gravity_and_ground(delta)
 	
 	handle_pre_collision()
 	
@@ -234,21 +239,96 @@ func _physics_process(delta):
 	
 	handle_wall_collision()
 
+func handle_gravity_and_ground(delta):
+	var is_on_ground = ground_ray.is_colliding()
+	if is_on_ground:
+		var collision_point = ground_ray.get_collision_point()
+		var ground_normal = ground_ray.get_collision_normal()
+		var target_height = collision_point.y + 0.3
+		align_with_ground(ground_normal, delta)
+		global_position.y = lerp(global_position.y, target_height, 10.0 * delta)
+		velocity.y = 0
+		if is_on_floor():
+			velocity = velocity.slide(ground_normal)
+	else:
+		velocity.y -= gravity_force * delta
+		return_to_level_orientation(delta)
+
+func align_with_ground(ground_normal: Vector3, delta: float):
+	var global_up = Vector3.UP
+	var ground_angle = acos(ground_normal.dot(global_up))
+	var max_angle_rad = deg_to_rad(max_slope_angle)
+	#print("Ground normal: ", ground_normal, " Ground angle: ", rad_to_deg(ground_angle))
+	if ground_angle <= max_angle_rad:
+		var target_basis = align_y_with_normal(transform.basis, ground_normal)
+		var current_basis = transform.basis
+		var new_basis = current_basis.slerp(target_basis, 5.0 * delta)
+		transform.basis = new_basis
+		var forward_dir = -transform.basis.z
+		var pitch_angle = calculate_pitch_angle(ground_normal, forward_dir)
+		var max_pitch_angle = deg_to_rad(45.0)
+		var target_pitch = clamp(pitch_angle, -max_pitch_angle, max_pitch_angle)
+		#print("Pitch angle: ", rad_to_deg(pitch_angle), " Target pitch: ", rad_to_deg(target_pitch))
+		rotation.x = lerp(rotation.x, target_pitch, 3.0 * delta)
+		var right_dir = transform.basis.x
+		var sideways_slope = ground_normal.dot(right_dir)
+		var roll_angle = sideways_slope * deg_to_rad(15.0)
+		rotation.z = lerp(rotation.z, roll_angle, 3.0 * delta)
+
+func calculate_pitch_angle(ground_normal: Vector3, forward_dir: Vector3) -> float:
+	var slope_angle = acos(ground_normal.dot(Vector3.UP))
+	var horizontal_forward = Vector3(forward_dir.x, 0, forward_dir.z).normalized()
+	var slope_direction = Vector3(ground_normal.x, 0, ground_normal.z).normalized()
+	var slope_dot = horizontal_forward.dot(slope_direction)
+	if slope_dot > 0.1:
+		return -slope_angle
+	elif slope_dot < -0.1:
+		return slope_angle
+	else:
+		return 0.0
+
+func return_to_level_orientation(delta: float):
+	if not ground_ray.is_colliding() or abs(rotation.x) < deg_to_rad(5.0):
+		var target_rotation = Vector3.ZERO
+		rotation.x = lerp(rotation.x, target_rotation.x, 3.0 * delta)
+		rotation.z = lerp(rotation.z, target_rotation.z, 3.0 * delta)
+		
+func align_y_with_normal(basis: Basis, normal: Vector3) -> Basis:
+	var result = basis
+	result.y = normal
+	result.x = result.y.cross(result.z).normalized()
+	result.z = result.x.cross(result.y).normalized()
+	return result.orthonormalized()
+
+func get_ground_aligned_rotation(ground_normal: Vector3) -> Vector3:
+	var rotation_angles = Vector3.ZERO
+	if abs(ground_normal.y) > 0.001:
+		var pitch_angle = atan2(ground_normal.x, ground_normal.y)
+		rotation_angles.x = clamp(pitch_angle, deg_to_rad(-45), deg_to_rad(45))
+	if abs(ground_normal.y) > 0.001:
+		var roll_angle = atan2(ground_normal.x, ground_normal.y)
+		rotation_angles.x = clamp(roll_angle, deg_to_rad(-45), deg_to_rad(45))
+	return rotation_angles
+
 func handle_pre_collision():
+	if current_speed < 5.0:
+		return
 	var space_state = get_world_3d().direct_space_state
-	var forward_check = transform.basis.z * -2.0
+	var forward_check = transform.basis.z * -2.5
 	var query = PhysicsRayQueryParameters3D.create(
 		global_position + Vector3(0, 0.5, 0),
-		global_position + forward_check,
+		global_position + Vector3(0, 0.5, 0) + forward_check,
 		1 
 	)
+	query.exclude = [self]
 	var result = space_state.intersect_ray(query)
 	if result:
+		var collision_normal = result.normal
 		var collision_point = result.position
-		var wall_threshold = 1.2
-		if collision_point.y >= wall_threshold and velocity.length() > 5.0:
-			current_speed *= -0.01
-			play_collision_sound(velocity.length() / max_speed)
+		if abs(collision_normal.y) < 0.4:
+			current_speed *= -0.7
+			var impact_strength = clamp(abs(current_speed) / max_speed, 0.0, 1.0)
+			play_collision_sound(impact_strength)
 
 func handle_wall_collision():
 	var wall_threshold = 1.2
@@ -292,6 +372,12 @@ func handle_input(delta):
 	handle_throttle(throttle_input, delta)
 	handle_steering(steering_input, drift_input, delta)
 	handle_drift(drift_input)
+	
+	var can_accelerate = true
+	if is_on_floor():
+		var floor_angle = acos(get_floor_normal().dot(Vector3.UP))
+		if floor_angle > deg_to_rad(30.0) and current_speed < 5.0:
+			can_accelerate = false
 	
 func handle_throttle(throttle_input: float, delta: float):
 	if throttle_input > 0:
@@ -353,12 +439,18 @@ func handle_drift(drift_input: bool):
 func apply_movement(delta):
 	var turn_radians = deg_to_rad(current_steering) * delta * (1.0 + abs(current_speed) / max_speed * 0.5)
 	rotate_y(turn_radians)
+	var current_pitch = rotation.x
+	var current_roll = rotation.z
+	rotate_y(turn_radians)
+	rotation.x = current_pitch
+	rotation.z = current_roll
 	var direction = -transform.basis.z
-	velocity = direction * current_speed
-	if not is_on_floor():
-		velocity.y -= 30.0 * delta
+	if ground_ray.is_colliding() or is_on_floor():
+		velocity.x = direction.x * current_speed
+		velocity.z = direction.z * current_speed
 	else:
-		velocity.y = 0
+		velocity.x = lerp(velocity.x, direction.x * current_speed, 0.1 * delta)
+		velocity.z = lerp(velocity.z, direction.z * current_speed, 0.1 * delta)
 
 func handle_boost(delta):
 	if is_boosting:
@@ -379,13 +471,22 @@ func handle_boost(delta):
 		boost_particles.emitting = is_boosting
 
 func apply_visual_effects():
-	if front_left_wheel and front_right_wheel:
-		var wheel_steer_angle = deg_to_rad(current_steering)
-		if current_speed < 0:
+	var distance_traveled = current_speed * get_physics_process_delta_time()
+	var wheel_circumference = 2.0
+	var rotation_angle = (distance_traveled / wheel_circumference) * TAU
+	var wheel_steer_angle = deg_to_rad(current_steering)
+	if current_speed < 0:
 			wheel_steer_angle = -wheel_steer_angle
+	if front_left_wheel:
 		front_left_wheel.rotation.y = wheel_steer_angle
+		front_left_accent.rotation.x += rotation_angle * 0.2
+	if front_right_wheel:
 		front_right_wheel.rotation.y = wheel_steer_angle
-
+		front_right_accent.rotation.x += rotation_angle * 0.2
+	if rear_left_wheel:
+		rear_left_accent.rotation.x += rotation_angle * 0.2
+	if rear_right_wheel:
+		rear_right_accent.rotation.x += rotation_angle * 0.2
 # Made the wheels spin in uninteded ways. Uncomment if you want to see something funny when turning
 	#var wheel_spin_angle = fmod(get_physics_process_delta_time() * current_speed * 10.0, TAU)
 	#set_wheel_spin(front_left_wheel, wheel_spin_angle)

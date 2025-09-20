@@ -1,0 +1,178 @@
+[gd_scene load_steps=17 format=3 uid="uid://fwfov6mybqce"]
+
+[ext_resource type="Script" uid="uid://4ca6esi5u5nr" path="res://scripts/main.gd" id="1_4xfga"]
+[ext_resource type="ArrayMesh" uid="uid://b0umljfj7x5ok" path="res://assets/RaceStuff/FSP Hex Racetrack/Prop_Raceline_Straight.obj" id="2_be0no"]
+[ext_resource type="ArrayMesh" uid="uid://dhqckpyhexvir" path="res://assets/RaceStuff/FSP Hex Racetrack/Track_Flat_Straight.obj" id="2_paxxb"]
+[ext_resource type="ArrayMesh" uid="uid://dx7qtd86j1vcn" path="res://assets/RaceStuff/FSP Hex Racetrack/Prop_Raceline_Curve_Sharp_Outer.obj" id="3_blm8a"]
+[ext_resource type="ArrayMesh" uid="uid://c4edq8objv5sf" path="res://assets/RaceStuff/FSP Hex Racetrack/Track_Flat_Curve_Sharp.obj" id="3_gldc4"]
+[ext_resource type="ArrayMesh" uid="uid://uucot8huwmgd" path="res://assets/RaceStuff/FSP Hex Racetrack/Prop_Raceline_Curve_Sharp_Inner.obj" id="4_mlgqr"]
+[ext_resource type="ArrayMesh" uid="uid://cx2uhp678nnb2" path="res://assets/RaceStuff/FSP Hex Racetrack/Track_Bridge_Ramp.obj" id="7_wslke"]
+[ext_resource type="ArrayMesh" uid="uid://3a7tvacgcwfh" path="res://assets/RaceStuff/FSP Hex Racetrack/Track_Bridge.obj" id="8_gw3fx"]
+[ext_resource type="ArrayMesh" uid="uid://cib2807kj6j8h" path="res://assets/RaceStuff/FSP Hex Racetrack/Track_Flat_Curve_Gentle.obj" id="9_n1psn"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_paxxb"]
+sky_top_color = Color(0.533333, 0.8, 1, 1)
+sky_horizon_color = Color(0.866667, 0.866667, 0.866667, 1)
+sky_curve = 0.3
+ground_bottom_color = Color(0.733333, 0.733333, 0.733333, 1)
+ground_horizon_color = Color(0.866667, 0.733333, 0.533333, 1)
+
+[sub_resource type="Sky" id="Sky_ig7tw"]
+sky_material = SubResource("ProceduralSkyMaterial_paxxb")
+
+[sub_resource type="Environment" id="Environment_gldc4"]
+background_mode = 2
+sky = SubResource("Sky_ig7tw")
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_paxxb"]
+albedo_color = Color(0.551606, 0.719482, 0.40865, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_paxxb"]
+material = SubResource("StandardMaterial3D_paxxb")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gldc4"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4xfga"]
+
+[node name="Map" type="Node3D"]
+script = ExtResource("1_4xfga")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 7.61001, 33.998)
+light_energy = 0.1
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_gldc4")
+
+[node name="Floor" type="StaticBody3D" parent="."]
+transform = Transform3D(28.905, 0, 0, 0, 28.905, 0, 0, 0, 28.905, 0, -0.1, -40.599)
+
+[node name="FloorMesh" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
+mesh = SubResource("PlaneMesh_paxxb")
+
+[node name="FloorCollision" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(40, 0, 0, 0, 0.1, 0, 0, 0, 40, 0, -0.01, 0)
+shape = SubResource("BoxShape3D_gldc4")
+
+[node name="Track" type="Node3D" parent="."]
+
+[node name="Collision" type="Node3D" parent="Track"]
+
+[node name="PropRacelineStraight" type="MeshInstance3D" parent="Track/Collision"]
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 0.06, 0.123, -38.829)
+mesh = ExtResource("2_be0no")
+skeleton = NodePath("../..")
+
+[node name="PropRacelineStraight2" type="MeshInstance3D" parent="Track/Collision"]
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, -17.651, 0.122943, -38.8295)
+mesh = ExtResource("2_be0no")
+skeleton = NodePath("../..")
+
+[node name="PropRacelineStraight3" type="MeshInstance3D" parent="Track/Collision"]
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 0.06, 0.123, 0.0483932)
+mesh = ExtResource("2_be0no")
+skeleton = NodePath("../..")
+
+[node name="PropRacelineStraight4" type="MeshInstance3D" parent="Track/Collision"]
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, -17.651, 0.122943, 0.0479012)
+mesh = ExtResource("2_be0no")
+skeleton = NodePath("../..")
+
+[node name="PropRacelineStraight5" type="MeshInstance3D" parent="Track/Collision"]
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 0.06, 0.123, 40.0484)
+mesh = ExtResource("2_be0no")
+skeleton = NodePath("../..")
+
+[node name="PropRacelineStraight6" type="MeshInstance3D" parent="Track/Collision"]
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, -17.651, 0.122943, 40.0479)
+mesh = ExtResource("2_be0no")
+skeleton = NodePath("../..")
+
+[node name="PropRacelineCurveSharpOuter" type="MeshInstance3D" parent="Track/Collision"]
+transform = Transform3D(-34.641, 0, -20, 0, 40, 0, 20, 0, -34.641, 0.134046, 1.0562, 80.7595)
+mesh = ExtResource("3_blm8a")
+skeleton = NodePath("../../..")
+
+[node name="PropRacelineCurveSharpInner" type="MeshInstance3D" parent="Track/Collision"]
+transform = Transform3D(-34.641, 0, -20, 0, 40, 0, 20, 0, -34.641, -0.00532447, 0.5, 80.9945)
+mesh = ExtResource("4_mlgqr")
+skeleton = NodePath("../../..")
+
+[node name="TrackFlatStraight" type="MeshInstance3D" parent="Track"]
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 0.049, 0, -39.335)
+mesh = ExtResource("2_paxxb")
+skeleton = NodePath("../..")
+
+[node name="TrackFlatStraight2" type="MeshInstance3D" parent="Track"]
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 0.049, 0, 0.665)
+mesh = ExtResource("2_paxxb")
+skeleton = NodePath("../..")
+
+[node name="TrackFlatStraight3" type="MeshInstance3D" parent="Track"]
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 0.049, 0, 40.665)
+mesh = ExtResource("2_paxxb")
+skeleton = NodePath("../..")
+
+[node name="TrackFlatCurveSharp" type="MeshInstance3D" parent="Track"]
+transform = Transform3D(-34.641, 0, -20, 0, 40, 0, 20, 0, -34.641, 0.048999, 0, 80.5538)
+mesh = ExtResource("3_gldc4")
+skeleton = NodePath("../..")
+
+[node name="TrackFlatCurveSharp2" type="MeshInstance3D" parent="Track"]
+transform = Transform3D(34.641, 0, 20, 0, 40, 0, -20, 0, 34.641, 34.6295, 0, 60.5887)
+mesh = ExtResource("3_gldc4")
+skeleton = NodePath("../..")
+
+[node name="TrackFlatCurveSharp3" type="MeshInstance3D" parent="Track"]
+transform = Transform3D(-34.641, 0, -20, 0, 40, 0, 20, 0, -34.641, 34.674, 0, 100.485)
+mesh = ExtResource("3_gldc4")
+skeleton = NodePath("../..")
+
+[node name="TrackFlatStraight4" type="MeshInstance3D" parent="Track"]
+transform = Transform3D(34.641, 0, 20, 0, 40, 0, -20, 0, 34.641, 69.326, 0, 80.4922)
+mesh = ExtResource("2_paxxb")
+
+[node name="TrackFlatStraight5" type="MeshInstance3D" parent="Track"]
+transform = Transform3D(34.641, 0, 20, 0, 40, 0, -20, 0, 34.641, 103.907, 0, 60.5267)
+mesh = ExtResource("2_paxxb")
+
+[node name="TrackFlatCurveSharp4" type="MeshInstance3D" parent="Track"]
+transform = Transform3D(34.641, 0, -20, 0, 40, 0, 20, 0, 34.641, 138.387, 0, 40.5598)
+mesh = ExtResource("3_gldc4")
+
+[node name="TrackBridgeRamp" type="MeshInstance3D" parent="Track"]
+transform = Transform3D(-34.641, 0, 20, 0, 40, 0, -20, 0, -34.641, 103.98, 0, 20.75)
+mesh = ExtResource("7_wslke")
+
+[node name="TrackBridge" type="MeshInstance3D" parent="Track"]
+transform = Transform3D(-34.641, 0, 20, 0, 40, 0, -20, 0, -34.641, 69.3349, 0, 0.731094)
+mesh = ExtResource("8_gw3fx")
+
+[node name="TrackFlatCurveGentle" type="MeshInstance3D" parent="Track"]
+transform = Transform3D(-34.641, 0, 20, 0, 40, 0, -20, 0, -34.641, 34.6711, 9.96073, -19.3117)
+mesh = ExtResource("9_n1psn")
+
+[node name="TrackFlatStraight6" type="MeshInstance3D" parent="Track"]
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 34.6932, 9.96124, -59.3143)
+mesh = ExtResource("2_paxxb")
+
+[node name="TrackFlatStraight7" type="MeshInstance3D" parent="Track"]
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 34.6932, 9.96124, -99.1614)
+mesh = ExtResource("2_paxxb")
+
+[node name="TrackFlatCurveGentle2" type="MeshInstance3D" parent="Track"]
+transform = Transform3D(-1.74846e-06, 0, 40, 0, 40, 0, -40, 0, -1.74846e-06, 34.6906, 9.96073, -139.103)
+mesh = ExtResource("9_n1psn")
+
+[node name="TrackBridgeRamp2" type="MeshInstance3D" parent="Track"]
+transform = Transform3D(-34.641, 0, -20, 0, 40, 0, 20, 0, -34.641, 69.1305, 0, -158.992)
+mesh = ExtResource("7_wslke")
+
+[node name="Guage" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0246196, 12.7168, -39.265)
+mesh = SubResource("CylinderMesh_4xfga")
+skeleton = NodePath("../Track")

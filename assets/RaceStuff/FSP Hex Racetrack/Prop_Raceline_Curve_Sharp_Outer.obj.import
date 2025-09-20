@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dx7qtd86j1vcn"
+path="res://.godot/imported/Prop_Raceline_Curve_Sharp_Outer.obj-8e98e74330b81b6f66ef68e4c4e47fde.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Prop_Raceline_Curve_Sharp_Outer.obj-8e98e74330b81b6f66ef68e4c4e47fde.mesh"]
+
+source_file="res://assets/RaceStuff/FSP Hex Racetrack/Prop_Raceline_Curve_Sharp_Outer.obj"
+dest_files=["res://.godot/imported/Prop_Raceline_Curve_Sharp_Outer.obj-8e98e74330b81b6f66ef68e4c4e47fde.mesh", "res://.godot/imported/Prop_Raceline_Curve_Sharp_Outer.obj-8e98e74330b81b6f66ef68e4c4e47fde.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

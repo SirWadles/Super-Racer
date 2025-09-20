@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://m85mftqt04gj"]
+[gd_scene load_steps=42 format=3 uid="uid://m85mftqt04gj"]
 
 [ext_resource type="Script" uid="uid://4ca6esi5u5nr" path="res://scripts/main.gd" id="1_muem4"]
 [ext_resource type="ArrayMesh" uid="uid://drl8ccdemvpb6" path="res://assets/RaceTracksKit/OBJ/BeginFlag.obj" id="2_sugp2"]
@@ -14,10 +14,12 @@
 [ext_resource type="AudioStream" uid="uid://cpifp3fqp0jdw" path="res://sound/woohoo.mp3" id="12_eb6dy"]
 [ext_resource type="ArrayMesh" uid="uid://wjmsoyljgjv5" path="res://assets/RaceTracksKit/OBJ/Ramp2.obj" id="13_dp3eg"]
 [ext_resource type="PackedScene" uid="uid://dan1bv3uh6da6" path="res://scenes/checkpoint_1.tscn" id="13_trceg"]
+[ext_resource type="Material" uid="uid://d31kdt7tddq8a" path="res://colors/colors/rampsnstuff.tres" id="14_0ld40"]
 [ext_resource type="PackedScene" uid="uid://qnmnr548hq0u" path="res://scenes/checkpoint_2.tscn" id="14_jkv2x"]
 [ext_resource type="PackedScene" uid="uid://d0j8nqmrm4yc2" path="res://scenes/checkpoint_3.tscn" id="15_jbj1t"]
 [ext_resource type="PackedScene" uid="uid://c5yf1j6wvqmnx" path="res://scenes/checkpoint_4.tscn" id="16_jbj1t"]
 [ext_resource type="AudioStream" uid="uid://bimifgo63na8e" path="res://sound/4. Night Walker (Linne Theme) (UNI2 Mix).mp3" id="17_muem4"]
+[ext_resource type="ArrayMesh" uid="uid://b4od7gvb6dcam" path="res://assets/RaceTracksKit/OBJ/CurvedTrack02.obj" id="20_gqmmt"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_top_color = Color(0.533333, 0.8, 1, 1)
@@ -26,20 +28,20 @@ sky_curve = 0.3
 ground_bottom_color = Color(0.733333, 0.733333, 0.733333, 1)
 ground_horizon_color = Color(0.866667, 0.733333, 0.533333, 1)
 
-[sub_resource type="Sky" id="Sky_ig7tw"]
+[sub_resource type="Sky" id="Sky_yc10j"]
 sky_material = SubResource("ProceduralSkyMaterial_ig7tw")
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 background_mode = 2
-sky = SubResource("Sky_ig7tw")
+sky = SubResource("Sky_yc10j")
 ambient_light_source = 3
 ambient_light_color = Color(1, 1, 1, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ig7tw"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gqmmt"]
 albedo_color = Color(0.517974, 0.660078, 0.883826, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_7dm0k"]
-material = SubResource("StandardMaterial3D_ig7tw")
+material = SubResource("StandardMaterial3D_gqmmt")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ig7tw"]
 
@@ -83,6 +85,9 @@ data = PackedVector3Array(6.6653, -1.6144, 3.8255, 6.6653, -0.882, -3.8255, 6.66
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_0ld40"]
 data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
 
+[sub_resource type="CylinderMesh" id="CylinderMesh_gqmmt"]
+material = ExtResource("14_0ld40")
+
 [node name="main" type="Node3D"]
 script = ExtResource("1_muem4")
 
@@ -95,7 +100,7 @@ shadow_enabled = true
 environment = SubResource("Environment_0xm2m")
 
 [node name="Floor" type="StaticBody3D" parent="."]
-transform = Transform3D(28.905, 0, 0, 0, 28.905, 0, 0, 0, 28.905, 0, 0, 0)
+transform = Transform3D(28.905, 0, 0, 0, 28.905, 0, 0, 0, 28.905, 0, 0, -301.752)
 
 [node name="FloorMesh" type="MeshInstance3D" parent="Floor"]
 transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
@@ -262,8 +267,18 @@ skeleton = NodePath("../..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Map/CurvedTrack07/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_tbgi4")
 
+[node name="BeginTrack08" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(0.531692, 0, 0.707107, 0, 1, 0, -0.531692, 0, 0.707107, -154.341, 1.3, -226.017)
+mesh = ExtResource("3_jyhfs")
+skeleton = NodePath("../../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/BeginTrack08"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/BeginTrack08/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_trceg")
+
 [node name="CurvedTrack08" type="MeshInstance3D" parent="Map"]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -160.689, 1.3, -205.392)
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -174.535, 1.3, -191.546)
 mesh = ExtResource("4_jyhfs")
 skeleton = NodePath("../..")
 
@@ -273,7 +288,7 @@ skeleton = NodePath("../..")
 shape = SubResource("ConcavePolygonShape3D_tbgi4")
 
 [node name="CurvedTrack09" type="MeshInstance3D" parent="Map"]
-transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -129.183, 1.3, -149.892)
+transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -143.034, 1.3, -136.041)
 mesh = ExtResource("4_jyhfs")
 skeleton = NodePath("../..")
 
@@ -283,7 +298,7 @@ skeleton = NodePath("../..")
 shape = SubResource("ConcavePolygonShape3D_tbgi4")
 
 [node name="CurvedTrack10" type="MeshInstance3D" parent="Map"]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -156.11, 1.3, -94.4933)
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -169.956, 1.3, -80.6471)
 mesh = ExtResource("4_jyhfs")
 skeleton = NodePath("../..")
 
@@ -293,7 +308,7 @@ skeleton = NodePath("../..")
 shape = SubResource("ConcavePolygonShape3D_tbgi4")
 
 [node name="CurvedTrack11" type="MeshInstance3D" parent="Map"]
-transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -124.712, 1.3, -38.9884)
+transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -138.563, 1.3, -25.1375)
 mesh = ExtResource("4_jyhfs")
 skeleton = NodePath("../..")
 
@@ -303,7 +318,7 @@ skeleton = NodePath("../..")
 shape = SubResource("ConcavePolygonShape3D_tbgi4")
 
 [node name="CurvedTrack12" type="MeshInstance3D" parent="Map"]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -151.634, 1.3, 16.3678)
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -165.48, 1.3, 30.214)
 mesh = ExtResource("4_jyhfs")
 skeleton = NodePath("../..")
 
@@ -313,7 +328,7 @@ skeleton = NodePath("../..")
 shape = SubResource("ConcavePolygonShape3D_tbgi4")
 
 [node name="BeginTrack05" type="MeshInstance3D" parent="Map"]
-transform = Transform3D(1.18666, 0, -0.707107, 0, 1, 0, 1.18666, 0, 0.707107, -120.21, 1.3, 59.6598)
+transform = Transform3D(1.18666, 0, -0.707107, 0, 1, 0, 1.18666, 0, 0.707107, -133.765, 1.3, 73.9824)
 mesh = ExtResource("3_jyhfs")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Map/BeginTrack05"]
@@ -321,8 +336,18 @@ mesh = ExtResource("3_jyhfs")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Map/BeginTrack05/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_trceg")
 
+[node name="BeginTrack07" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(0.531692, 0, 0.707107, 0, 1, 0, -0.531692, 0, 0.707107, -56.2206, 1.3, 80.1542)
+mesh = ExtResource("3_jyhfs")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/BeginTrack07"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/BeginTrack07/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_trceg")
+
 [node name="CurvedTrack13" type="MeshInstance3D" parent="Map"]
-transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -76.699, 1.3, 88.6419)
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -90.7865, 1.3, 102.767)
 mesh = ExtResource("4_jyhfs")
 skeleton = NodePath("../..")
 
@@ -407,12 +432,29 @@ shape = SubResource("ConcavePolygonShape3D_dp3eg")
 
 [node name="Ramp?" type="MeshInstance3D" parent="Map/RampsNStuff"]
 transform = Transform3D(9.86366, -0.0837922, 21.433, 0, 0.205248, 17.5, -9.86366, -0.0837922, 21.433, -204.355, 9.49035, -255.739)
+material_override = ExtResource("14_0ld40")
 mesh = SubResource("BoxMesh_dp3eg")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Map/RampsNStuff/Ramp?"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Map/RampsNStuff/Ramp?/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_0ld40")
+
+[node name="Pillar1" type="MeshInstance3D" parent="Map/RampsNStuff"]
+transform = Transform3D(1.28552, 0, 1.28552, 0, 8.655, 0, -1.28552, 0, 1.28552, -197.458, 8.91919, -241.79)
+mesh = SubResource("CylinderMesh_gqmmt")
+
+[node name="Pillar2" type="MeshInstance3D" parent="Map/RampsNStuff"]
+transform = Transform3D(1.28552, 0, 1.28552, 0, 8.655, 0, -1.28552, 0, 1.28552, -190.009, 8.91919, -249.239)
+mesh = SubResource("CylinderMesh_gqmmt")
+
+[node name="EndTrack01" type="MeshInstance3D" parent="Map/RampsNStuff"]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -132.527, 2.6305, -184.557)
+mesh = ExtResource("6_choun")
+
+[node name="BeginTrack01" type="MeshInstance3D" parent="Map/RampsNStuff"]
+transform = Transform3D(1.53071, 0, -0.707107, 0, 1, 0, 1.53071, 0, 0.707107, -91.5997, 2.50688, -144.125)
+mesh = ExtResource("3_jyhfs")
 
 [node name="Checkpoint" parent="." instance=ExtResource("13_trceg")]
 transform = Transform3D(5.38315, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2033, -171.206)
@@ -429,3 +471,11 @@ transform = Transform3D(5.48808, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2033, -16.8828)
 [node name="LoadSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("17_muem4")
 volume_db = 4.685
+
+[node name="CurvedTrack02" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -59.8355, 2.53125, -87.8951)
+mesh = ExtResource("20_gqmmt")
+
+[node name="EndTrack01" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -99.6798, 2.6305, -33.1337)
+mesh = ExtResource("6_choun")

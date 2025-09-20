@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bqex13omp8xdm"
+path="res://.godot/imported/Terrain_Grass_Hill_Curve_Inner_Gentle.obj-5611ff1e1e4fda5af99e0c74fc693c10.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Terrain_Grass_Hill_Curve_Inner_Gentle.obj-5611ff1e1e4fda5af99e0c74fc693c10.mesh"]
+
+source_file="res://assets/RaceStuff/FSP Hex Racetrack/Terrain_Grass_Hill_Curve_Inner_Gentle.obj"
+dest_files=["res://.godot/imported/Terrain_Grass_Hill_Curve_Inner_Gentle.obj-5611ff1e1e4fda5af99e0c74fc693c10.mesh", "res://.godot/imported/Terrain_Grass_Hill_Curve_Inner_Gentle.obj-5611ff1e1e4fda5af99e0c74fc693c10.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

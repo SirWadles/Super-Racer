@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b47ukp5w62oln"
+path="res://.godot/imported/Decal_Checkpoint.obj-ee9d56cd8c1c996273b00ece99f23feb.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Decal_Checkpoint.obj-ee9d56cd8c1c996273b00ece99f23feb.mesh"]
+
+source_file="res://assets/RaceStuff/FSP Hex Racetrack/Decal_Checkpoint.obj"
+dest_files=["res://.godot/imported/Decal_Checkpoint.obj-ee9d56cd8c1c996273b00ece99f23feb.mesh", "res://.godot/imported/Decal_Checkpoint.obj-ee9d56cd8c1c996273b00ece99f23feb.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false
