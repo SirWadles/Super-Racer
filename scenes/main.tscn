@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://m85mftqt04gj"]
+[gd_scene load_steps=39 format=3 uid="uid://m85mftqt04gj"]
 
 [ext_resource type="Script" uid="uid://4ca6esi5u5nr" path="res://scripts/main.gd" id="1_muem4"]
 [ext_resource type="ArrayMesh" uid="uid://drl8ccdemvpb6" path="res://assets/RaceTracksKit/OBJ/BeginFlag.obj" id="2_sugp2"]
@@ -77,6 +77,11 @@ albedo_texture = ExtResource("10_ya4ey")
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_dp3eg"]
 data = PackedVector3Array(6.6653, -1.6144, 3.8255, 6.6653, -0.882, -3.8255, 6.6653, -1.6144, -3.8255, 6.6653, -0.882, 3.8255, 6.6653, -0.882, -3.8255, 6.6653, -1.6144, 3.8255, -6.6653, -1.6144, 3.8255, 6.6653, -0.882, 3.8255, 6.6653, -1.6144, 3.8255, -6.6653, 4.1108, 3.8255, 6.6653, -0.882, 3.8255, -6.6653, -1.6144, 3.8255, -6.6653, -1.6144, 3.8255, 6.6653, -1.6144, -3.8255, -6.6653, -1.6144, -3.8255, 6.6653, -1.6144, 3.8255, 6.6653, -1.6144, -3.8255, -6.6653, -1.6144, 3.8255, 6.6653, -0.882, 3.8255, -6.6653, 4.1108, -3.8255, 6.6653, -0.882, -3.8255, -6.6653, 4.1108, 3.8255, -6.6653, 4.1108, -3.8255, 6.6653, -0.882, 3.8255, -6.6653, -1.6144, -3.8255, 6.6653, -0.882, -3.8255, -6.6653, 4.1108, -3.8255, 6.6653, -1.6144, -3.8255, 6.6653, -0.882, -3.8255, -6.6653, -1.6144, -3.8255, -6.6653, -1.6144, -3.8255, -6.6653, 4.1108, 3.8255, -6.6653, -1.6144, 3.8255, -6.6653, 4.1108, -3.8255, -6.6653, 4.1108, 3.8255, -6.6653, -1.6144, -3.8255)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dp3eg"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_0ld40"]
+data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
 
 [node name="main" type="Node3D"]
 script = ExtResource("1_muem4")
@@ -228,7 +233,7 @@ skeleton = NodePath("../..")
 shape = SubResource("ConcavePolygonShape3D_jyhfs")
 
 [node name="EndTrack01" type="MeshInstance3D" parent="Map"]
-transform = Transform3D(-0.707107, 0, 0.713576, 0, 1, 0, -0.707107, 0, -0.713576, -226.928, 1.3, -278.633)
+transform = Transform3D(-0.820754, 0, 0.713576, 0, 1, 0, -0.820754, 0, -0.713576, -223.636, 1.3, -275.341)
 mesh = ExtResource("6_choun")
 skeleton = NodePath("../..")
 
@@ -356,7 +361,7 @@ mesh = ExtResource("7_85g3d")
 skeleton = NodePath("../..")
 
 [node name="Wrong Turn" type="MeshInstance3D" parent="Map"]
-transform = Transform3D(-3.58308, -3.58308, 1.95724e-07, -2.21496e-07, -3.91447e-07, -5.06724, 3.58308, -3.58308, 0, -221.739, 5.73307, -273.466)
+transform = Transform3D(-3.58308, -3.58308, 1.95724e-07, -2.21496e-07, -3.91447e-07, -5.06724, 3.58308, -3.58308, 0, -233.537, 5.73307, -285.264)
 material_override = SubResource("StandardMaterial3D_muem4")
 mesh = SubResource("PlaneMesh_dp3eg")
 skeleton = NodePath("")
@@ -387,23 +392,36 @@ material_override = SubResource("StandardMaterial3D_muem4")
 mesh = SubResource("PlaneMesh_dp3eg")
 skeleton = NodePath("")
 
-[node name="Ramp2" type="MeshInstance3D" parent="Map"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.98039, 2.01676, -61.229)
+[node name="RampsNStuff" type="Node3D" parent="Map"]
+
+[node name="Ramp2" type="MeshInstance3D" parent="Map/RampsNStuff"]
+transform = Transform3D(-1.87053, 0, 1.41879, 0, 2.10865, 0, -1.87053, 0, -1.41879, -208.164, 2.0351, -259.435)
+visible = false
 mesh = ExtResource("13_dp3eg")
+skeleton = NodePath("../..")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Map/Ramp2"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/RampsNStuff/Ramp2"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Ramp2/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/RampsNStuff/Ramp2/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_dp3eg")
 
+[node name="Ramp?" type="MeshInstance3D" parent="Map/RampsNStuff"]
+transform = Transform3D(9.86366, -0.0837922, 21.433, 0, 0.205248, 17.5, -9.86366, -0.0837922, 21.433, -204.355, 9.49035, -255.739)
+mesh = SubResource("BoxMesh_dp3eg")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/RampsNStuff/Ramp?"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/RampsNStuff/Ramp?/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_0ld40")
+
 [node name="Checkpoint" parent="." instance=ExtResource("13_trceg")]
-transform = Transform3D(5.38315, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2033, -98.147)
+transform = Transform3D(5.38315, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2033, -171.206)
 
 [node name="Checkpoint2" parent="." instance=ExtResource("14_jkv2x")]
-transform = Transform3D(5.38315, 0, 0, 0, 1, 0, 0, 0, 1, -2.51897, 1.2033, -407.993)
+transform = Transform3D(5.38315, 0, 0, 0, 1, 0, 0, 0, 1, -125.407, 1.2033, -258.912)
 
 [node name="Checkpoint3" parent="." instance=ExtResource("15_jbj1t")]
-transform = Transform3D(5.38315, 0, 0, 0, 1, 0, 0, 0, 1, -120.78, 1.2033, -148)
+transform = Transform3D(3.80646, 0, 0.707107, 0, 1, 0, -3.80646, 0, 0.707107, -118.793, 1.2033, 61.0195)
 
 [node name="Checkpoint4" parent="." instance=ExtResource("16_jbj1t")]
 transform = Transform3D(5.48808, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2033, -16.8828)

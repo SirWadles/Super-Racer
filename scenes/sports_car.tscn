@@ -1,10 +1,16 @@
-[gd_scene load_steps=13 format=3 uid="uid://c0tygomnbvbbl"]
+[gd_scene load_steps=19 format=3 uid="uid://c0tygomnbvbbl"]
 
 [ext_resource type="Script" uid="uid://c7k40qhuv8yqe" path="res://scripts/sports_car.gd" id="1_t3s45"]
 [ext_resource type="Material" uid="uid://bf65bdepu4ddq" path="res://colors/sports/car.tres" id="2_4lrje"]
+[ext_resource type="AudioStream" uid="uid://b1gaq0a5jj6n" path="res://sound/car_engine(loud).wav" id="2_k161d"]
 [ext_resource type="Material" uid="uid://c1js1xyqsn15v" path="res://colors/sports/headlight.tres" id="3_0e0ue"]
+[ext_resource type="AudioStream" uid="uid://dsi7qn6r25icj" path="res://sound/drift.wav" id="3_6ynvb"]
 [ext_resource type="Material" uid="uid://dilh4j82oi4df" path="res://colors/sports/tail.tres" id="4_qdexj"]
+[ext_resource type="AudioStream" uid="uid://chqmiasqgosfp" path="res://sound/turbo_sc_cobra_01 (mp3cut.net).wav" id="4_yogbb"]
 [ext_resource type="CylinderMesh" uid="uid://cxduumkjk0lsf" path="res://colors/wheel_color.tres" id="5_gnn11"]
+[ext_resource type="AudioStream" uid="uid://c8u025tvgbo3k" path="res://sound/cloud_blue_boost (mp3cut.net)(1).wav" id="5_k161d"]
+[ext_resource type="AudioStream" uid="uid://bimifgo63na8e" path="res://sound/4. Night Walker (Linne Theme) (UNI2 Mix).mp3" id="6_ip7d3"]
+[ext_resource type="AudioStream" uid="uid://b0cdkrbe22xdw" path="res://sound/ui_game_textbox_madeline_in.wav" id="7_f2iwo"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_a202f"]
 material = ExtResource("2_4lrje")
@@ -31,14 +37,23 @@ material = ExtResource("4_qdexj")
 script = ExtResource("1_t3s45")
 acceleration = 12.0
 braking_force = 40.0
-steering_angle = 45.0
-steering_speed = 40.0
-drift_acceleration_multiplier = 1.1
+steering_angle = 40.0
+steering_speed = 30.0
+drift_acceleration_multiplier = 1.0
+min_drift_speed = 10.0
 drift_boost_regen_mult = 1.4
 boost_multiplier = 1.7
+engine_sound_stream = ExtResource("2_k161d")
+drift_sound_stream = ExtResource("3_6ynvb")
+boost_sound_stream = ExtResource("4_yogbb")
+collision_sound_stream = ExtResource("5_k161d")
+engine_volume_range = Vector2(-16, 0)
+car_music_stream = ExtResource("6_ip7d3")
+music_volume_db = -30.0
+check_point_stream = ExtResource("7_f2iwo")
 
 [node name="RayCast3D" type="RayCast3D" parent="Sports Car"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.177728, 0)
 target_position = Vector3(0, -2, 0)
 
 [node name="CarBody" type="MeshInstance3D" parent="Sports Car"]

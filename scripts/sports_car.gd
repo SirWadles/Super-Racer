@@ -252,31 +252,53 @@ func handle_gravity_and_ground(delta):
 			velocity = velocity.slide(ground_normal)
 	else:
 		velocity.y -= gravity_force * delta
-		return_to_level_oriantation(delta)
+		return_to_level_orientation(delta)
 
 func align_with_ground(ground_normal: Vector3, delta: float):
 	var global_up = Vector3.UP
 	var ground_angle = acos(ground_normal.dot(global_up))
 	var max_angle_rad = deg_to_rad(max_slope_angle)
+	#print("Ground normal: ", ground_normal, " Ground angle: ", rad_to_deg(ground_angle))
 	if ground_angle <= max_angle_rad:
 		var target_basis = align_y_with_normal(transform.basis, ground_normal)
 		var current_basis = transform.basis
 		var new_basis = current_basis.slerp(target_basis, 5.0 * delta)
 		transform.basis = new_basis
-		var current_forward = -transform.basis.z
-		transform.basis = Basis.looking_at(current_forward, ground_normal)
+		var forward_dir = -transform.basis.z
+		var pitch_angle = calculate_pitch_angle(ground_normal, forward_dir)
+		var max_pitch_angle = deg_to_rad(45.0)
+		var target_pitch = clamp(pitch_angle, -max_pitch_angle, max_pitch_angle)
+		#print("Pitch angle: ", rad_to_deg(pitch_angle), " Target pitch: ", rad_to_deg(target_pitch))
+		rotation.x = lerp(rotation.x, target_pitch, 3.0 * delta)
+		var right_dir = transform.basis.x
+		var sideways_slope = ground_normal.dot(right_dir)
+		var roll_angle = sideways_slope * deg_to_rad(15.0)
+		rotation.z = lerp(rotation.z, roll_angle, 3.0 * delta)
 
+func calculate_pitch_angle(ground_normal: Vector3, forward_dir: Vector3) -> float:
+	var slope_angle = acos(ground_normal.dot(Vector3.UP))
+	var horizontal_forward = Vector3(forward_dir.x, 0, forward_dir.z).normalized()
+	var slope_direction = Vector3(ground_normal.x, 0, ground_normal.z).normalized()
+	var slope_dot = horizontal_forward.dot(slope_direction)
+	if slope_dot > 0.1:
+		return -slope_angle
+	elif slope_dot < -0.1:
+		return slope_angle
+	else:
+		return 0.0
+
+func return_to_level_orientation(delta: float):
+	if not ground_ray.is_colliding() or abs(rotation.x) < deg_to_rad(5.0):
+		var target_rotation = Vector3.ZERO
+		rotation.x = lerp(rotation.x, target_rotation.x, 3.0 * delta)
+		rotation.z = lerp(rotation.z, target_rotation.z, 3.0 * delta)
+		
 func align_y_with_normal(basis: Basis, normal: Vector3) -> Basis:
 	var result = basis
 	result.y = normal
 	result.x = result.y.cross(result.z).normalized()
 	result.z = result.x.cross(result.y).normalized()
 	return result.orthonormalized()
-
-func return_to_level_oriantation(delta: float):
-	var target_rotation = Vector3.ZERO
-	rotation.x = lerp(rotation.x, target_rotation.x, 3.0 * delta)
-	rotation.z = lerp(rotation.z, target_rotation.z, 3.0 * delta)
 
 func get_ground_aligned_rotation(ground_normal: Vector3) -> Vector3:
 	var rotation_angles = Vector3.ZERO
