@@ -29,6 +29,10 @@ version_control/plugin_name="Settings"
 
 enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg")
 
+[filesystem]
+
+import/blender/enabled=false
+
 [input]
 
 accelerate={

@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://6dl0hdr7ldv6"]
 
 [ext_resource type="Script" uid="uid://dfi1enuvp4pji" path="res://scripts/main_menu.gd" id="1_l6cm7"]
-[ext_resource type="Texture2D" uid="uid://j0kdbgiu0cqf" path="res://misc/temp_background.png" id="2_8ln24"]
+[ext_resource type="Texture2D" uid="uid://j0kdbgiu0cqf" path="res://misc/temp_background.PNG" id="2_8ln24"]
 [ext_resource type="AudioStream" uid="uid://dmy3d1uuggsew" path="res://sound/diamond_touch_01.wav" id="2_bqqt6"]
 [ext_resource type="AudioStream" uid="uid://c6rc70nskjep5" path="res://sound/machine love arr. orchestra, op. 17 no. 3 - estreller.mp3" id="2_wu84c"]
 [ext_resource type="AudioStream" uid="uid://vic2a1y24ax2" path="res://sound/diamond_return_01.wav" id="3_wu84c"]
@@ -41,15 +41,19 @@ color = Color(0.872979, 0.512865, 0.983236, 1)
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
-offset_left = -1.0
-offset_right = 1153.0
-offset_bottom = 649.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("2_8ln24")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 0
-offset_right = 1152.0
-offset_bottom = 648.0
+layout_mode = 1
+offset_left = -556.0
+offset_top = -304.0
+offset_right = 1986.0
+offset_bottom = 1502.0
 color = Color(0, 0, 0, 0.756863)
 
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
@@ -60,8 +64,11 @@ parameters/looping = true
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
-offset_right = 1112.0
-offset_bottom = 608.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
@@ -112,9 +119,10 @@ volume_db = 15.0
 
 [node name="ControlsMessage" type="Label" parent="."]
 layout_mode = 0
-offset_top = 438.88
-offset_right = 517.0
-offset_bottom = 669.88
+offset_left = 20.0
+offset_top = 421.0
+offset_right = 537.0
+offset_bottom = 652.0
 text = "Controls:
 WASD for moving
 Shift for Drift

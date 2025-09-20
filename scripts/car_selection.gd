@@ -184,7 +184,7 @@ func _animate_random_choice(car_buttons: Array[Button]) -> void:
 		temp_button.grab_focus()
 		if hover_sound_player and hover_sound_player.stream:
 			hover_sound_player.play()
-		await get_tree().create_timer(0.15).timeout
+		await get_tree().create_timer(0.35).timeout
 	chosen_button.grab_focus()
 	if hover_sound_player and hover_sound_player.stream:
 			hover_sound_player.play()

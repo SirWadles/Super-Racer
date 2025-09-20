@@ -78,7 +78,7 @@ var boost_regen_cooldown = 0.0
 
 var start_particles_played = false
 
-#@onready var ground_ray = $RayCast3D
+@onready var ground_ray = $RayCast3D
 
 var audio_options = null
 
@@ -231,16 +231,7 @@ func _physics_process(delta):
 	handle_boost_sound()
 	handle_start_particles(delta)
 	reset_start_particles()
-	
-	#if ground_ray.is_colliding():
-		#var collision_point = ground_ray.get_collision_point()
-		#var distance_to_ground = global_position.y - collision_point.y
-		#var target_height = collision_point.y + 0.3
-		#global_position.y = lerp(global_position.y, target_height, 10.0 * delta)
-	if not is_on_floor():
-		velocity.y -= gravity_force * delta
-	else:
-		velocity.y = 0
+	handle_gravity_and_ground(delta)
 	
 	handle_pre_collision()
 	
@@ -248,21 +239,74 @@ func _physics_process(delta):
 	
 	handle_wall_collision()
 
+func handle_gravity_and_ground(delta):
+	var is_on_ground = ground_ray.is_colliding()
+	if is_on_ground:
+		var collision_point = ground_ray.get_collision_point()
+		var ground_normal = ground_ray.get_collision_normal()
+		var target_height = collision_point.y + 0.3
+		align_with_ground(ground_normal, delta)
+		global_position.y = lerp(global_position.y, target_height, 10.0 * delta)
+		velocity.y = 0
+		if is_on_floor():
+			velocity = velocity.slide(ground_normal)
+	else:
+		velocity.y -= gravity_force * delta
+		return_to_level_oriantation(delta)
+
+func align_with_ground(ground_normal: Vector3, delta: float):
+	var global_up = Vector3.UP
+	var ground_angle = acos(ground_normal.dot(global_up))
+	var max_angle_rad = deg_to_rad(max_slope_angle)
+	if ground_angle <= max_angle_rad:
+		var target_basis = align_y_with_normal(transform.basis, ground_normal)
+		var current_basis = transform.basis
+		var new_basis = current_basis.slerp(target_basis, 5.0 * delta)
+		transform.basis = new_basis
+		var current_forward = -transform.basis.z
+		transform.basis = Basis.looking_at(current_forward, ground_normal)
+
+func align_y_with_normal(basis: Basis, normal: Vector3) -> Basis:
+	var result = basis
+	result.y = normal
+	result.x = result.y.cross(result.z).normalized()
+	result.z = result.x.cross(result.y).normalized()
+	return result.orthonormalized()
+
+func return_to_level_oriantation(delta: float):
+	var target_rotation = Vector3.ZERO
+	rotation.x = lerp(rotation.x, target_rotation.x, 3.0 * delta)
+	rotation.z = lerp(rotation.z, target_rotation.z, 3.0 * delta)
+
+func get_ground_aligned_rotation(ground_normal: Vector3) -> Vector3:
+	var rotation_angles = Vector3.ZERO
+	if abs(ground_normal.y) > 0.001:
+		var pitch_angle = atan2(ground_normal.x, ground_normal.y)
+		rotation_angles.x = clamp(pitch_angle, deg_to_rad(-45), deg_to_rad(45))
+	if abs(ground_normal.y) > 0.001:
+		var roll_angle = atan2(ground_normal.x, ground_normal.y)
+		rotation_angles.x = clamp(roll_angle, deg_to_rad(-45), deg_to_rad(45))
+	return rotation_angles
+
 func handle_pre_collision():
+	if current_speed < 5.0:
+		return
 	var space_state = get_world_3d().direct_space_state
-	var forward_check = transform.basis.z * -2.0
+	var forward_check = transform.basis.z * -2.5
 	var query = PhysicsRayQueryParameters3D.create(
 		global_position + Vector3(0, 0.5, 0),
-		global_position + forward_check,
+		global_position + Vector3(0, 0.5, 0) + forward_check,
 		1 
 	)
+	query.exclude = [self]
 	var result = space_state.intersect_ray(query)
 	if result:
+		var collision_normal = result.normal
 		var collision_point = result.position
-		var wall_threshold = 1.2
-		if collision_point.y >= wall_threshold and velocity.length() > 5.0:
-			current_speed *= -0.01
-			play_collision_sound(velocity.length() / max_speed)
+		if abs(collision_normal.y) < 0.4:
+			current_speed *= -0.7
+			var impact_strength = clamp(abs(current_speed) / max_speed, 0.0, 1.0)
+			play_collision_sound(impact_strength)
 
 func handle_wall_collision():
 	var wall_threshold = 1.2
@@ -373,11 +417,18 @@ func handle_drift(drift_input: bool):
 func apply_movement(delta):
 	var turn_radians = deg_to_rad(current_steering) * delta * (1.0 + abs(current_speed) / max_speed * 0.5)
 	rotate_y(turn_radians)
+	var current_pitch = rotation.x
+	var current_roll = rotation.z
+	rotate_y(turn_radians)
+	rotation.x = current_pitch
+	rotation.z = current_roll
 	var direction = -transform.basis.z
-	velocity.x = direction.x * current_speed
-	velocity.z = direction.z * current_speed
-	if is_on_floor():
-		velocity = velocity.slide(get_floor_normal())
+	if ground_ray.is_colliding() or is_on_floor():
+		velocity.x = direction.x * current_speed
+		velocity.z = direction.z * current_speed
+	else:
+		velocity.x = lerp(velocity.x, direction.x * current_speed, 0.1 * delta)
+		velocity.z = lerp(velocity.z, direction.z * current_speed, 0.1 * delta)
 
 func handle_boost(delta):
 	if is_boosting:

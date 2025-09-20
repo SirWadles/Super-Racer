@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://m85mftqt04gj"]
+[gd_scene load_steps=37 format=3 uid="uid://m85mftqt04gj"]
 
 [ext_resource type="Script" uid="uid://4ca6esi5u5nr" path="res://scripts/main.gd" id="1_muem4"]
 [ext_resource type="ArrayMesh" uid="uid://drl8ccdemvpb6" path="res://assets/RaceTracksKit/OBJ/BeginFlag.obj" id="2_sugp2"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://b26wqusw5utsi" path="res://assets/shiba nuh uh.jpg" id="10_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://dawggovd4udxh" path="res://scenes/armature.tscn" id="11_jbj1t"]
 [ext_resource type="AudioStream" uid="uid://cpifp3fqp0jdw" path="res://sound/woohoo.mp3" id="12_eb6dy"]
+[ext_resource type="ArrayMesh" uid="uid://wjmsoyljgjv5" path="res://assets/RaceTracksKit/OBJ/Ramp2.obj" id="13_dp3eg"]
 [ext_resource type="PackedScene" uid="uid://dan1bv3uh6da6" path="res://scenes/checkpoint_1.tscn" id="13_trceg"]
 [ext_resource type="PackedScene" uid="uid://qnmnr548hq0u" path="res://scenes/checkpoint_2.tscn" id="14_jkv2x"]
 [ext_resource type="PackedScene" uid="uid://d0j8nqmrm4yc2" path="res://scenes/checkpoint_3.tscn" id="15_jbj1t"]
@@ -73,6 +74,9 @@ data = PackedVector3Array(6.8677, -1.0616, -7.6419, 13.5, -1.0616, -10.3582, 6.8
 albedo_texture = ExtResource("10_ya4ey")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_dp3eg"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_dp3eg"]
+data = PackedVector3Array(6.6653, -1.6144, 3.8255, 6.6653, -0.882, -3.8255, 6.6653, -1.6144, -3.8255, 6.6653, -0.882, 3.8255, 6.6653, -0.882, -3.8255, 6.6653, -1.6144, 3.8255, -6.6653, -1.6144, 3.8255, 6.6653, -0.882, 3.8255, 6.6653, -1.6144, 3.8255, -6.6653, 4.1108, 3.8255, 6.6653, -0.882, 3.8255, -6.6653, -1.6144, 3.8255, -6.6653, -1.6144, 3.8255, 6.6653, -1.6144, -3.8255, -6.6653, -1.6144, -3.8255, 6.6653, -1.6144, 3.8255, 6.6653, -1.6144, -3.8255, -6.6653, -1.6144, 3.8255, 6.6653, -0.882, 3.8255, -6.6653, 4.1108, -3.8255, 6.6653, -0.882, -3.8255, -6.6653, 4.1108, 3.8255, -6.6653, 4.1108, -3.8255, 6.6653, -0.882, 3.8255, -6.6653, -1.6144, -3.8255, 6.6653, -0.882, -3.8255, -6.6653, 4.1108, -3.8255, 6.6653, -1.6144, -3.8255, 6.6653, -0.882, -3.8255, -6.6653, -1.6144, -3.8255, -6.6653, -1.6144, -3.8255, -6.6653, 4.1108, 3.8255, -6.6653, -1.6144, 3.8255, -6.6653, 4.1108, -3.8255, -6.6653, 4.1108, 3.8255, -6.6653, -1.6144, -3.8255)
 
 [node name="main" type="Node3D"]
 script = ExtResource("1_muem4")
@@ -382,6 +386,15 @@ transform = Transform3D(-3.58308, -3.58308, 1.95724e-07, -2.21496e-07, -3.91447e
 material_override = SubResource("StandardMaterial3D_muem4")
 mesh = SubResource("PlaneMesh_dp3eg")
 skeleton = NodePath("")
+
+[node name="Ramp2" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.98039, 2.01676, -61.229)
+mesh = ExtResource("13_dp3eg")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/Ramp2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Ramp2/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_dp3eg")
 
 [node name="Checkpoint" parent="." instance=ExtResource("13_trceg")]
 transform = Transform3D(5.38315, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2033, -98.147)
