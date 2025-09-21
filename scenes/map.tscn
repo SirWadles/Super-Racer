@@ -1,6 +1,5 @@
-[gd_scene load_steps=17 format=3 uid="uid://fwfov6mybqce"]
+[gd_scene load_steps=16 format=3 uid="uid://fwfov6mybqce"]
 
-[ext_resource type="Script" uid="uid://4ca6esi5u5nr" path="res://scripts/main.gd" id="1_4xfga"]
 [ext_resource type="ArrayMesh" uid="uid://b0umljfj7x5ok" path="res://assets/RaceStuff/FSP Hex Racetrack/Prop_Raceline_Straight.obj" id="2_be0no"]
 [ext_resource type="ArrayMesh" uid="uid://dhqckpyhexvir" path="res://assets/RaceStuff/FSP Hex Racetrack/Track_Flat_Straight.obj" id="2_paxxb"]
 [ext_resource type="ArrayMesh" uid="uid://dx7qtd86j1vcn" path="res://assets/RaceStuff/FSP Hex Racetrack/Prop_Raceline_Curve_Sharp_Outer.obj" id="3_blm8a"]
@@ -37,7 +36,6 @@ material = SubResource("StandardMaterial3D_paxxb")
 [sub_resource type="CylinderMesh" id="CylinderMesh_4xfga"]
 
 [node name="Map" type="Node3D"]
-script = ExtResource("1_4xfga")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 7.61001, 33.998)
@@ -93,7 +91,7 @@ mesh = ExtResource("2_be0no")
 skeleton = NodePath("../..")
 
 [node name="PropRacelineCurveSharpOuter" type="MeshInstance3D" parent="Track/Collision"]
-transform = Transform3D(-34.641, 0, -20, 0, 40, 0, 20, 0, -34.641, 0.134046, 1.0562, 80.7595)
+transform = Transform3D(-33.4, 0, -22.0099, 0, 40, 0, 22.0099, 0, -33.4, 0.134046, 1.0562, 80.7595)
 mesh = ExtResource("3_blm8a")
 skeleton = NodePath("../../..")
 
@@ -171,6 +169,20 @@ mesh = ExtResource("9_n1psn")
 [node name="TrackBridgeRamp2" type="MeshInstance3D" parent="Track"]
 transform = Transform3D(-34.641, 0, -20, 0, 40, 0, 20, 0, -34.641, 69.1305, 0, -158.992)
 mesh = ExtResource("7_wslke")
+
+[node name="TrackFlatStraight8" type="MeshInstance3D" parent="Track"]
+transform = Transform3D(34.641, 0, 20, 0, 40, 0, -20, 0, 34.641, 103.711, 0, -179.002)
+mesh = ExtResource("2_paxxb")
+skeleton = NodePath("../..")
+
+[node name="TrackFlatStraight9" type="MeshInstance3D" parent="Track"]
+transform = Transform3D(34.641, 0, 20, 0, 40, 0, -20, 0, 34.641, 138.172, 0, -198.765)
+mesh = ExtResource("2_paxxb")
+skeleton = NodePath("../..")
+
+[node name="TrackFlatCurveSharp5" type="MeshInstance3D" parent="Track"]
+transform = Transform3D(34.641, 0, 20, 0, 40, 0, -20, 0, 34.641, 172.715, 0, -218.758)
+mesh = ExtResource("3_gldc4")
 
 [node name="Guage" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0246196, 12.7168, -39.265)
