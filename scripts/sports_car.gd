@@ -244,7 +244,7 @@ func handle_gravity_and_ground(delta):
 	if is_on_ground:
 		var collision_point = ground_ray.get_collision_point()
 		var ground_normal = ground_ray.get_collision_normal()
-		var target_height = collision_point.y + 0.3
+		var target_height = collision_point.y -0.3
 		align_with_ground(ground_normal, delta)
 		global_position.y = lerp(global_position.y, target_height, 10.0 * delta)
 		velocity.y = 0
