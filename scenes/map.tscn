@@ -1,5 +1,6 @@
-[gd_scene load_steps=16 format=3 uid="uid://fwfov6mybqce"]
+[gd_scene load_steps=17 format=3 uid="uid://fwfov6mybqce"]
 
+[ext_resource type="Script" uid="uid://4ca6esi5u5nr" path="res://scripts/main.gd" id="1_be0no"]
 [ext_resource type="ArrayMesh" uid="uid://b0umljfj7x5ok" path="res://assets/RaceStuff/FSP Hex Racetrack/Prop_Raceline_Straight.obj" id="2_be0no"]
 [ext_resource type="ArrayMesh" uid="uid://dhqckpyhexvir" path="res://assets/RaceStuff/FSP Hex Racetrack/Track_Flat_Straight.obj" id="2_paxxb"]
 [ext_resource type="ArrayMesh" uid="uid://dx7qtd86j1vcn" path="res://assets/RaceStuff/FSP Hex Racetrack/Prop_Raceline_Curve_Sharp_Outer.obj" id="3_blm8a"]
@@ -36,6 +37,7 @@ material = SubResource("StandardMaterial3D_paxxb")
 [sub_resource type="CylinderMesh" id="CylinderMesh_4xfga"]
 
 [node name="Map" type="Node3D"]
+script = ExtResource("1_be0no")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 7.61001, 33.998)
@@ -57,132 +59,292 @@ transform = Transform3D(40, 0, 0, 0, 0.1, 0, 0, 0, 40, 0, -0.01, 0)
 shape = SubResource("BoxShape3D_gldc4")
 
 [node name="Track" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -3.40949e-06, 0, -39)
 
 [node name="Collision" type="Node3D" parent="Track"]
 
 [node name="PropRacelineStraight" type="MeshInstance3D" parent="Track/Collision"]
-transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 0.06, 0.123, -38.829)
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 0.06, 0, -38.829)
 mesh = ExtResource("2_be0no")
 skeleton = NodePath("../..")
 
 [node name="PropRacelineStraight2" type="MeshInstance3D" parent="Track/Collision"]
-transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, -17.651, 0.122943, -38.8295)
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, -17.651, 0, -38.8295)
 mesh = ExtResource("2_be0no")
 skeleton = NodePath("../..")
 
 [node name="PropRacelineStraight3" type="MeshInstance3D" parent="Track/Collision"]
-transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 0.06, 0.123, 0.0483932)
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 0.06, 0, 0.0483932)
 mesh = ExtResource("2_be0no")
 skeleton = NodePath("../..")
 
 [node name="PropRacelineStraight4" type="MeshInstance3D" parent="Track/Collision"]
-transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, -17.651, 0.122943, 0.0479012)
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, -17.651, 0, 0.0479012)
 mesh = ExtResource("2_be0no")
 skeleton = NodePath("../..")
 
 [node name="PropRacelineStraight5" type="MeshInstance3D" parent="Track/Collision"]
-transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 0.06, 0.123, 40.0484)
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 0.06, 0, 40.0484)
 mesh = ExtResource("2_be0no")
 skeleton = NodePath("../..")
 
 [node name="PropRacelineStraight6" type="MeshInstance3D" parent="Track/Collision"]
-transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, -17.651, 0.122943, 40.0479)
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, -17.651, 0, 40.0479)
 mesh = ExtResource("2_be0no")
 skeleton = NodePath("../..")
 
 [node name="PropRacelineCurveSharpOuter" type="MeshInstance3D" parent="Track/Collision"]
-transform = Transform3D(-33.4, 0, -22.0099, 0, 40, 0, 22.0099, 0, -33.4, 0.134046, 1.0562, 80.7595)
+transform = Transform3D(-34.174, 0, -20.7879, 0, 40, 0, 20.7879, 0, -34.174, 0.866176, 0, 80.2537)
 mesh = ExtResource("3_blm8a")
 skeleton = NodePath("../../..")
 
 [node name="PropRacelineCurveSharpInner" type="MeshInstance3D" parent="Track/Collision"]
-transform = Transform3D(-34.641, 0, -20, 0, 40, 0, 20, 0, -34.641, -0.00532447, 0.5, 80.9945)
+transform = Transform3D(-34.641, 0, -20, 0, 40, 0, 20, 0, -34.641, -0.00532447, 0, 80.9945)
 mesh = ExtResource("4_mlgqr")
 skeleton = NodePath("../../..")
 
-[node name="TrackFlatStraight" type="MeshInstance3D" parent="Track"]
+[node name="PropRacelineStraight7" type="MeshInstance3D" parent="Track/Collision"]
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 0.0600017, 0, -78.829)
+mesh = ExtResource("2_be0no")
+skeleton = NodePath("../..")
+
+[node name="PropRacelineStraight8" type="MeshInstance3D" parent="Track/Collision"]
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, -17.651, 0, -78.8295)
+mesh = ExtResource("2_be0no")
+skeleton = NodePath("../..")
+
+[node name="PropRacelineCurveSharpInner2" type="MeshInstance3D" parent="Track/Collision"]
+transform = Transform3D(34.641, 0, 20, 0, 40, 0, -20, 0, 34.641, 35.012, 0, 59.944)
+mesh = ExtResource("4_mlgqr")
+skeleton = NodePath("../../../..")
+
+[node name="PropRacelineCurveSharpInner3" type="MeshInstance3D" parent="Track/Collision"]
+transform = Transform3D(-37.2075, 0, -14.6834, 0, 40, 0, 14.6834, 0, -37.2075, 31.609, 0, 98.7445)
+mesh = ExtResource("4_mlgqr")
+skeleton = NodePath("../../../..")
+
+[node name="PropRacelineCurveSharpOuter2" type="MeshInstance3D" parent="Track/Collision"]
+transform = Transform3D(-34.174, 0, -20.7879, 0, 40, 0, 20.7879, 0, -34.174, 35.5035, 0, 100.348)
+mesh = ExtResource("3_blm8a")
+skeleton = NodePath("../../..")
+
+[node name="PropRacelineCurveSharpOuter3" type="MeshInstance3D" parent="Track/Collision"]
+transform = Transform3D(34.174, 0, 20.7879, 0, 40, 0, -20.7879, 0, 34.174, 34.2094, 0, 60.5682)
+mesh = ExtResource("3_blm8a")
+skeleton = NodePath("../../..")
+
+[node name="PropRacelineStraight9" type="MeshInstance3D" parent="Track/Collision"]
+transform = Transform3D(34.641, 0, 20, 0, 40, 0, -20, 0, 34.641, 78.316, 0.0999146, 95.4369)
+mesh = ExtResource("2_be0no")
+
+[node name="PropRacelineStraight10" type="MeshInstance3D" parent="Track/Collision"]
+transform = Transform3D(34.641, 0, 20, 0, 40, 0, -20, 0, 34.641, 69.3585, 0.0999146, 80.8007)
+mesh = ExtResource("2_be0no")
+
+[node name="PropRacelineStraight11" type="MeshInstance3D" parent="Track/Collision"]
+transform = Transform3D(34.641, 0, 20, 0, 40, 0, -20, 0, 34.641, 112.957, 0.0999146, 75.4369)
+mesh = ExtResource("2_be0no")
+
+[node name="PropRacelineStraight12" type="MeshInstance3D" parent="Track/Collision"]
+transform = Transform3D(34.641, 0, 20, 0, 40, 0, -20, 0, 34.641, 103.999, 0.0999146, 60.8007)
+mesh = ExtResource("2_be0no")
+
+[node name="PropRacelineCurveSharpOuter4" type="MeshInstance3D" parent="Track/Collision"]
+transform = Transform3D(34.641, 0, -20, 0, 40, 0, 20, 0, 34.641, 137.9, 0, 40.7303)
+mesh = ExtResource("3_blm8a")
+skeleton = NodePath("../../..")
+
+[node name="PropRacelineCurveSharpInner4" type="MeshInstance3D" parent="Track/Collision"]
+transform = Transform3D(34.641, 0, -20, 0, 40, 0, 20, 0, 34.641, 138.494, 0, 40.7923)
+mesh = ExtResource("4_mlgqr")
+skeleton = NodePath("../../..")
+
+[node name="Map" type="Node3D" parent="Track"]
+
+[node name="TrackFlatStraight" type="MeshInstance3D" parent="Track/Map"]
 transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 0.049, 0, -39.335)
 mesh = ExtResource("2_paxxb")
-skeleton = NodePath("../..")
+skeleton = NodePath("../../..")
 
-[node name="TrackFlatStraight2" type="MeshInstance3D" parent="Track"]
+[node name="TrackFlatStraight2" type="MeshInstance3D" parent="Track/Map"]
 transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 0.049, 0, 0.665)
 mesh = ExtResource("2_paxxb")
-skeleton = NodePath("../..")
+skeleton = NodePath("../../..")
 
-[node name="TrackFlatStraight3" type="MeshInstance3D" parent="Track"]
+[node name="TrackFlatStraight3" type="MeshInstance3D" parent="Track/Map"]
 transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 0.049, 0, 40.665)
 mesh = ExtResource("2_paxxb")
-skeleton = NodePath("../..")
+skeleton = NodePath("../../..")
 
-[node name="TrackFlatCurveSharp" type="MeshInstance3D" parent="Track"]
+[node name="TrackFlatCurveSharp" type="MeshInstance3D" parent="Track/Map"]
 transform = Transform3D(-34.641, 0, -20, 0, 40, 0, 20, 0, -34.641, 0.048999, 0, 80.5538)
 mesh = ExtResource("3_gldc4")
-skeleton = NodePath("../..")
+skeleton = NodePath("../../..")
 
-[node name="TrackFlatCurveSharp2" type="MeshInstance3D" parent="Track"]
+[node name="TrackFlatCurveSharp2" type="MeshInstance3D" parent="Track/Map"]
 transform = Transform3D(34.641, 0, 20, 0, 40, 0, -20, 0, 34.641, 34.6295, 0, 60.5887)
 mesh = ExtResource("3_gldc4")
-skeleton = NodePath("../..")
+skeleton = NodePath("../../..")
 
-[node name="TrackFlatCurveSharp3" type="MeshInstance3D" parent="Track"]
+[node name="TrackFlatCurveSharp3" type="MeshInstance3D" parent="Track/Map"]
 transform = Transform3D(-34.641, 0, -20, 0, 40, 0, 20, 0, -34.641, 34.674, 0, 100.485)
 mesh = ExtResource("3_gldc4")
-skeleton = NodePath("../..")
+skeleton = NodePath("../../..")
 
-[node name="TrackFlatStraight4" type="MeshInstance3D" parent="Track"]
+[node name="TrackFlatStraight4" type="MeshInstance3D" parent="Track/Map"]
 transform = Transform3D(34.641, 0, 20, 0, 40, 0, -20, 0, 34.641, 69.326, 0, 80.4922)
 mesh = ExtResource("2_paxxb")
+skeleton = NodePath("../..")
 
-[node name="TrackFlatStraight5" type="MeshInstance3D" parent="Track"]
+[node name="TrackFlatStraight5" type="MeshInstance3D" parent="Track/Map"]
 transform = Transform3D(34.641, 0, 20, 0, 40, 0, -20, 0, 34.641, 103.907, 0, 60.5267)
 mesh = ExtResource("2_paxxb")
+skeleton = NodePath("../..")
 
-[node name="TrackFlatCurveSharp4" type="MeshInstance3D" parent="Track"]
+[node name="TrackFlatCurveSharp4" type="MeshInstance3D" parent="Track/Map"]
 transform = Transform3D(34.641, 0, -20, 0, 40, 0, 20, 0, 34.641, 138.387, 0, 40.5598)
 mesh = ExtResource("3_gldc4")
+skeleton = NodePath("../..")
 
-[node name="TrackBridgeRamp" type="MeshInstance3D" parent="Track"]
+[node name="TrackBridgeRamp" type="MeshInstance3D" parent="Track/Map"]
 transform = Transform3D(-34.641, 0, 20, 0, 40, 0, -20, 0, -34.641, 103.98, 0, 20.75)
 mesh = ExtResource("7_wslke")
+skeleton = NodePath("../..")
 
-[node name="TrackBridge" type="MeshInstance3D" parent="Track"]
+[node name="TrackBridge" type="MeshInstance3D" parent="Track/Map"]
 transform = Transform3D(-34.641, 0, 20, 0, 40, 0, -20, 0, -34.641, 69.3349, 0, 0.731094)
 mesh = ExtResource("8_gw3fx")
+skeleton = NodePath("../..")
 
-[node name="TrackFlatCurveGentle" type="MeshInstance3D" parent="Track"]
+[node name="TrackFlatCurveGentle" type="MeshInstance3D" parent="Track/Map"]
 transform = Transform3D(-34.641, 0, 20, 0, 40, 0, -20, 0, -34.641, 34.6711, 9.96073, -19.3117)
 mesh = ExtResource("9_n1psn")
+skeleton = NodePath("../..")
 
-[node name="TrackFlatStraight6" type="MeshInstance3D" parent="Track"]
+[node name="TrackFlatStraight6" type="MeshInstance3D" parent="Track/Map"]
 transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 34.6932, 9.96124, -59.3143)
 mesh = ExtResource("2_paxxb")
+skeleton = NodePath("../..")
 
-[node name="TrackFlatStraight7" type="MeshInstance3D" parent="Track"]
+[node name="TrackFlatStraight7" type="MeshInstance3D" parent="Track/Map"]
 transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 34.6932, 9.96124, -99.1614)
 mesh = ExtResource("2_paxxb")
+skeleton = NodePath("../..")
 
-[node name="TrackFlatCurveGentle2" type="MeshInstance3D" parent="Track"]
+[node name="TrackFlatCurveGentle2" type="MeshInstance3D" parent="Track/Map"]
 transform = Transform3D(-1.74846e-06, 0, 40, 0, 40, 0, -40, 0, -1.74846e-06, 34.6906, 9.96073, -139.103)
 mesh = ExtResource("9_n1psn")
+skeleton = NodePath("../..")
 
-[node name="TrackBridgeRamp2" type="MeshInstance3D" parent="Track"]
+[node name="TrackBridgeRamp2" type="MeshInstance3D" parent="Track/Map"]
 transform = Transform3D(-34.641, 0, -20, 0, 40, 0, 20, 0, -34.641, 69.1305, 0, -158.992)
 mesh = ExtResource("7_wslke")
+skeleton = NodePath("../..")
 
-[node name="TrackFlatStraight8" type="MeshInstance3D" parent="Track"]
+[node name="TrackFlatStraight8" type="MeshInstance3D" parent="Track/Map"]
 transform = Transform3D(34.641, 0, 20, 0, 40, 0, -20, 0, 34.641, 103.711, 0, -179.002)
 mesh = ExtResource("2_paxxb")
+skeleton = NodePath("../../..")
+
+[node name="TrackFlatStraight9" type="MeshInstance3D" parent="Track/Map"]
+transform = Transform3D(34.641, 0, 20, 0, 40, 0, -20, 0, 34.641, 138.172, 0, -198.765)
+mesh = ExtResource("2_paxxb")
+skeleton = NodePath("../../..")
+
+[node name="TrackFlatCurveSharp5" type="MeshInstance3D" parent="Track/Map"]
+transform = Transform3D(34.641, 0, 20, 0, 40, 0, -20, 0, 34.641, 172.732, 0, -218.723)
+mesh = ExtResource("3_gldc4")
 skeleton = NodePath("../..")
 
-[node name="TrackFlatStraight9" type="MeshInstance3D" parent="Track"]
-transform = Transform3D(34.641, 0, 20, 0, 40, 0, -20, 0, 34.641, 138.172, 0, -198.765)
+[node name="TrackFlatStraight10" type="MeshInstance3D" parent="Track/Map"]
+transform = Transform3D(-1.14441e-05, 0, 40, 0, 40, 0, -40, 0, -1.14441e-05, 172.72, 0, -178.764)
+mesh = ExtResource("2_paxxb")
+skeleton = NodePath("../../..")
+
+[node name="TrackFlatStraight11" type="MeshInstance3D" parent="Track/Map"]
+transform = Transform3D(-1.14441e-05, 0, 40, 0, 40, 0, -40, 0, -1.14441e-05, 172.721, 0, -138.764)
+mesh = ExtResource("2_paxxb")
+skeleton = NodePath("../../..")
+
+[node name="TrackFlatCurveSharp6" type="MeshInstance3D" parent="Track/Map"]
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 172.729, 0, -99.0838)
+mesh = ExtResource("3_gldc4")
+skeleton = NodePath("../../..")
+
+[node name="TrackFlatCurveSharp7" type="MeshInstance3D" parent="Track/Map"]
+transform = Transform3D(5.24537e-06, 0, 40, 0, 40, 0, -40, 0, 5.24537e-06, 103.597, 0, -99.1884)
+mesh = ExtResource("3_gldc4")
+skeleton = NodePath("../../..")
+
+[node name="TrackFlatCurveSharp8" type="MeshInstance3D" parent="Track/Map"]
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 138.181, 0, -79.2447)
+mesh = ExtResource("3_gldc4")
+skeleton = NodePath("../../..")
+
+[node name="TrackFlatCurveSharp9" type="MeshInstance3D" parent="Track/Map"]
+transform = Transform3D(5.24537e-06, 0, 40, 0, 40, 0, -40, 0, 5.24537e-06, 138.15, 0, -119.073)
+mesh = ExtResource("3_gldc4")
+skeleton = NodePath("../../..")
+
+[node name="TrackFlatStraight12" type="MeshInstance3D" parent="Track/Map"]
+transform = Transform3D(-1.75612e-06, 0, -40, 0, 40, 0, 40.1753, 0, -1.74846e-06, 103.649, 0, -59.2247)
 mesh = ExtResource("2_paxxb")
 skeleton = NodePath("../..")
 
-[node name="TrackFlatCurveSharp5" type="MeshInstance3D" parent="Track"]
-transform = Transform3D(34.641, 0, 20, 0, 40, 0, -20, 0, 34.641, 172.715, 0, -218.758)
+[node name="TrackFlatCurveGentle3" type="MeshInstance3D" parent="Track/Map"]
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 103.616, 0, -19.1523)
+mesh = ExtResource("9_n1psn")
+skeleton = NodePath("../..")
+
+[node name="TrackFlatCurveSharp10" type="MeshInstance3D" parent="Track/Map"]
+transform = Transform3D(-34.641, 0, -20, 0, 40, 0, 20, 0, -34.641, 69.0182, 0, 0.833858)
 mesh = ExtResource("3_gldc4")
+skeleton = NodePath("../..")
+
+[node name="TrackFlatStraight13" type="MeshInstance3D" parent="Track/Map"]
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 69.1291, 0, -39.0248)
+mesh = ExtResource("2_paxxb")
+skeleton = NodePath("../..")
+
+[node name="TrackFlatStraight14" type="MeshInstance3D" parent="Track/Map"]
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 69.1291, 0, -79.0248)
+mesh = ExtResource("2_paxxb")
+skeleton = NodePath("../..")
+
+[node name="TrackFlatCurveSharp11" type="MeshInstance3D" parent="Track/Map"]
+transform = Transform3D(34.641, 0, 20, 0, 40, 0, -20, 0, 34.641, 69.1539, 0, -118.937)
+mesh = ExtResource("3_gldc4")
+skeleton = NodePath("../..")
+
+[node name="TrackFlatCurveSharp12" type="MeshInstance3D" parent="Track/Map"]
+transform = Transform3D(-34.641, 0, -20, 0, 40, 0, 20, 0, -34.641, 34.5129, 0, -98.9371)
+mesh = ExtResource("3_gldc4")
+skeleton = NodePath("../..")
+
+[node name="TrackFlatCurveGentle4" type="MeshInstance3D" parent="Track/Map"]
+transform = Transform3D(34.641, 0, -20, 0, 40, 0, 20, 0, 34.641, 34.5561, 0, -138.826)
+mesh = ExtResource("9_n1psn")
+skeleton = NodePath("../../..")
+
+[node name="TrackFlatCurveGentle5" type="MeshInstance3D" parent="Track/Map"]
+transform = Transform3D(34.641, 0, 20, 0, 40, 0, -20, 0, 34.641, -0.0849228, 0, -158.826)
+mesh = ExtResource("9_n1psn")
+skeleton = NodePath("../../..")
+
+[node name="TrackFlatCurveSharp13" type="MeshInstance3D" parent="Track/Map"]
+transform = Transform3D(-34.641, 0, 20, 0, 40, 0, -20, 0, -34.641, -34.5448, 0, -138.944)
+mesh = ExtResource("3_gldc4")
+skeleton = NodePath("../..")
+
+[node name="TrackFlatCurveGentle6" type="MeshInstance3D" parent="Track/Map"]
+transform = Transform3D(34.641, 0, -20, 0, 40, 0, 20, 0, 34.641, 0.0963773, 0, -118.918)
+mesh = ExtResource("9_n1psn")
+skeleton = NodePath("../../..")
+
+[node name="TrackFlatStraight15" type="MeshInstance3D" parent="Track/Map"]
+transform = Transform3D(-1.74846e-06, 0, -40, 0, 40, 0, 40, 0, -1.74846e-06, 0.0912719, 0, -79.0672)
+mesh = ExtResource("2_paxxb")
+skeleton = NodePath("../..")
 
 [node name="Guage" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0246196, 12.7168, -39.265)

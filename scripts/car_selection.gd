@@ -24,7 +24,7 @@ var car_options = [
 	{
 		"name": "Sports Car",
 		"scene": "res://scenes/sports_car.tscn",
-		"texture": "res://assets/car_teaser.png"
+		"texture": "res://assets/sport_car.png"
 	},
 	{
 		"name": "DeLorean Car (WIP)",
