@@ -48,7 +48,7 @@ music_volume_db = -30.0
 check_point_stream = ExtResource("7_ugdpj")
 
 [node name="RayCast3D" type="RayCast3D" parent="Car"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.124588, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.000375077, 0)
 target_position = Vector3(0, -2, 0)
 
 [node name="CarBody" type="MeshInstance3D" parent="Car"]
