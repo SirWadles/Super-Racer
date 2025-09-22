@@ -1,0 +1,155 @@
+[gd_scene load_steps=19 format=3 uid="uid://iml1ihkgoi8p"]
+
+[ext_resource type="Script" uid="uid://c7k40qhuv8yqe" path="res://scripts/sports_car.gd" id="1_vdvfb"]
+[ext_resource type="AudioStream" uid="uid://b1gaq0a5jj6n" path="res://sound/car_engine(loud).wav" id="2_v1los"]
+[ext_resource type="AudioStream" uid="uid://dsi7qn6r25icj" path="res://sound/drift.wav" id="3_m08y6"]
+[ext_resource type="AudioStream" uid="uid://chqmiasqgosfp" path="res://sound/turbo_sc_cobra_01 (mp3cut.net).wav" id="4_qon0v"]
+[ext_resource type="AudioStream" uid="uid://c8u025tvgbo3k" path="res://sound/cloud_blue_boost (mp3cut.net)(1).wav" id="5_fuqaq"]
+[ext_resource type="AudioStream" uid="uid://bimifgo63na8e" path="res://sound/4. Night Walker (Linne Theme) (UNI2 Mix).mp3" id="6_1if46"]
+[ext_resource type="AudioStream" uid="uid://b0cdkrbe22xdw" path="res://sound/ui_game_textbox_madeline_in.wav" id="7_f27g7"]
+[ext_resource type="Material" uid="uid://bf65bdepu4ddq" path="res://colors/sports/car.tres" id="8_iitcu"]
+[ext_resource type="Material" uid="uid://c1js1xyqsn15v" path="res://colors/sports/headlight.tres" id="9_dssia"]
+[ext_resource type="Material" uid="uid://dilh4j82oi4df" path="res://colors/sports/tail.tres" id="10_u8ilh"]
+[ext_resource type="CylinderMesh" uid="uid://cxduumkjk0lsf" path="res://colors/wheel_color.tres" id="11_is5c5"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_a6yhy"]
+material = ExtResource("8_iitcu")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ne58r"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_lvr0x"]
+material = ExtResource("9_dssia")
+
+[sub_resource type="BoxMesh" id="BoxMesh_uf6o1"]
+material = ExtResource("10_u8ilh")
+
+[sub_resource type="BoxMesh" id="BoxMesh_ajuw8"]
+material = ExtResource("10_u8ilh")
+
+[sub_resource type="BoxMesh" id="BoxMesh_ol62p"]
+material = ExtResource("10_u8ilh")
+
+[sub_resource type="BoxMesh" id="BoxMesh_6ilvn"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="DeLorean Car" type="CharacterBody3D" parent="."]
+script = ExtResource("1_vdvfb")
+acceleration = 12.0
+braking_force = 40.0
+steering_angle = 40.0
+steering_speed = 30.0
+drift_acceleration_multiplier = 1.0
+min_drift_speed = 10.0
+drift_boost_regen_mult = 1.4
+boost_multiplier = 1.7
+engine_sound_stream = ExtResource("2_v1los")
+drift_sound_stream = ExtResource("3_m08y6")
+boost_sound_stream = ExtResource("4_qon0v")
+collision_sound_stream = ExtResource("5_fuqaq")
+engine_volume_range = Vector2(-16, 0)
+car_music_stream = ExtResource("6_1if46")
+music_volume_db = -30.0
+check_point_stream = ExtResource("7_f27g7")
+
+[node name="RayCast3D" type="RayCast3D" parent="DeLorean Car"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00788796, 0)
+target_position = Vector3(0, -2, 0)
+
+[node name="CarBody" type="MeshInstance3D" parent="DeLorean Car"]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0)
+mesh = SubResource("BoxMesh_a6yhy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DeLorean Car"]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0)
+shape = SubResource("BoxShape3D_ne58r")
+
+[node name="Details" type="Node3D" parent="DeLorean Car"]
+
+[node name="RightHeadlight" type="MeshInstance3D" parent="DeLorean Car/Details"]
+transform = Transform3D(0.348863, 0, 0, 0, -2.36041e-09, 0.124644, 0, -0.054, -5.44836e-09, 0.643695, 0.13444, -2.01223)
+mesh = SubResource("BoxMesh_lvr0x")
+
+[node name="LeftHeadlight" type="MeshInstance3D" parent="DeLorean Car/Details"]
+transform = Transform3D(0.348863, 0, 0, 0, -2.36041e-09, 0.124644, 0, -0.054, -5.44836e-09, -0.644, 0.134, -2.012)
+mesh = SubResource("BoxMesh_lvr0x")
+
+[node name="Tail (Top)" type="MeshInstance3D" parent="DeLorean Car/Details"]
+transform = Transform3D(2, 0, 0, 0, 0.102423, 0, 0, 0, 0.339011, 0, 0.965253, 1.92846)
+mesh = SubResource("BoxMesh_uf6o1")
+
+[node name="Tail (Right)" type="MeshInstance3D" parent="DeLorean Car/Details"]
+transform = Transform3D(0.2, 0, 0, 0, 0.579556, -0.0776457, 0, 0.155291, 0.289778, 0.25, 0.677, 1.855)
+mesh = SubResource("BoxMesh_ajuw8")
+
+[node name="Tail (Left)" type="MeshInstance3D" parent="DeLorean Car/Details"]
+transform = Transform3D(0.2, 0, 0, 0, 0.579556, -0.0776457, 0, 0.155291, 0.289778, -0.25, 0.677, 1.855)
+mesh = SubResource("BoxMesh_ajuw8")
+
+[node name="Tail (TopLeft)" type="MeshInstance3D" parent="DeLorean Car/Details"]
+transform = Transform3D(0.0494975, -0.19799, 0, 0.0494975, 0.19799, 0, 0, 0, 0.234, -0.989, 1.052, 1.932)
+mesh = SubResource("BoxMesh_ol62p")
+
+[node name="Tail (RightLeft)" type="MeshInstance3D" parent="DeLorean Car/Details"]
+transform = Transform3D(0.0497686, 0.198244, 0, -0.0497686, 0.198244, 0, 0, 0, 0.233893, 0.989118, 1.05188, 1.932)
+mesh = SubResource("BoxMesh_ol62p")
+
+[node name="Wheels" type="Node3D" parent="DeLorean Car"]
+
+[node name="FrontLeft" type="MeshInstance3D" parent="DeLorean Car/Wheels"]
+transform = Transform3D(-4.85634e-08, -0.1, 0, 1.111, -4.37114e-09, 0, 0, 0, 1.111, -1.2, 0, -1)
+mesh = ExtResource("11_is5c5")
+
+[node name="FrontRight" type="MeshInstance3D" parent="DeLorean Car/Wheels"]
+transform = Transform3D(-4.85634e-08, 0.1, 0, -1.111, -4.37114e-09, 0, 0, 0, 1.111, 1.2, 0, -1)
+mesh = ExtResource("11_is5c5")
+
+[node name="RearLeft" type="MeshInstance3D" parent="DeLorean Car/Wheels"]
+transform = Transform3D(-4.85634e-08, -0.1, 0, 1.111, -4.37114e-09, 0, 0, 0, 1.111, -1.2, 0, 1)
+mesh = ExtResource("11_is5c5")
+
+[node name="RearLeftParticles" type="GPUParticles3D" parent="DeLorean Car/Wheels/RearLeft"]
+
+[node name="RearRight" type="MeshInstance3D" parent="DeLorean Car/Wheels"]
+transform = Transform3D(-4.85634e-08, -0.1, 0, 1.111, -4.37114e-09, 0, 0, 0, 1.111, 1.2, 0, 1)
+mesh = ExtResource("11_is5c5")
+
+[node name="RearRightParticles" type="GPUParticles3D" parent="DeLorean Car/Wheels/RearRight"]
+
+[node name="Wheels Accent" type="Node3D" parent="DeLorean Car/Wheels"]
+
+[node name="FrontLeft" type="MeshInstance3D" parent="DeLorean Car/Wheels/Wheels Accent"]
+transform = Transform3D(3.33098e-09, 0.186131, -4.31483e-15, 0.0762039, -8.13607e-09, -9.87117e-08, -6.66196e-09, 7.21715e-23, -1.12913, -1.20557, 0.0118669, -1.00621)
+mesh = SubResource("BoxMesh_6ilvn")
+
+[node name="FrontRight" type="MeshInstance3D" parent="DeLorean Car/Wheels/Wheels Accent"]
+transform = Transform3D(3.33098e-09, 0.186131, -4.31483e-15, 0.0762039, -8.13607e-09, -9.87117e-08, -6.66196e-09, 7.21715e-23, -1.12913, 1.20086, 0.0118668, -1.00621)
+mesh = SubResource("BoxMesh_6ilvn")
+
+[node name="RearRight" type="MeshInstance3D" parent="DeLorean Car/Wheels/Wheels Accent"]
+transform = Transform3D(3.33098e-09, 0.186131, -4.31483e-15, 0.0762039, -8.13607e-09, -9.87117e-08, -6.66196e-09, 7.21715e-23, -1.12913, 1.20086, 0.011867, 1.00765)
+mesh = SubResource("BoxMesh_6ilvn")
+
+[node name="RearLeft" type="MeshInstance3D" parent="DeLorean Car/Wheels/Wheels Accent"]
+transform = Transform3D(3.33098e-09, 0.186131, -4.31483e-15, 0.0762039, -8.13607e-09, -9.87117e-08, -6.66196e-09, 7.21715e-23, -1.12913, -1.20557, 0.0118671, 1.00765)
+mesh = SubResource("BoxMesh_6ilvn")
+
+[node name="CameraPivot" type="Node3D" parent="DeLorean Car"]
+transform = Transform3D(0.999992, -0.00159085, 0.00369625, 0.000587399, 0.966405, 0.257023, -0.00398096, -0.257019, 0.966398, 0, 1.19574, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="DeLorean Car/CameraPivot"]
+spring_length = 8.0
+margin = 0.5
+
+[node name="Camera3D" type="Camera3D" parent="DeLorean Car/CameraPivot/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1.30474, 4.34152)
+near = 0.1
+far = 100.0
+
+[node name="DriftParticles" type="GPUParticles3D" parent="DeLorean Car"]
+
+[node name="BoostParticles" type="GPUParticles3D" parent="DeLorean Car"]
+
+[node name="AudioListener3D" type="AudioListener3D" parent="DeLorean Car"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.10103, 0)
+current = true
