@@ -1,4 +1,4 @@
-[gd_scene load_steps=132 format=3 uid="uid://fwfov6mybqce"]
+[gd_scene load_steps=133 format=3 uid="uid://fwfov6mybqce"]
 
 [ext_resource type="Script" uid="uid://4ca6esi5u5nr" path="res://scripts/main.gd" id="1_be0no"]
 [ext_resource type="ArrayMesh" uid="uid://b0umljfj7x5ok" path="res://assets/RaceStuff/FSP Hex Racetrack/Prop_Raceline_Straight.obj" id="2_be0no"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://qnmnr548hq0u" path="res://scenes/checkpoint_2.tscn" id="14_mo32q"]
 [ext_resource type="PackedScene" uid="uid://d0j8nqmrm4yc2" path="res://scenes/checkpoint_3.tscn" id="15_6k6j1"]
 [ext_resource type="PackedScene" uid="uid://c5yf1j6wvqmnx" path="res://scenes/checkpoint_4.tscn" id="16_m335s"]
+[ext_resource type="PackedScene" uid="uid://c65swbw4d82cn" path="res://scenes/chance_box.tscn" id="17_c70he"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_paxxb"]
 sky_top_color = Color(0.533333, 0.8, 1, 1)
@@ -1461,3 +1462,12 @@ transform = Transform3D(4.0469, 0, 7.10543e-15, 0, 1, 0, -2.8755e-14, 0, 1, 0.02
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0246196, 12.7168, -39.265)
 mesh = SubResource("CylinderMesh_4xfga")
 skeleton = NodePath("../Track")
+
+[node name="ChanceBox" parent="." instance=ExtResource("17_c70he")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.65045, 0.499999, -17.1933)
+
+[node name="ChanceBox2" parent="." instance=ExtResource("17_c70he")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.65045, 0.499999, -49.3341)
+
+[node name="ChanceBox3" parent="." instance=ExtResource("17_c70he")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.65045, 0.499999, -85.3792)

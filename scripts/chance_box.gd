@@ -38,8 +38,8 @@ func get_random_effect() -> String:
 	var effects = [
 		"speed_boost",
 		"instant_boost",
-		"miniature",
-		"giant",
+		#"miniature",
+		#"giant",
 		"inversion"
 	]
 	return effects[randi() % effects.size()]
@@ -50,13 +50,12 @@ func apply_effect(car, effect: String):
 			car.apply_speed_boost(5.0, 3.0)
 		"instant_boost":
 			car.add_boost(50.0)
-		"miniature":
-			car.apply_size_change(0.5, 4.0)
-		"giant":
-			car.apply_size_change(2.0, 4.0)
+		#"miniature":
+			#car.apply_size_change(0.5, 4.0)
+		#"giant":
+			#car.apply_size_change(2.0, 4.0)
 		"inversion":
 			car.apply_controls_inversion(5.0)
-	show_effect_notification(car, effect)
 
 func play_collection_effects():
 	var particles = GPUParticles3D.new()
@@ -69,8 +68,8 @@ func show_effect_notification(car, effect: String):
 		var effect_names = {
 			"speed_boost": "Speed Boost!",
 			"instant_boost": "Boost Refill!",
-			"miniature": "Miniature Mode!",
-			"giant": "Giant Mode!",
+			#"miniature": "Miniature Mode!",
+			#"giant": "Giant Mode!",
 			"inversion": "Controls Inverted!"
 		}
 		car.game_ui.show_effect_notification(effect_names[effect])

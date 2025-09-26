@@ -374,6 +374,9 @@ func bump_off_wall(collision: KinematicCollision3D):
 func handle_input(delta):
 	var throttle_input = Input.get_action_strength("accelerate") - Input.get_action_strength("brake")
 	var steering_input = Input.get_axis("steer_right", "steer_left")
+	if controls_inverted:
+		throttle_input = -throttle_input
+		steering_input = -steering_input
 	var drift_input = Input.is_action_pressed("drift") if can_drift else false
 	
 	if current_boost > 0.1 and Input.is_action_pressed("boost") and abs(current_speed) > 5.0:
@@ -708,23 +711,44 @@ func apply_speed_boost(multiplier: float, duration: float):
 	var timer = get_tree().create_timer(duration)
 	active_effects[effect_id] = {"timer": timer}
 	timer.timeout.connect(_on_speed_boost_ended.bind(effect_id))
+	show_effect_notification("speed_boost")
 
 func _on_speed_boost_ended(effect_id: String):
 	max_speed = original_max_speed
 	active_effects.erase(effect_id)
 
-func apply_size_change(size_multiplier: float, duration: float):
-	var effect_id = "size_change"
-	if active_effects.has(effect_id):
-		active_effects[effect_id].timer.stop()
-	scale = original_scale * size_multiplier
-	var timer = get_tree().create_timer(duration)
-	active_effects[effect_id] = {"timer": timer}
-	timer.timeout.connect(_on_size_change_ended.bind(effect_id))
-
-func _on_size_change_ended(effect_id: String):
-	scale = original_scale
-	active_effects.erase(effect_id)
+#func apply_size_change(size_multiplier: float, duration: float):
+	#var effect_id = "size_change"
+	#if active_effects.has(effect_id):
+		#active_effects[effect_id].timer.stop()
+	#scale = original_scale * size_multiplier
+	#var timer = get_tree().create_timer(duration)
+	#active_effects[effect_id] = {"timer": timer}
+	#timer.timeout.connect(_on_size_change_ended.bind(effect_id))
+	#show_effect_notification("miniature")
+#
+#func _on_size_change_ended(effect_id: String):
+	#scale = original_scale
+	#active_effects.erase(effect_id)
 
 func apply_controls_inversion(duration: float):
 	var effect_id = "inversion"
+	if active_effects.has(effect_id):
+		active_effects[effect_id].timer.stop()
+	controls_inverted = true
+	var timer = get_tree().create_timer(duration)
+	active_effects[effect_id] = {"timer": timer}
+	timer.timeout.connect(_on_inversion_ended.bind(effect_id))
+	show_effect_notification("inversion")
+
+func _on_inversion_ended(effect_id: String):
+	controls_inverted = false
+	active_effects.erase(effect_id)
+
+func show_effect_notification(effect_type: String):
+	if game_ui and game_ui.has_method("show_effect_notification"):
+		game_ui.show_effect_notification(effect_type)
+
+func apply_instant_boost(amount: float):
+	add_boost(amount)
+	show_effect_notification("instant_boost")

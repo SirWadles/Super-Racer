@@ -18,6 +18,14 @@ extends CanvasLayer
 @onready var best_time_player = $BestTimePlayer
 @onready var back_sound_player = $BackSoundPlayer
 
+var effect_data = {
+	"speed_boost": {"color": Color.GREEN, "icon": "res://assets/icons/f6.png"},
+	"instant_boost": {"color": Color.CYAN, "icon": "res://assets/icons/f6.png"},
+	#"miniature": {"color": Color.PURPLE, "icon": "res://assets/icons/f6.png"},
+	#"giant": {"color": Color.ORANGE, "icon": "res://assets/icons/f6.png"},
+	"inversion": {"color": Color.RED, "icon": "res://assets/icons/f6.png"},
+}
+
 var current_time = 0.0
 var is_timer_running = false
 var best_lap_time = 0.0
@@ -222,3 +230,41 @@ func stop_all_sounds():
 	for car in car_nodes:
 		if car.has_method("stop_all_sounds"):
 			car.stop_all_sounds()
+
+func show_effect_notification(effect_type: String, duration: float = 2.0):
+	print("Effect notification called for: ", effect_type) 
+	var effect_name = get_effect_display_name(effect_type)
+	var effect_color = effect_data.get(effect_type, {"color": Color.WHITE}).color
+	var effect_container = HBoxContainer.new()
+	effect_container.position = Vector2(get_viewport().size.x / 2 - 150, 200)
+	var icon_texture = TextureRect.new()
+	var icon_path = effect_data.get(effect_type, {}).get("icon", "")
+	if icon_path and ResourceLoader.exists(icon_path):
+		icon_texture.texture = load(icon_path)
+	icon_texture.custom_minimum_size = Vector2(32, 32)
+	effect_container.add_child(icon_texture)
+	var label = Label.new()
+	label.text = effect_name
+	label.add_theme_font_size_override("font_size", 20)
+	label.add_theme_color_override("font_color", effect_color)
+	effect_container.add_child(label)
+	add_child(effect_container)
+	effect_container.modulate.a = 0.0
+	var tween = create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(effect_container, "position.y", 150, 0.5)
+	tween.tween_property(effect_container, "modulate.a", 1.0, 0.5)
+	await get_tree().create_timer(duration).timeout
+	var fade_tween = create_tween()
+	fade_tween.tween_property(effect_container, "modulate.a", 0.0, 0.5)
+	fade_tween.tween_callback(effect_container.queue_free)
+
+func get_effect_display_name(effect_type: String) -> String:
+	var names = {
+		"speed_boost": "Speed Boost!",
+		"instant_boost": "Boost Refill!",
+		#"miniature": "Miniature Mode!",
+		#"giant": "Giant Mode!",
+		"inversion": "Controls Inverted!"
+	}
+	return names.get(effect_type, "Power Up!")
