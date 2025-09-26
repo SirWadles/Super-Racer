@@ -52,6 +52,16 @@ var checkpoint_player: AudioStreamPlayer
 @export var gravity_force = 30.0
 @export var max_slope_angle = 45.0
 
+@export_category("Chance Box Effects")
+@export var speed_boost_multiplier = 1.3
+@export var size_changed_duration = 4.0
+@export var inversion_duratiom = 5.0
+
+var active_effects = {}
+var original_max_speed = 0.0
+var original_scale = Vector3.ONE
+var controls_inverted = false
+
 var is_reverse_view = false
 var target_camera_rotation = 0.0
 @onready var camera_pivot = $CameraPivot
@@ -97,6 +107,8 @@ func setup_music():
 		car_music_player = AudioManager.play_music(car_music_stream, music_volume_db)
 
 func _ready():
+	original_max_speed = max_speed
+	original_scale = scale
 	setup_particles()
 	if not is_in_customization_scene():
 		setup_sounds()
@@ -687,3 +699,32 @@ func reset_start_particles():
 			if not wheel_particles.emitting:
 				wheel_particles.one_shot = false
 				wheel_particles.amount = 10
+
+func apply_speed_boost(multiplier: float, duration: float):
+	var effect_id = "speed_boost"
+	if active_effects.has(effect_id):
+		active_effects[effect_id].timer.stop()
+	max_speed = original_max_speed * multiplier
+	var timer = get_tree().create_timer(duration)
+	active_effects[effect_id] = {"timer": timer}
+	timer.timeout.connect(_on_speed_boost_ended.bind(effect_id))
+
+func _on_speed_boost_ended(effect_id: String):
+	max_speed = original_max_speed
+	active_effects.erase(effect_id)
+
+func apply_size_change(size_multiplier: float, duration: float):
+	var effect_id = "size_change"
+	if active_effects.has(effect_id):
+		active_effects[effect_id].timer.stop()
+	scale = original_scale * size_multiplier
+	var timer = get_tree().create_timer(duration)
+	active_effects[effect_id] = {"timer": timer}
+	timer.timeout.connect(_on_size_change_ended.bind(effect_id))
+
+func _on_size_change_ended(effect_id: String):
+	scale = original_scale
+	active_effects.erase(effect_id)
+
+func apply_controls_inversion(duration: float):
+	var effect_id = "inversion"
