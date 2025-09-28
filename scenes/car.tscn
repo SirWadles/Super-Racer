@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bcwpy7kjmtuos"]
+[gd_scene load_steps=20 format=3 uid="uid://bcwpy7kjmtuos"]
 
 [ext_resource type="Script" uid="uid://b2uwpthyl5ogr" path="res://scripts/car.gd" id="1_a202f"]
 [ext_resource type="AudioStream" uid="uid://b1gaq0a5jj6n" path="res://sound/car_engine(loud).wav" id="2_4clw4"]
@@ -8,9 +8,12 @@
 [ext_resource type="AudioStream" uid="uid://bimifgo63na8e" path="res://sound/4. Night Walker (Linne Theme) (UNI2 Mix).mp3" id="5_ctevm"]
 [ext_resource type="AudioStream" uid="uid://c8u025tvgbo3k" path="res://sound/cloud_blue_boost (mp3cut.net)(1).wav" id="5_uraa1"]
 [ext_resource type="AudioStream" uid="uid://b0cdkrbe22xdw" path="res://sound/ui_game_textbox_madeline_in.wav" id="7_ugdpj"]
+[ext_resource type="AudioStream" uid="uid://dmce6xbbrqfox" path="res://sound/checkpointconfetti.wav" id="8_a1jdg"]
 [ext_resource type="Material" uid="uid://dnkv7h0h1nyl6" path="res://colors/default/car.tres" id="8_ugdpj"]
+[ext_resource type="AudioStream" uid="uid://bi7vtyjxjeu0c" path="res://sound/core_haircharged.wav" id="9_7vqyg"]
 [ext_resource type="Material" uid="uid://p3b220rtvspr" path="res://colors/default/headlight.tres" id="9_ugdpj"]
 [ext_resource type="Material" uid="uid://c4bkusxggaslg" path="res://colors/default/tail.tres" id="10_hylxu"]
+[ext_resource type="AudioStream" uid="uid://bykvd11jieg8n" path="res://sound/seed_touch_02.wav" id="10_l8qg8"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_a202f"]
 material = ExtResource("8_ugdpj")
@@ -46,6 +49,10 @@ engine_volume_range = Vector2(-16, 0)
 car_music_stream = ExtResource("5_ctevm")
 music_volume_db = -30.0
 check_point_stream = ExtResource("7_ugdpj")
+speed_boost_sound_stream = ExtResource("8_a1jdg")
+instant_boost_sound_stream = ExtResource("9_7vqyg")
+inversion_sound_stream = ExtResource("10_l8qg8")
+effect_sound_volume_db = -10.0
 
 [node name="RayCast3D" type="RayCast3D" parent="Car"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.000375077, 0)

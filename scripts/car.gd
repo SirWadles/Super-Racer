@@ -52,6 +52,26 @@ var checkpoint_player: AudioStreamPlayer
 @export var gravity_force = 30.0
 @export var max_slope_angle = 45.0
 
+@export_category("Chance Box Effects")
+@export var speed_boost_multiplier = 1.3
+@export var size_changed_duration = 4.0
+@export var inversion_duratiom = 5.0
+
+@export_category("Chance Box Sounds")
+@export var speed_boost_sound_stream: AudioStream
+@export var instant_boost_sound_stream: AudioStream
+@export var inversion_sound_stream: AudioStream
+@export var effect_sound_volume_db: float = 5.0
+
+var speed_boost_sound_player: AudioStreamPlayer3D
+var instant_boost_sound_player: AudioStreamPlayer3D
+var inversion_sound_player: AudioStreamPlayer3D
+
+var active_effects = {}
+var original_max_speed = 0.0
+var original_scale = Vector3.ONE
+var controls_inverted = false
+
 var is_reverse_view = false
 var target_camera_rotation = 0.0
 @onready var camera_pivot = $CameraPivot
@@ -67,6 +87,10 @@ var boost_regen_cooldown = 0.0
 @onready var front_right_wheel: MeshInstance3D = $Wheels/FrontRight
 @onready var rear_left_wheel: MeshInstance3D = $Wheels/RearLeft
 @onready var rear_right_wheel: MeshInstance3D = $Wheels/RearRight
+@onready var front_left_accent: MeshInstance3D = $"Wheels/Wheels Accent/FrontLeft"
+@onready var front_right_accent: MeshInstance3D = $"Wheels/Wheels Accent/FrontRight"
+@onready var rear_left_accent: MeshInstance3D = $"Wheels/Wheels Accent/RearLeft"
+@onready var rear_right_accent: MeshInstance3D = $"Wheels/Wheels Accent/RearRight"
 @onready var drift_particles: GPUParticles3D = $DriftParticles
 @onready var boost_particles: GPUParticles3D = $BoostParticles
 @onready var rear_left_particles: GPUParticles3D = $Wheels/RearLeft/RearLeftParticles
@@ -93,7 +117,10 @@ func setup_music():
 		car_music_player = AudioManager.play_music(car_music_stream, music_volume_db)
 
 func _ready():
+	original_max_speed = max_speed
+	original_scale = scale
 	setup_particles()
+	setup_effect_sounds()
 	if not is_in_customization_scene():
 		setup_sounds()
 		setup_music()
@@ -130,6 +157,31 @@ func _ready():
 	
 	floor_max_angle = deg_to_rad(max_slope_angle)
 	floor_snap_length = 0.3
+
+func setup_effect_sounds():
+	speed_boost_sound_player = AudioStreamPlayer3D.new()
+	speed_boost_sound_player.name = "SpeedBoostSound"
+	speed_boost_sound_player.bus = "SFX"
+	speed_boost_sound_player.volume_db = effect_sound_volume_db
+	add_child(speed_boost_sound_player)
+	if speed_boost_sound_stream:
+		speed_boost_sound_player.stream = speed_boost_sound_stream
+		
+	instant_boost_sound_player = AudioStreamPlayer3D.new()
+	instant_boost_sound_player.name = "InstantBoostSound"
+	instant_boost_sound_player.bus = "SFX"
+	instant_boost_sound_player.volume_db = effect_sound_volume_db
+	add_child(instant_boost_sound_player)
+	if instant_boost_sound_stream:
+		instant_boost_sound_player.stream = instant_boost_sound_stream
+		
+	inversion_sound_player = AudioStreamPlayer3D.new()
+	inversion_sound_player.name = "InversionSound"
+	inversion_sound_player.bus = "SFX"
+	inversion_sound_player.volume_db = effect_sound_volume_db
+	add_child(inversion_sound_player)
+	if inversion_sound_stream:
+		inversion_sound_player.stream = inversion_sound_stream
 
 func _process(delta):
 	if game_ui:
@@ -358,6 +410,9 @@ func bump_off_wall(collision: KinematicCollision3D):
 func handle_input(delta):
 	var throttle_input = Input.get_action_strength("accelerate") - Input.get_action_strength("brake")
 	var steering_input = Input.get_axis("steer_right", "steer_left")
+	if controls_inverted:
+		throttle_input = -throttle_input
+		steering_input = -steering_input
 	var drift_input = Input.is_action_pressed("drift") if can_drift else false
 	
 	if current_boost > 0.1 and Input.is_action_pressed("boost") and abs(current_speed) > 5.0:
@@ -477,6 +532,7 @@ func apply_visual_effects():
 		front_left_wheel.rotation.y = wheel_steer_angle
 	if front_right_wheel:
 		front_right_wheel.rotation.y = wheel_steer_angle
+
 # Made the wheels spin in uninteded ways. Uncomment if you want to see something funny when turning
 	#var wheel_spin_angle = fmod(get_physics_process_delta_time() * current_speed * 10.0, TAU)
 	#set_wheel_spin(front_left_wheel, wheel_spin_angle)
@@ -490,6 +546,9 @@ func apply_visual_effects():
 		#wheel.rotation = Vector3(90, current_steer, angle)
 
 func add_boost(amount: float):
+	print("boost refill")
+	if instant_boost_sound_player and instant_boost_sound_stream:
+		instant_boost_sound_player.play()
 	current_boost = min(current_boost + amount, max_boost)
 
 func get_speed_ratio() -> float:
@@ -677,3 +736,58 @@ func reset_start_particles():
 			if not wheel_particles.emitting:
 				wheel_particles.one_shot = false
 				wheel_particles.amount = 10
+
+func apply_speed_boost(multiplier: float, duration: float):
+	var effect_id = "speed_boost"
+	print(effect_id)
+	if active_effects.has(effect_id):
+		active_effects[effect_id].timer.stop()
+	if speed_boost_sound_player and speed_boost_sound_stream:
+		speed_boost_sound_player.play()
+	max_speed = original_max_speed * multiplier
+	var timer = get_tree().create_timer(duration)
+	active_effects[effect_id] = {"timer": timer}
+	timer.timeout.connect(_on_speed_boost_ended.bind(effect_id))
+
+func _on_speed_boost_ended(effect_id: String):
+	max_speed = original_max_speed
+	active_effects.erase(effect_id)
+
+#func apply_size_change(size_multiplier: float, duration: float):
+	#var effect_id = "size_change"
+	#if active_effects.has(effect_id):
+		#active_effects[effect_id].timer.stop()
+	#scale = original_scale * size_multiplier
+	#var timer = get_tree().create_timer(duration)
+	#active_effects[effect_id] = {"timer": timer}
+	#timer.timeout.connect(_on_size_change_ended.bind(effect_id))
+	#show_effect_notification("miniature")
+#
+#func _on_size_change_ended(effect_id: String):
+	#scale = original_scale
+	#active_effects.erase(effect_id)
+
+func apply_controls_inversion(duration: float):
+	var effect_id = "inversion"
+	print(effect_id)
+	if active_effects.has(effect_id):
+		active_effects[effect_id].timer.stop()
+	if inversion_sound_player and inversion_sound_stream:
+		inversion_sound_player.play()
+	controls_inverted = true
+	var timer = get_tree().create_timer(duration)
+	active_effects[effect_id] = {"timer": timer}
+	timer.timeout.connect(_on_inversion_ended.bind(effect_id))
+
+func _on_inversion_ended(effect_id: String):
+	controls_inverted = false
+	active_effects.erase(effect_id)
+
+#func show_effect_notification(effect_type: String):
+	#if game_ui and game_ui.has_method("show_effect_notification"):
+		#game_ui.show_effect_notification(effect_type)
+
+func apply_instant_boost(amount: float):
+	
+	print("regvakucrv")
+	add_boost(amount)

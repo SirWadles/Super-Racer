@@ -57,6 +57,16 @@ var checkpoint_player: AudioStreamPlayer
 @export var size_changed_duration = 4.0
 @export var inversion_duratiom = 5.0
 
+@export_category("Chance Box Sounds")
+@export var speed_boost_sound_stream: AudioStream
+@export var instant_boost_sound_stream: AudioStream
+@export var inversion_sound_stream: AudioStream
+@export var effect_sound_volume_db: float = 5.0
+
+var speed_boost_sound_player: AudioStreamPlayer3D
+var instant_boost_sound_player: AudioStreamPlayer3D
+var inversion_sound_player: AudioStreamPlayer3D
+
 var active_effects = {}
 var original_max_speed = 0.0
 var original_scale = Vector3.ONE
@@ -110,6 +120,7 @@ func _ready():
 	original_max_speed = max_speed
 	original_scale = scale
 	setup_particles()
+	setup_effect_sounds()
 	if not is_in_customization_scene():
 		setup_sounds()
 		setup_music()
@@ -146,6 +157,31 @@ func _ready():
 	
 	floor_max_angle = deg_to_rad(max_slope_angle)
 	floor_snap_length = 0.3
+
+func setup_effect_sounds():
+	speed_boost_sound_player = AudioStreamPlayer3D.new()
+	speed_boost_sound_player.name = "SpeedBoostSound"
+	speed_boost_sound_player.bus = "SFX"
+	speed_boost_sound_player.volume_db = effect_sound_volume_db
+	add_child(speed_boost_sound_player)
+	if speed_boost_sound_stream:
+		speed_boost_sound_player.stream = speed_boost_sound_stream
+		
+	instant_boost_sound_player = AudioStreamPlayer3D.new()
+	instant_boost_sound_player.name = "InstantBoostSound"
+	instant_boost_sound_player.bus = "SFX"
+	instant_boost_sound_player.volume_db = effect_sound_volume_db
+	add_child(instant_boost_sound_player)
+	if instant_boost_sound_stream:
+		instant_boost_sound_player.stream = instant_boost_sound_stream
+		
+	inversion_sound_player = AudioStreamPlayer3D.new()
+	inversion_sound_player.name = "InversionSound"
+	inversion_sound_player.bus = "SFX"
+	inversion_sound_player.volume_db = effect_sound_volume_db
+	add_child(inversion_sound_player)
+	if inversion_sound_stream:
+		inversion_sound_player.stream = inversion_sound_stream
 
 func _process(delta):
 	if game_ui:
@@ -515,6 +551,9 @@ func apply_visual_effects():
 		#wheel.rotation = Vector3(90, current_steer, angle)
 
 func add_boost(amount: float):
+	print("boost refill")
+	if instant_boost_sound_player and instant_boost_sound_stream:
+		instant_boost_sound_player.play()
 	current_boost = min(current_boost + amount, max_boost)
 
 func get_speed_ratio() -> float:
@@ -705,13 +744,15 @@ func reset_start_particles():
 
 func apply_speed_boost(multiplier: float, duration: float):
 	var effect_id = "speed_boost"
+	print(effect_id)
 	if active_effects.has(effect_id):
 		active_effects[effect_id].timer.stop()
+	if speed_boost_sound_player and speed_boost_sound_stream:
+		speed_boost_sound_player.play()
 	max_speed = original_max_speed * multiplier
 	var timer = get_tree().create_timer(duration)
 	active_effects[effect_id] = {"timer": timer}
 	timer.timeout.connect(_on_speed_boost_ended.bind(effect_id))
-	#show_effect_notification("speed_boost")
 
 func _on_speed_boost_ended(effect_id: String):
 	max_speed = original_max_speed
@@ -733,25 +774,25 @@ func _on_speed_boost_ended(effect_id: String):
 
 func apply_controls_inversion(duration: float):
 	var effect_id = "inversion"
+	print(effect_id)
 	if active_effects.has(effect_id):
 		active_effects[effect_id].timer.stop()
+	if inversion_sound_player and inversion_sound_stream:
+		inversion_sound_player.play()
 	controls_inverted = true
 	var timer = get_tree().create_timer(duration)
 	active_effects[effect_id] = {"timer": timer}
 	timer.timeout.connect(_on_inversion_ended.bind(effect_id))
-	#show_effect_notification("inversion")
 
 func _on_inversion_ended(effect_id: String):
 	controls_inverted = false
 	active_effects.erase(effect_id)
 
-func show_effect_notification(effect_type: String):
-	if game_ui and game_ui.has_method("show_effect_notification"):
-		print("Calling game_ui.show_effect_notification")
-		game_ui.show_effect_notification(effect_type, global_position)
-	else:
-		print("Game UI not found or missing method")
+#func show_effect_notification(effect_type: String):
+	#if game_ui and game_ui.has_method("show_effect_notification"):
+		#game_ui.show_effect_notification(effect_type)
 
 func apply_instant_boost(amount: float):
+	
+	print("regvakucrv")
 	add_boost(amount)
-	#show_effect_notification("instant_boost")

@@ -4,6 +4,10 @@ extends Area3D
 @export var bounce_height = 0.5
 @export var bounce_speed = 2.0
 
+@export var collection_sound_stream: AudioStream
+@export var collection_sound_volume_db: float = 0.0
+var collection_sound_player: AudioStreamPlayer3D
+
 var original_y = 0.0
 var time = 0.0
 var collected = false
@@ -11,6 +15,12 @@ var collected = false
 func _ready():
 	original_y = global_position.y
 	body_entered.connect(_on_body_entered)
+	collection_sound_player = AudioStreamPlayer3D.new()
+	collection_sound_player.volume_db = collection_sound_volume_db
+	collection_sound_player.max_distance = 25.0
+	add_child(collection_sound_player)
+	if collection_sound_stream:
+		collection_sound_player.stream = collection_sound_stream
 
 func _process(delta):
 	if collected:
@@ -29,11 +39,11 @@ func _on_body_entered(body):
 func collect(car):
 	collected = true
 	var effect = get_random_effect()
-	print("Chance box collected! Effect: ", effect)
+	if collection_sound_player and collection_sound_stream:
+		collection_sound_player.play()
+		print("collect")
 	apply_effect(car, effect)
 	play_collection_effects()
-	print("Calling car.show_effect_notification with effect: ", effect)
-	car.show_effect_notification(effect)
 	await get_tree().create_timer(0.5).timeout
 	queue_free()
 
@@ -66,6 +76,13 @@ func play_collection_effects():
 	particles.one_shot = true
 	particles.emitting = true
 
-#func show_effect_notification(car, effect: String, world_position: Vector3):
+#func show_effect_notification(car, effect: String):
 	#if car.game_ui:
-		#car.game_ui.show_effect_notification(effect, world_position)
+		#var effect_names = {
+			#"speed_boost": "Speed Boost!",
+			#"instant_boost": "Boost Refill!",
+			##"miniature": "Miniature Mode!",
+			##"giant": "Giant Mode!",
+			#"inversion": "Controls Inverted!"
+		#}
+		#car.game_ui.show_effect_notification(effect_names[effect])

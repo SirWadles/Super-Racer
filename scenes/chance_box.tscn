@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://c65swbw4d82cn"]
+[gd_scene load_steps=8 format=3 uid="uid://c65swbw4d82cn"]
 
 [ext_resource type="Script" uid="uid://yyr8e82y6pp0" path="res://scripts/chance_box.gd" id="1_aefs3"]
+[ext_resource type="AudioStream" uid="uid://bj7dgnuyexya1" path="res://sound/SE_ITM_BOX_BRK.wav" id="2_hskjk"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aefs3"]
 transparency = 1
@@ -33,3 +34,4 @@ mesh = SubResource("BoxMesh_g3034")
 shape = SubResource("ConvexPolygonShape3D_hskjk")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_hskjk")

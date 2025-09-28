@@ -18,13 +18,13 @@ extends CanvasLayer
 @onready var best_time_player = $BestTimePlayer
 @onready var back_sound_player = $BackSoundPlayer
 
-var effect_data = {
-	"speed_boost": {"color": Color.GREEN, "icon": "res://assets/icons/f6.png"},
-	"instant_boost": {"color": Color.CYAN, "icon": "res://assets/icons/f6.png"},
-	#"miniature": {"color": Color.PURPLE, "icon": "res://assets/icons/f6.png"},
-	#"giant": {"color": Color.ORANGE, "icon": "res://assets/icons/f6.png"},
-	"inversion": {"color": Color.RED, "icon": "res://assets/icons/f6.png"},
-}
+#var effect_data = {
+	#"speed_boost": {"color": Color.GREEN, "icon": "res://assets/icons/f6.png"},
+	#"instant_boost": {"color": Color.CYAN, "icon": "res://assets/icons/f6.png"},
+	##"miniature": {"color": Color.PURPLE, "icon": "res://assets/icons/f6.png"},
+	##"giant": {"color": Color.ORANGE, "icon": "res://assets/icons/f6.png"},
+	#"inversion": {"color": Color.RED, "icon": "res://assets/icons/f6.png"},
+#}
 
 var current_time = 0.0
 var is_timer_running = false
@@ -60,7 +60,7 @@ func _ready():
 	$MarginContainer.add_theme_constant_override("margin_top", 0)
 	
 	load_best_lap()
-			
+	
 	finish_player.bus = "SFX"
 	best_time_player.bus = "SFX"
 	hover_sound_player.bus = "SFX"
@@ -231,77 +231,40 @@ func stop_all_sounds():
 		if car.has_method("stop_all_sounds"):
 			car.stop_all_sounds()
 
-func show_effect_notification(effect_type: String, world_position: Vector3, duration: float = 2.0):
-	print("Effect notification called for: ", effect_type) 
-	print("World position: ", world_position)
-	var effect_name = get_effect_display_name(effect_type)
-	var effect_color = effect_data.get(effect_type, {"color": Color.WHITE}).color
-	var camera = get_viewport().get_camera_3d()
-	print("Camera exists: ", camera != null)
-	if camera:
-		var screen_pos = camera.unproject_position(world_position)
-		print("Screen position: ", screen_pos)
-		show_effect_at_position(effect_type, effect_name, effect_color, screen_pos, duration)
-	else:
-		print("No camera found, using fallback position")
-		show_effect_at_position(effect_type, effect_name, effect_color, Vector2(get_viewport().size.x / 2, 200), duration)
-
-func show_effect_at_position(effect_type: String, effect_name: String, effect_color: Color, screen_position: Vector2, duration: float):
-	print("Creating effect container at screen position: ", screen_position)
-	var effect_container = HBoxContainer.new()
-	effect_container.position = screen_position - Vector2(75, 0)
-	var panel_style = StyleBoxFlat.new()
-	panel_style.bg_color = Color(0, 0, 0, 0.8)
-	panel_style.border_color = effect_color
-	panel_style.corner_radius_top_left = 5
-	panel_style.corner_radius_top_right = 5
-	panel_style.corner_radius_bottom_left = 5
-	panel_style.corner_radius_bottom_right = 5
-	panel_style.border_width_left = 2
-	panel_style.border_width_right = 2
-	panel_style.border_width_top = 2
-	panel_style.border_width_bottom = 2
-	effect_container.add_theme_stylebox_override("panel", panel_style)
-	var hbox = HBoxContainer.new()
-	hbox.add_theme_constant_override("separation", 10)
-	effect_container.add_child(hbox)
-	var icon_texture = TextureRect.new()
-	var icon_path = effect_data.get(effect_type, {}).get("icon", "")
-	print("Icon path: ", icon_path, " Exists: ", ResourceLoader.exists(icon_path) if icon_path else "No path")
-	if icon_path and ResourceLoader.exists(icon_path):
-		icon_texture.texture = load(icon_path)
-	icon_texture.custom_minimum_size = Vector2(32, 32)
-	effect_container.add_child(icon_texture)
-	var label = Label.new()
-	label.text = effect_name
-	label.add_theme_font_size_override("font_size", 20)
-	label.add_theme_color_override("font_color", effect_color)
-	hbox.add_child(label)
-	hbox.add_theme_constant_override("margin_left", 10)
-	hbox.add_theme_constant_override("margin_right", 10)
-	hbox.add_theme_constant_override("margin_top", 10)
-	hbox.add_theme_constant_override("margin_bottom", 10)
-	add_child(effect_container)
-	print("Effect container added to scene. Child count: ", effect_container.get_child_count())
-	await get_tree().process_frame
-	effect_container.position = screen_position - effect_container.size / 2
-	effect_container.modulate.a = 0.0
-	effect_container.scale = Vector2(0.5, 0.5)
-	var tween = create_tween()
-	tween.set_parallel(true)
-	tween.tween_property(effect_container, "position.y", screen_position.y - 50, duration * 0.8)
-	tween.tween_property(effect_container, "modulate.a", 1.0, 0.5)
-	await get_tree().create_timer(duration * 0.7).timeout
-	var fade_tween = create_tween()
-	fade_tween.tween_property(effect_container, "modulate.a", 0.0, 0.5)
-	fade_tween.tween_callback(effect_container.queue_free)
-
-func get_effect_display_name(effect_type: String) -> String:
-	var names = {
-		"speed_boost": "Speed Boost!",
-		"instant_boost": "Boost Refill!",
-		#"miniature": "Miniature Mode!",
-		#"giant": "Giant Mode!",
-		"inversion": "Controls Inverted!"
-	}
-	return names.get(effect_type, "Power Up!")
+#func show_effect_notification(effect_type: String, duration: float = 2.0):
+	#print("Effect notification called for: ", effect_type) 
+	#var effect_name = get_effect_display_name(effect_type)
+	#var effect_color = effect_data.get(effect_type, {"color": Color.WHITE}).color
+	#var effect_container = HBoxContainer.new()
+	#effect_container.position = Vector2(get_viewport().size.x / 2 - 150, 200)
+	#var icon_texture = TextureRect.new()
+	#var icon_path = effect_data.get(effect_type, {}).get("icon", "")
+	#if icon_path and ResourceLoader.exists(icon_path):
+		#icon_texture.texture = load(icon_path)
+	#icon_texture.custom_minimum_size = Vector2(32, 32)
+	#effect_container.add_child(icon_texture)
+	#var label = Label.new()
+	#label.text = effect_name
+	#label.add_theme_font_size_override("font_size", 20)
+	#label.add_theme_color_override("font_color", effect_color)
+	#effect_container.add_child(label)
+	#add_child(effect_container)
+	#effect_container.modulate.a = 0.0
+	#var tween = create_tween()
+	#tween.set_parallel(true)
+	#tween.tween_property(effect_container, "position.y", 150, 0.5)
+	#tween.tween_property(effect_container, "modulate.a", 1.0, 0.5)
+	#await get_tree().create_timer(duration).timeout
+	#var fade_tween = create_tween()
+	#fade_tween.tween_property(effect_container, "modulate.a", 0.0, 0.5)
+	#fade_tween.tween_callback(effect_container.queue_free)
+#
+#func get_effect_display_name(effect_type: String) -> String:
+	#var names = {
+		#"speed_boost": "Speed Boost!",
+		#"instant_boost": "Boost Refill!",
+		##"miniature": "Miniature Mode!",
+		##"giant": "Giant Mode!",
+		#"inversion": "Controls Inverted!"
+	#}
+	#return names.get(effect_type, "Power Up!")
