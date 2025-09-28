@@ -29,8 +29,11 @@ func _on_body_entered(body):
 func collect(car):
 	collected = true
 	var effect = get_random_effect()
+	print("Chance box collected! Effect: ", effect)
 	apply_effect(car, effect)
 	play_collection_effects()
+	print("Calling car.show_effect_notification with effect: ", effect)
+	car.show_effect_notification(effect)
 	await get_tree().create_timer(0.5).timeout
 	queue_free()
 
@@ -63,13 +66,6 @@ func play_collection_effects():
 	particles.one_shot = true
 	particles.emitting = true
 
-func show_effect_notification(car, effect: String):
-	if car.game_ui:
-		var effect_names = {
-			"speed_boost": "Speed Boost!",
-			"instant_boost": "Boost Refill!",
-			#"miniature": "Miniature Mode!",
-			#"giant": "Giant Mode!",
-			"inversion": "Controls Inverted!"
-		}
-		car.game_ui.show_effect_notification(effect_names[effect])
+#func show_effect_notification(car, effect: String, world_position: Vector3):
+	#if car.game_ui:
+		#car.game_ui.show_effect_notification(effect, world_position)

@@ -711,7 +711,7 @@ func apply_speed_boost(multiplier: float, duration: float):
 	var timer = get_tree().create_timer(duration)
 	active_effects[effect_id] = {"timer": timer}
 	timer.timeout.connect(_on_speed_boost_ended.bind(effect_id))
-	show_effect_notification("speed_boost")
+	#show_effect_notification("speed_boost")
 
 func _on_speed_boost_ended(effect_id: String):
 	max_speed = original_max_speed
@@ -739,7 +739,7 @@ func apply_controls_inversion(duration: float):
 	var timer = get_tree().create_timer(duration)
 	active_effects[effect_id] = {"timer": timer}
 	timer.timeout.connect(_on_inversion_ended.bind(effect_id))
-	show_effect_notification("inversion")
+	#show_effect_notification("inversion")
 
 func _on_inversion_ended(effect_id: String):
 	controls_inverted = false
@@ -747,8 +747,11 @@ func _on_inversion_ended(effect_id: String):
 
 func show_effect_notification(effect_type: String):
 	if game_ui and game_ui.has_method("show_effect_notification"):
-		game_ui.show_effect_notification(effect_type)
+		print("Calling game_ui.show_effect_notification")
+		game_ui.show_effect_notification(effect_type, global_position)
+	else:
+		print("Game UI not found or missing method")
 
 func apply_instant_boost(amount: float):
 	add_boost(amount)
-	show_effect_notification("instant_boost")
+	#show_effect_notification("instant_boost")

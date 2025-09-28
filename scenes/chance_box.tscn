@@ -1,8 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://c65swbw4d82cn"]
+[gd_scene load_steps=7 format=3 uid="uid://c65swbw4d82cn"]
 
 [ext_resource type="Script" uid="uid://yyr8e82y6pp0" path="res://scripts/chance_box.gd" id="1_aefs3"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aefs3"]
+transparency = 1
+albedo_color = Color(0.240987, 0.616569, 0.85383, 0.265)
+
 [sub_resource type="BoxMesh" id="BoxMesh_aefs3"]
+material = SubResource("StandardMaterial3D_aefs3")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hskjk"]
+transparency = 1
+albedo_color = Color(0.784036, 0.535435, 0.943181, 0.293)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g3034"]
+material = SubResource("StandardMaterial3D_hskjk")
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_hskjk"]
 points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5)
@@ -10,8 +22,12 @@ points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 
 [node name="ChanceBox" type="Area3D"]
 script = ExtResource("1_aefs3")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="OuterShell" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_aefs3")
+
+[node name="InnerShell" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.492754, 0, 0, 0, 0.492754, 0, 0, 0, 0.492754, 0, 0, 0)
+mesh = SubResource("BoxMesh_g3034")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("ConvexPolygonShape3D_hskjk")
